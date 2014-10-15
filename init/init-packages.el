@@ -45,7 +45,6 @@
 (use-package auto-complete
   :ensure t
   :defer t
-  :diminish t
   :init
   (ac-config-default)
   (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat")
@@ -172,13 +171,27 @@
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
   :ensure t
-  :diminish t
+  :diminish whitespace-cleanup-mode
   :init (global-whitespace-cleanup-mode))
 
-;; uniquify.
+;; dtrt-indent
+;; Determines what indentation offset to use on files.
+(use-package dtrt-indent
+  :ensure t
+  :diminish dtrt-indent-mode
+  :commands dtrt-indent-mode
+  :init
+  (add-hook 'prog-mode-hook 'dtrt-indent-mode))
+
+;; uniquify
 ;; Overrides Emacs' default mechanism for making buffer names unique.
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
+
+;; subword
+(use-package subword
+  :diminish subword-mode
+  :init (global-subword-mode))
 
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))

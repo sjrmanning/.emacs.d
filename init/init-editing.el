@@ -11,8 +11,8 @@
 (add-hook 'prog-mode-hook 'linum-mode)
 (setq linum-format " %4d ")
 
-;; Don't use tabs for indent; replace tabs with four spaces.
-(setq-default tab-width 4)
+;; Don't use tabs for indent; replace tabs with two spaces.
+(setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
 (provide 'init-editing)
