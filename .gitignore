@@ -1,0 +1,45 @@
+# Git ignore file
+# Emacs temp. files
+\#*\#
+*~
+.#*
+tramp
+
+# ELC
+*.elc
+
+# Packages installed & byte-compiled by elpa
+elpa/
+
+# Graphene's geometry details
+.graphene-geometry
+
+# DS_Store
+.DS_Store
+
+# Emacs cache
+cache/
+bookmarks
+
+# Private stuff
+var/
+
+# Emacs server dir
+server/
+
+# Autocomplete history and other dbs
+ac-comphist.dat
+semanticdb/
+
+# Always keep .gitignore
+!.gitignore
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# Emacs-W3
+url/
+
+# Flycheck
+flycheck_*
