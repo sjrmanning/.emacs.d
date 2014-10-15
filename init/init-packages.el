@@ -45,7 +45,7 @@
 (use-package auto-complete
   :ensure t
   :defer t
-  :init
+  :config
   (ac-config-default)
   (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat")
   (define-key ac-completing-map (kbd "C-n") 'ac-next)
@@ -70,7 +70,8 @@
   :ensure t)
 (use-package flycheck
   :ensure t
-  :init
+  :diminish " ✓"
+  :config
   (add-hook 'prog-mode-hook 'flycheck-mode)
   (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
@@ -110,22 +111,28 @@
   (smex-initialize))
 
 ;; ido
-(use-package ido-vertical-mode
-  :ensure t)
-(use-package ido-ubiquitous
-  :ensure t)
-(use-package flx-ido
-  :ensure t)
 (use-package ido
   :ensure t
-  :init
+  :init (ido-mode 1)
+  :config
   (progn
-    (flx-ido-mode 1)
-    (ido-everywhere 1)
-    (ido-mode 1)
-    (ido-vertical-mode 1)
-    (setq ido-enable-flex-matching t)
-    (setq ido-use-faces nil)))
+    (setq ido-enable-flex-matching t
+          ido-enable-prefix nil
+          ido-max-prospects 10)))
+
+(use-package ido-vertical-mode
+  :ensure t
+  :init (ido-vertical-mode 1))
+
+(use-package ido-ubiquitous
+  :ensure t
+  :init (ido-everywhere 1))
+
+(use-package flx-ido
+  :ensure t
+  :init (flx-ido-mode 1)
+  :config
+  (setq ido-use-faces nil))
 
 ;; ace-jump-mode
 (use-package ace-jump-mode
@@ -192,6 +199,31 @@
 (use-package subword
   :diminish subword-mode
   :init (global-subword-mode))
+
+;; python
+;; Configures jedi to run with python-mode.
+(use-package python
+  :commands python-mode
+  :config
+  (progn
+    (use-package jedi
+      :ensure t
+      :config
+      (progn
+        (jedi:setup)
+        (jedi:ac-setup)
+        (setq jedi:setup-keys t)
+        (setq jedi:complete-on-dot t)))
+    (add-hook 'python-mode-hook (lambda () (jedi-mode t)))))
+
+;; twittering-mode
+(use-package twittering-mode
+  :defer t
+  :ensure t
+  :config
+  (progn
+    (setq twittering-icon-mode t
+          twittering-use-master-password t)))
 
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
