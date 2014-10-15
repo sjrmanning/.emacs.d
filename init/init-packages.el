@@ -24,9 +24,10 @@
   :ensure t
   :config
   (progn
-    (setq monokai-distinct-fringe-background t)
     (load-theme 'monokai t)
-    (set-face-background 'fringe 'unspecified)))
+    ;; Customise linum background.
+    (require 'linum)
+    (set-face-attribute 'linum nil :background "#49483E")))
 
 ;; ag (silver surfer)
 (use-package ag
