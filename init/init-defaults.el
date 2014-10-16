@@ -60,8 +60,8 @@
 (setq save-place-file "~/.emacs.d/cache/places")
 
 ;; GC optimisation.
-;; Increases garbage collection threshold to 20mb (from 0.76mb)
-(setq gc-cons-threshold 20000000)
+;; Increases garbage collection threshold to 50mb (from 0.76mb)
+(setq gc-cons-threshold 50000000)
 
 ;; Allow pasting selection outside of Emacs.
 (setq x-select-enable-clipboard t)
