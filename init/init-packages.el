@@ -45,13 +45,20 @@
 ;; auto-complete
 (use-package auto-complete
   :ensure t
-  :defer t
+  :diminish auto-complete-mode
   :config
   (ac-config-default)
-  (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat")
-  (define-key ac-completing-map (kbd "C-n") 'ac-next)
-  (define-key ac-completing-map (kbd "C-p") 'ac-previous)
-  (define-key ac-completing-map "\t" 'ac-complete))
+  (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat"
+        ac-delay 0.125
+        ac-auto-show-menu 0.25
+        ac-use-fuzzy t
+        ac-use-quick-help t
+        ac-quick-help-delay 1.0
+        ac-use-menu-map t
+        ac-ignore-case t)
+  (define-key ac-menu-map (kbd "C-n") 'ac-next)
+  (define-key ac-menu-map (kbd "C-p") 'ac-previous)
+  (define-key ac-menu-map "\t" 'ac-complete))
 
 ;; multiple-cursors
 (use-package multiple-cursors
