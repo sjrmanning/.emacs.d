@@ -25,6 +25,24 @@
   :ensure t
   :commands (exec-path-from-shell-initialize))
 
+;; yasnippet
+(use-package yasnippet
+  :ensure t
+  :idle (yas-global-mode t)
+  :init
+  (progn
+    ;; Suppress excessive log messages
+    (setq yas-verbosity 1)
+
+    ;; Ensure custom snippets dir exists.
+    (defvar custom-snippets-dir "~/.emacs.d/etc/snippets/")
+    (unless (file-exists-p custom-snippets-dir)
+      (make-directory custom-snippets-dir))
+
+    ;; Replace default custom dir with our own.
+    (setq yas-snippet-dirs (last yas-snippet-dirs 1))
+    (add-to-list 'yas-snippet-dirs custom-snippets-dir t)))
+
 ;; colors!
 (use-package monokai-theme
   :ensure t
