@@ -69,4 +69,7 @@
 (global-set-key (kbd "M-RET")
                 'newline-anywhere)
 
+;; Switch/cycle through ERC buffers.
+(global-set-key (kbd "C-c e") 'switch-to-irc)
+
 (provide 'init-bindings)
