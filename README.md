@@ -1,4 +1,4 @@
-# `.emacs.d`
+# .emacs.d
 
 My personal Emacs configuration, reworked and cleaned up using [use-package](https://github.com/jwiegley/use-package) for third-party package management and setup.
 

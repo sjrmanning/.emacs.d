@@ -199,6 +199,7 @@
 ;; find file in repository.
 (use-package find-file-in-repository
   :ensure t
+  :defer t
   :bind ("C-x f" . find-file-in-repository))
 
 ;; smooth-scrolling
