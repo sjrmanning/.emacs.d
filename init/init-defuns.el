@@ -64,23 +64,15 @@ point reaches the beginning or end of the buffer, stop there."
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
 
-;; Quick switch to ERC buffers.
-(defun erc-global-get-channel-buffer-list ()
-  "Return a list of the ERC-channel-buffers"
-  (erc-buffer-filter
-   '(lambda()
-      (if (string-match "^[^#].*:\\([0-9]*\\|ircd\\)$"
-                        (buffer-name (current-buffer))) nil t)) nil))
-
-(defun switch-to-irc ()
-  "Switch to an IRC channel buffer.
-   When called repeatedly, cycle through the buffers."
+;; Quick switch to ERC buffers using ido.
+(defun switch-to-irc nil
+  "Switch to ERC buffer using IDO to choose which one."
   (interactive)
-  (let ((buffers (erc-global-get-channel-buffer-list)))
-    (when (eq (current-buffer) (car buffers))
-      (bury-buffer)
-      (setq buffers (cdr buffers)))
-    (when buffers
-        (switch-to-buffer (car buffers)))))
+  (let (final-list (list ))
+    (dolist (buf (buffer-list) final-list)
+      (if (equal 'erc-mode (with-current-buffer buf major-mode))
+          (setq final-list (append (list (buffer-name buf)) final-list))))
+    (when final-list
+      (switch-to-buffer (ido-completing-read "ERC Buffer: " final-list)))))
 
 (provide 'init-defuns)
