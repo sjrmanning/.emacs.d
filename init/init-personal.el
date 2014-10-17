@@ -1,4 +1,7 @@
 ;; Various personal settings probably only applicable to my setup.
+;; Load private settings if found.
+(when (file-exists-p (locate-user-emacs-file "init/init-private.el"))
+  (require 'init-private))
 
 ;; Org-mode personal settings.
 (setq org-directory "~/Org")

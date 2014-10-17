@@ -1,4 +1,8 @@
 # Git ignore file
+
+# Ignore private init file
+init/init-private.el
+
 # Emacs temp. files
 \#*\#
 *~
