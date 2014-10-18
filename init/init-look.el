@@ -9,12 +9,12 @@
              'default nil
              :family "Source Code Pro"
              :height 130
-             :weight 'normal)
+             :weight 'light)
             (set-face-attribute
              'linum nil
              :family "Source Code Pro"
              :height 120
-             :weight 'normal)))
+             :weight 'light)))
 
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
