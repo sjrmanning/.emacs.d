@@ -125,11 +125,11 @@
 ;; Modes for git and mercurial.
 (use-package magit
   :ensure t
-  :defer t
+  :commands magit-status
   :bind ("C-x g" . magit-status))
 (use-package monky
   :ensure t
-  :defer t
+  :commands monky-status
   :bind ("C-c g" . monky-status))
 
 ;; git-gutter
@@ -255,6 +255,16 @@
         (setq jedi:setup-keys t)
         (setq jedi:complete-on-dot t)))
     (add-hook 'python-mode-hook (lambda () (jedi-mode t)))))
+
+;; cc-mode/derived modes and hooks
+(use-package cc-mode
+  :defer t
+  :config
+  (progn
+    (add-hook 'java-mode-hook
+              (lambda ()
+                (setq tab-width 2
+                      c-basic-offset 2)))))
 
 ;; twittering-mode
 (use-package twittering-mode
