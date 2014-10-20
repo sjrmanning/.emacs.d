@@ -3,16 +3,17 @@
 ;; Definitions for custom functions I use.
 
 ;; Smart, reusable start-or-switch from emacsredux.
-(defun start-or-switch-to (function buffer-name)
+(defun start-or-switch-to (function bufname)
   "Invoke FUNCTION if there is no buffer with BUFFER-NAME.
 Otherwise switch to the buffer named BUFFER-NAME. Don't clobber
 the current buffer."
-  (if (not (get-buffer buffer-name))
-      (progn
-        (split-window-sensibly (selected-window))
-        (other-window 1)
-        (funcall function))
-    (switch-to-buffer-other-window buffer-name)))
+  (unless (string= (buffer-name) bufname)
+    (if (not (get-buffer bufname))
+        (progn
+          (split-window-sensibly (selected-window))
+          (other-window 1)
+          (funcall function))
+      (switch-to-buffer-other-window bufname))))
 
 (defun kill-default-buffer ()
   "Kill the currently active buffer."
