@@ -1,5 +1,6 @@
 ;; File: init-packages.el
-;; Installs and configures third-party packages.
+;; Installs and configures packages, including third-party packages
+;; which will be downloaded when required via `use-package'.
 
 ;; Required for running this code.
 (require 'package)
@@ -42,6 +43,15 @@
     ;; Replace default custom dir with our own.
     (setq yas-snippet-dirs (last yas-snippet-dirs 1))
     (add-to-list 'yas-snippet-dirs custom-snippets-dir t)))
+
+;; term modes
+(use-package term
+  :defer t
+  :config
+  (progn
+    (add-hook 'term-mode-hook
+              (lambda()
+                (setq yas-dont-activate t)))))
 
 ;; colors!
 (use-package monokai-theme
