@@ -41,8 +41,8 @@
       (make-directory custom-snippets-dir))
 
     ;; Replace default custom dir with our own.
-    (setq yas-snippet-dirs (last yas-snippet-dirs 1))
-    (add-to-list 'yas-snippet-dirs custom-snippets-dir t)))
+    (setq yas-snippet-dirs '(custom-snippets-dir
+                             yas-installed-snippets-dir))))
 
 ;; term modes
 (use-package term
