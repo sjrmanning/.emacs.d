@@ -58,10 +58,7 @@
   :ensure t
   :config
   (progn
-    (load-theme 'monokai t)
-    ;; Customise linum background.
-    (require 'linum)
-    (set-face-attribute 'linum nil :background "#49483E")))
+    (load-theme 'monokai t)))
 
 ;; ag (silver surfer)
 (use-package ag

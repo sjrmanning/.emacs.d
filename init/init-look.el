@@ -22,4 +22,10 @@
 ;; Redraw without pause while processing input.
 (setq redisplay-dont-pause t)
 
+;; Use a different background for linum area.
+(require 'linum)
+(defadvice load-theme
+    (after fix-linum-bg activate)
+  (set-face-attribute 'linum nil :background "#49483E"))
+
 (provide 'init-look)
