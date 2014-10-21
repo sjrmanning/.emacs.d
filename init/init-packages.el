@@ -42,16 +42,13 @@
 
     ;; Replace default custom dir with our own.
     (setq yas-snippet-dirs '(custom-snippets-dir
-                             yas-installed-snippets-dir))))
+                             yas-installed-snippets-dir))
 
-;; term modes
-(use-package term
-  :defer t
-  :config
-  (progn
-    (add-hook 'term-mode-hook
-              (lambda()
-                (setq yas-dont-activate t)))))
+    ;; Disable yasnippet in some modes.
+    (defun yas-disable-hook ()
+      (setq yas-dont-activate t))
+    (add-hook 'term-mode-hook 'yas-disable-hook)
+    (add-hook 'erc-mode-hook 'yas-disable-hook)))
 
 ;; colors!
 (use-package monokai-theme
