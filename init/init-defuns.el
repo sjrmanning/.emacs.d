@@ -2,6 +2,12 @@
 ;; File: init-defuns.el
 ;; Definitions for custom functions I use.
 
+;; Creates a new buffer.
+(defun create-new-buffer ()
+  "Create a new buffer named *new*."
+  (interactive)
+  (switch-to-buffer (generate-new-buffer-name "*new*")))
+
 ;; Smart, reusable start-or-switch from emacsredux.
 (defun start-or-switch-to (function bufname)
   "Invoke FUNCTION if there is no buffer with BUFFER-NAME.
