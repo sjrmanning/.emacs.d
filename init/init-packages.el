@@ -237,6 +237,23 @@
   :diminish subword-mode
   :init (global-subword-mode))
 
+;; highlight-numbers
+;; Highlights magic numbers in programming modes.
+(use-package highlight-numbers
+  :ensure t
+  :config
+  (progn
+    (add-hook 'prog-mode-hook 'highlight-numbers-mode)))
+
+;; rainbow-delimiters
+;; Highlights parens, brackets, and braces according to their depth.
+(use-package rainbow-delimiters
+  :ensure t
+  :commands (rainbow-delimiters-mode)
+  :init
+  (progn
+    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)))
+
 ;; python
 ;; Configures jedi to run with python-mode.
 (use-package python
