@@ -125,10 +125,7 @@
   :diminish " ✓"
   :init
   (progn
-    (use-package flycheck-pos-tip
-      :ensure t)
-    (add-hook 'prog-mode-hook 'flycheck-mode)
-    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+    (add-hook 'prog-mode-hook 'flycheck-mode)))
 
 ;; switch-window
 ;; Provides visual cues to instantly switch on C-x o.
