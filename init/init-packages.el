@@ -84,9 +84,26 @@
         ac-quick-help-delay 1.0
         ac-use-menu-map t
         ac-ignore-case t)
+  (setq-default ac-sources '(ac-source-filename
+                             ac-source-abbrev
+                             ac-source-dictionary
+                             ac-source-words-in-same-mode-buffers))
   (define-key ac-menu-map (kbd "C-n") 'ac-next)
   (define-key ac-menu-map (kbd "C-p") 'ac-previous)
   (define-key ac-menu-map "\t" 'ac-complete))
+
+;; deft
+(use-package deft
+  :ensure t
+  :commands (deft)
+  :bind ("M-<f1>" . deft)
+  :config
+  (progn
+    (setq
+     deft-extension "org"
+     deft-directory "~/Org/deft/"
+     deft-text-mode 'org-mode
+     deft-use-filename-as-title t)))
 
 ;; multiple-cursors
 (use-package multiple-cursors
@@ -102,14 +119,16 @@
   :bind ("C-=" . er/expand-region))
 
 ;; flycheck
-(use-package flycheck-pos-tip
-  :ensure t)
 (use-package flycheck
   :ensure t
+  :commands (flycheck-mode)
   :diminish " ✓"
-  :config
-  (add-hook 'prog-mode-hook 'flycheck-mode)
-  (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  :init
+  (progn
+    (use-package flycheck-pos-tip
+      :ensure t)
+    (add-hook 'prog-mode-hook 'flycheck-mode)
+    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
 ;; switch-window
 ;; Provides visual cues to instantly switch on C-x o.
@@ -122,11 +141,11 @@
 ;; Modes for git and mercurial.
 (use-package magit
   :ensure t
-  :commands magit-status
+  :commands (magit-status)
   :bind ("C-x g" . magit-status))
 (use-package monky
   :ensure t
-  :commands monky-status
+  :commands (monky-status)
   :bind ("C-c g" . monky-status))
 
 ;; git-gutter
@@ -152,32 +171,26 @@
   :init (ido-mode 1)
   :config
   (progn
+    (use-package flx-ido
+      :ensure t)
+    (use-package ido-vertical-mode
+      :ensure t)
+    (use-package ido-ubiquitous
+      :ensure t)
     (setq ido-enable-flex-matching t
           ido-enable-prefix nil
-          ido-max-prospects 10)))
-
-(use-package ido-vertical-mode
-  :ensure t
-  :init (ido-vertical-mode 1))
-
-(use-package ido-ubiquitous
-  :ensure t
-  :init (ido-everywhere 1))
-
-(use-package flx-ido
-  :ensure t
-  :init (flx-ido-mode 1)
-  :config
-  (setq ido-use-faces nil))
+          ido-max-prospects 10
+          ido-use-faces nil
+          flx-ido-use-faces t)
+    (ido-everywhere 1)
+    (ido-vertical-mode 1)
+    (flx-ido-mode 1)))
 
 ;; ace-jump-mode
 (use-package ace-jump-mode
   :ensure t
-  :defer t
-  :init
-  (progn
-    (autoload 'ace-jump-mode "ace-jump-mode" nil t)
-    (bind-key "C-o" 'ace-jump-mode)))
+  :commands (ace-jump-mode)
+  :bind ("C-o" . ace-jump-mode))
 
 ;; markdown
 (use-package markdown-mode
@@ -188,11 +201,21 @@
 (use-package smartparens
   :ensure t
   :defer t
+  :diminish " π"
   :init
   (progn
     (require 'smartparens-config)
     (smartparens-global-mode t)
-    (show-smartparens-global-mode t)))
+    (show-smartparens-global-mode t)
+
+    ;; sp keybindings.
+    (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
+    (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
+    (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
+    (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
+
+    (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
+    (define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp)))
 
 ;; browse-kill-ring
 (use-package browse-kill-ring
@@ -223,7 +246,7 @@
 (use-package dtrt-indent
   :ensure t
   :diminish dtrt-indent-mode
-  :commands dtrt-indent-mode
+  :commands (dtrt-indent-mode)
   :init
   (add-hook 'prog-mode-hook 'dtrt-indent-mode))
 
@@ -241,7 +264,8 @@
 ;; Highlights magic numbers in programming modes.
 (use-package highlight-numbers
   :ensure t
-  :config
+  :commands (highlight-numbers-mode)
+  :init
   (progn
     (add-hook 'prog-mode-hook 'highlight-numbers-mode)))
 
@@ -257,18 +281,16 @@
 ;; python
 ;; Configures jedi to run with python-mode.
 (use-package python
-  :commands python-mode
+  :commands (python-mode)
   :config
   (progn
     (use-package jedi
       :ensure t
-      :config
-      (progn
-        (jedi:setup)
-        (jedi:ac-setup)
-        (setq jedi:setup-keys t)
-        (setq jedi:complete-on-dot t)))
-    (add-hook 'python-mode-hook (lambda () (jedi-mode t)))))
+      :commands (jedi:setup)))
+  :init
+  (progn
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (setq jedi:complete-on-dot t)))
 
 ;; cc-mode/derived modes and hooks
 (use-package cc-mode
