@@ -22,10 +22,14 @@
 ;; Redraw without pause while processing input.
 (setq redisplay-dont-pause t)
 
-;; Use a different background for linum area.
+;; Some minor tweaks to monokai-theme.
 (require 'linum)
 (defadvice load-theme
-    (after fix-linum-bg activate)
-  (set-face-attribute 'linum nil :background "#49483E"))
+    (after fix-monokai activate)
+  (set-face-attribute 'linum nil
+                      :background "#49483E")
+  (set-face-attribute 'mode-line-inactive nil
+                      :box '(:line-width 1 :color "#2c2d26" :style nil)
+                      :background "#2c2d26"))
 
 (provide 'init-look)
