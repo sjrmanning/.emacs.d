@@ -198,7 +198,7 @@
 (use-package smartparens
   :ensure t
   :defer t
-  :diminish " π"
+  :diminish " ()"
   :init
   (progn
     (require 'smartparens-config)
