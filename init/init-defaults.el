@@ -18,8 +18,14 @@
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 
+;; Show column numbers in mode line.
+(setq column-number-mode t)
+
 ;; Never ring the bell. Never.
 (setq ring-bell-function (lambda()))
+
+;; Don't use dialog boxes.
+(setq use-dialog-box nil)
 
 ;; Hide mouse while typing.
 (setq make-pointer-invisible t)
@@ -74,7 +80,6 @@
 
 ;; Misc.
 (setq inhibit-startup-message t)
-(setq color-theme-is-global t)
 (global-font-lock-mode t)
 
 (provide 'init-defaults)
