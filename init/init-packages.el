@@ -7,7 +7,7 @@
 
 ;; Add the Melpa repository to the list of package sources.
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 
 ;; Initialise the package system.
 (package-initialize)
@@ -103,7 +103,8 @@
      deft-extension "org"
      deft-directory "~/Org/deft/"
      deft-text-mode 'org-mode
-     deft-use-filename-as-title t)))
+     deft-use-filename-as-title t
+     deft-auto-save-interval 30.0)))
 
 ;; multiple-cursors
 (use-package multiple-cursors
@@ -273,7 +274,8 @@
   :commands (rainbow-delimiters-mode)
   :init
   (progn
-    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)))
+    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+    (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)))
 
 ;; python
 ;; Configures jedi to run with python-mode.
@@ -301,8 +303,8 @@
 
 ;; twittering-mode
 (use-package twittering-mode
-  :defer t
   :ensure t
+  :commands (twittering-mode)
   :config
   (progn
     (setq twittering-icon-mode t
