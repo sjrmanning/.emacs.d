@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         end-of-visual-line
+        sp--self-insert-command
         ))
 
 (setq mc/cmds-to-run-once
