@@ -8,6 +8,14 @@
   (interactive)
   (switch-to-buffer (generate-new-buffer-name "*new*")))
 
+;; A function to use either projectile find if we're in a project,
+;; or fall back to C-x C-f (`ido-find-file').
+(defun smart-find-file ()
+  (interactive)
+  (if (projectile-project-p)
+      (projectile-find-file)
+    (ido-find-file)))
+
 ;; Smart, reusable start-or-switch from emacsredux.
 (defun start-or-switch-to (function bufname)
   "Invoke FUNCTION if there is no buffer with BUFFER-NAME.

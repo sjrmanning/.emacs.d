@@ -39,25 +39,24 @@
 ;; Automatically scroll compilation window.
 (setq compilation-scroll-output 1)
 
+;; Make required directories if they don't exist.
+(defun sm/mkdir-p (dir-path)
+  (unless (file-exists-p dir-path)
+    (make-directory dir-path t)))
+
+(sm/mkdir-p "~/.emacs.d/cache")
+(sm/mkdir-p "~/.emacs.d/etc")
+(sm/mkdir-p "~/.emacs.d/cache/backups")
+
 ;; Keep backups in a separate directory
 (defun make-backup-file-name (file)
-  (concat "~/.emacs.d/cache/backups" (file-name-nondirectory file) "~"))
+  (concat "~/.emacs.d/cache/backups/" (file-name-nondirectory file) "~"))
 
 ;; Change auto-save-list directory.
 (setq auto-save-list-file-prefix "~/.emacs.d/cache/auto-save-list/.saves-")
 
 ;; Change eshell directory.
 (setq eshell-directory-name "~/.emacs.d/cache/eshell")
-
-;; Since I use .emacs.d/cache as a temp directory, this checks whether
-;; it exists and creates the directory if necessary.
-(unless (file-exists-p "~/.emacs.d/cache/")
-  (make-directory "~/.emacs.d/cache/"))
-
-;; Do the same for .emacs.d/etc, which is used for settings files
-;; and other similar stuff (keeping lib/ solely for .el files).
-(unless (file-exists-p "~/.emacs.d/etc/")
-  (make-directory "~/.emacs.d/etc/"))
 
 ;; Disable annoying lock files.
 (setq create-lockfiles nil)

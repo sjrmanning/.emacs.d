@@ -72,4 +72,7 @@
 ;; Switch/cycle through ERC buffers.
 (global-set-key (kbd "C-c e") 'switch-to-irc)
 
+;; Smart file finding using projectile if available.
+(global-set-key (kbd "C-x f") 'smart-find-file)
+
 (provide 'init-bindings)

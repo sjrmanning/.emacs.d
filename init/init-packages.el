@@ -37,8 +37,7 @@
 
     ;; Ensure custom snippets dir exists.
     (defvar custom-snippets-dir "~/.emacs.d/etc/snippets/")
-    (unless (file-exists-p custom-snippets-dir)
-      (make-directory custom-snippets-dir))
+    (sm/mkdir-p custom-snippets-dir)
 
     ;; Replace default custom dir with our own.
     (setq yas-snippet-dirs '(custom-snippets-dir
@@ -221,11 +220,26 @@
   :defer t
   :bind ("M-y" . browse-kill-ring))
 
-;; find file in repository.
-(use-package find-file-in-repository
+;; projectile
+(use-package projectile
   :ensure t
-  :defer t
-  :bind ("C-x f" . find-file-in-repository))
+  :diminish projectile-mode
+  :commands (projectile-mode projectile-global-mode)
+  :bind ("C-c p a" . projectile-ag)
+  :init (projectile-global-mode t)
+  :config
+  (progn
+    ;; Ensure projectile dir exists.
+    (defvar my-projectile-dir "~/.emacs.d/cache/projectile")
+    (sm/mkdir-p my-projectile-dir)
+
+    ;; Use projectile dir for cache and bookmarks.
+    (let* ((prj-dir (file-name-as-directory my-projectile-dir))
+           (prj-cache-file (concat prj-dir "projectile.cache"))
+           (prj-bookmarks-file (concat prj-dir "projectile-bkmrks.eld")))
+      (setq projectile-cache-file          prj-cache-file
+            projectile-known-projects-file prj-bookmarks-file
+            projectile-indexing-method     'alien))))
 
 ;; smooth-scrolling
 ;; Avoids annoying behaviour when scrolling past the edges of a buffer.
@@ -245,8 +259,7 @@
   :ensure t
   :diminish dtrt-indent-mode
   :commands (dtrt-indent-mode)
-  :init
-  (add-hook 'prog-mode-hook 'dtrt-indent-mode))
+  :init (add-hook 'prog-mode-hook 'dtrt-indent-mode))
 
 ;; uniquify
 ;; Overrides Emacs' default mechanism for making buffer names unique.
