@@ -138,6 +138,7 @@
 ;; Modes for git and mercurial.
 (use-package magit
   :ensure t
+  :diminish magit-auto-revert-mode
   :commands (magit-status)
   :bind ("C-x g" . magit-status))
 (use-package monky
