@@ -24,6 +24,9 @@
 ;; Never ring the bell. Never.
 (setq ring-bell-function (lambda()))
 
+;; Don't disable any commands (e.g. `upcase-region').
+(setq disabled-command-function nil)
+
 ;; Don't use dialog boxes.
 (setq use-dialog-box nil)
 
@@ -33,7 +36,7 @@
 ;; Reduce keystroke echo delay.
 (setq echo-keystrokes 0.1)
 
-;; Enable y/n answers
+;; Enable y/n answers.
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Automatically scroll compilation window.
@@ -48,7 +51,7 @@
 (sm/mkdir-p "~/.emacs.d/etc")
 (sm/mkdir-p "~/.emacs.d/cache/backups")
 
-;; Keep backups in a separate directory
+;; Keep backups in a separate directory.
 (defun make-backup-file-name (file)
   (concat "~/.emacs.d/cache/backups/" (file-name-nondirectory file) "~"))
 
