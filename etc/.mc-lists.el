@@ -3,8 +3,12 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        c-electric-semi&comma
+        c-up-conditional
         end-of-visual-line
-        sp--self-insert-command
+        kill-visual-line
+        smarter-move-beginning-of-line
+        upcase-region
         ))
 
 (setq mc/cmds-to-run-once
