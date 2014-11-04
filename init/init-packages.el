@@ -24,7 +24,7 @@
 ;; Use $PATH from user's shell in Emacs.
 (use-package exec-path-from-shell
   :ensure t
-  :commands (exec-path-from-shell-initialize))
+  :init (exec-path-from-shell-initialize))
 
 ;; yasnippet
 (use-package yasnippet
