@@ -315,14 +315,14 @@
                 (setq tab-width 2
                       c-basic-offset 2)))))
 
-;; twittering-mode
-(use-package twittering-mode
+;; aggressive-indent
+;; Keeps code correctly indented during editing.
+(use-package aggressive-indent
   :ensure t
-  :commands (twittering-mode)
-  :config
+  :commands (aggressive-indent-mode)
+  :init
   (progn
-    (setq twittering-icon-mode t
-          twittering-use-master-password t)))
+    (add-hook 'prog-mode-hook 'aggressive-indent-mode)))
 
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
