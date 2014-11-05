@@ -312,6 +312,8 @@
   (progn
     (add-hook 'java-mode-hook
               (lambda ()
+                (c-set-offset 'arglist-intro '+)
+                (c-set-offset 'inexpr-class 0)
                 (setq tab-width 2
                       c-basic-offset 2)))))
 
