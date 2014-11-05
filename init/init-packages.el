@@ -108,7 +108,7 @@
 ;; multiple-cursors
 (use-package multiple-cursors
   :ensure t
-  :config (setq mc/list-file "~/.emacs.d/etc/.mc-lists.el")
+  :init (setq mc/list-file "~/.emacs.d/etc/.mc-lists.el")
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C->" . mc/mark-all-like-this)))
