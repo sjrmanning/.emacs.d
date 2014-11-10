@@ -65,6 +65,7 @@
 ;; anzu
 (use-package anzu
   :ensure t
+  :diminish anzu-mode
   :init (global-anzu-mode)
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp)))
