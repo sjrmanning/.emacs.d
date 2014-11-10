@@ -327,6 +327,17 @@
   (progn
     (add-hook 'prog-mode-hook 'aggressive-indent-mode)))
 
+;; undo-tree
+;; Treat undo history as a tree.
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :init
+  (progn
+    (global-undo-tree-mode)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t)))
+
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
   (when buf (delete-windows-on buf)))
