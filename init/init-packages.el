@@ -128,6 +128,16 @@
   (progn
     (add-hook 'prog-mode-hook 'flycheck-mode)))
 
+;; flyspell
+;; Enable spell checking in comments for programming modes.
+(use-package flyspell
+  :commands (flyspell-mode flyspell-prog-mode)
+  :diminish "FS"
+  :config (setq ispell-extra-args '("--sug-mode=normal" "--ignore=3"))
+  :init
+  (progn
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)))
+
 ;; switch-window
 ;; Provides visual cues to instantly switch on C-x o.
 (use-package switch-window
