@@ -148,7 +148,10 @@
 (use-package monky
   :ensure t
   :commands (monky-status)
-  :bind ("C-c g" . monky-status))
+  :bind ("C-c g" . monky-status)
+  :config
+  (progn
+    (add-hook 'monky-log-edit-mode-hook '(lambda () (flyspell-mode t)))))
 
 ;; git-gutter
 (use-package git-gutter-fringe
