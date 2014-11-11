@@ -151,7 +151,10 @@
   :ensure t
   :diminish magit-auto-revert-mode
   :commands (magit-status)
-  :bind ("C-x g" . magit-status))
+  :bind ("C-x g" . magit-status)
+  :config
+  (progn
+    (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t)))))
 (use-package monky
   :ensure t
   :commands (monky-status)
