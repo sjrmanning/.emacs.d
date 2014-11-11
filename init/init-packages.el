@@ -75,22 +75,23 @@
   :ensure t
   :diminish auto-complete-mode
   :config
-  (ac-config-default)
-  (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat"
-        ac-delay 0.125
-        ac-auto-show-menu 0.25
-        ac-use-fuzzy t
-        ac-use-quick-help t
-        ac-quick-help-delay 1.0
-        ac-use-menu-map t
-        ac-ignore-case t)
-  (setq-default ac-sources '(ac-source-filename
-                             ac-source-abbrev
-                             ac-source-dictionary
-                             ac-source-words-in-same-mode-buffers))
-  (define-key ac-menu-map (kbd "C-n") 'ac-next)
-  (define-key ac-menu-map (kbd "C-p") 'ac-previous)
-  (define-key ac-menu-map "\t" 'ac-complete))
+  (progn
+    (ac-config-default)
+    (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat"
+          ac-delay 0.125
+          ac-auto-show-menu 0.25
+          ac-use-fuzzy t
+          ac-use-quick-help t
+          ac-quick-help-delay 1.0
+          ac-use-menu-map t
+          ac-ignore-case t)
+    (setq-default ac-sources '(ac-source-filename
+                               ac-source-abbrev
+                               ac-source-dictionary
+                               ac-source-words-in-same-mode-buffers))
+    (define-key ac-menu-map (kbd "C-n") 'ac-next)
+    (define-key ac-menu-map (kbd "C-p") 'ac-previous)
+    (define-key ac-menu-map "\t" 'ac-complete)))
 
 ;; deft
 (use-package deft
