@@ -2,6 +2,15 @@
 ;; File: init-defuns.el
 ;; Definitions for custom functions I use.
 
+;; Function for determining emacs dir paths.
+(defun sm/emacs.d (path)
+  (expand-file-name path user-emacs-directory))
+
+;; Make directory if it doesn't exist.
+(defun sm/mkdir-p (dir-path)
+  (unless (file-exists-p dir-path)
+    (make-directory dir-path t)))
+
 ;; Creates a new buffer.
 (defun create-new-buffer ()
   "Create a new buffer named *new*."

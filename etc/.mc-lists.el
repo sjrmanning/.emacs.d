@@ -39,6 +39,7 @@
         down-list
         duplicate-current-line-or-region
         end-of-buffer
+        end-of-visual-line
         eval-and-replace
         eval-last-sexp
         fold-this

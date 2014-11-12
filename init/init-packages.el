@@ -3,6 +3,7 @@
 ;; which will be downloaded when required via `use-package'.
 
 ;; Required for running this code.
+(require 'init-defuns)
 (require 'package)
 
 ;; Add the Melpa repository to the list of package sources.
@@ -36,7 +37,7 @@
     (setq yas-verbosity 1)
 
     ;; Ensure custom snippets dir exists.
-    (defvar custom-snippets-dir "~/.emacs.d/etc/snippets/")
+    (defvar custom-snippets-dir (sm/emacs.d "etc/snippets/"))
     (sm/mkdir-p custom-snippets-dir)
 
     ;; Replace default custom dir with our own.
@@ -87,7 +88,7 @@
 
     ;; Standard auto-complete settings.
     (ac-config-default)
-    (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat"
+    (setq ac-comphist-file (sm/emacs.d "cache/ac-comphist.dat")
           ac-delay 0.125
           ac-auto-show-menu 0.25
           ac-use-fuzzy t
@@ -120,7 +121,7 @@
 ;; multiple-cursors
 (use-package multiple-cursors
   :ensure t
-  :init (setq mc/list-file "~/.emacs.d/etc/.mc-lists.el")
+  :init (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C->" . mc/mark-all-like-this)))
@@ -249,7 +250,7 @@
   :config
   (progn
     ;; Ensure projectile dir exists.
-    (defvar my-projectile-dir "~/.emacs.d/cache/projectile")
+    (defvar my-projectile-dir (sm/emacs.d "cache/projectile"))
     (sm/mkdir-p my-projectile-dir)
 
     ;; Use projectile dir for cache and bookmarks.
