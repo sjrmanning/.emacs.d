@@ -76,6 +76,16 @@
   :diminish auto-complete-mode
   :config
   (progn
+    ;; Source for `completion-at-point'.
+    (use-package ac-capf
+      :ensure t
+      :commands (ac-capf-setup)
+      :init
+      (progn
+        (add-hook 'inferior-python-mode-hook 'ac-capf-setup)
+        (add-hook 'comint-mode-hook 'ac-capf-setup)))
+
+    ;; Standard auto-complete settings.
     (ac-config-default)
     (setq ac-comphist-file "~/.emacs.d/cache/ac-comphist.dat"
           ac-delay 0.125
