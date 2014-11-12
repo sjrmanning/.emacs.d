@@ -18,6 +18,12 @@
   (setq mac-command-modifier 'super)
   (global-set-key [(super q)] 'save-buffers-kill-emacs))
 
+;; Frame title formatting.
+(setq-default frame-title-format
+              '((:eval (if (buffer-file-name)
+                           (abbreviate-file-name (buffer-file-name))
+                         "%b"))))
+
 ;; Character encodings default to utf-8.
 (prefer-coding-system 'utf-8)
 (set-language-environment 'utf-8)
