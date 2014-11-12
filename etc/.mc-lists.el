@@ -129,6 +129,7 @@
         sgml-slash
         skeleton-pair-insert-maybe
         slime-space
+        smarter-move-beginning-of-line
         sp--self-insert-command
         sp-remove-active-pair-overlay
         sp-self-insert-command
