@@ -88,15 +88,20 @@ point reaches the beginning or end of the buffer, stop there."
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
 
-;; Quick switch to ERC buffers using ido.
+;; Quick switch to IRC channel buffers using ido.
+;; Supports Circe and ERC buffers.
 (defun switch-to-irc nil
-  "Switch to ERC buffer using IDO to choose which one."
+  "Switch to IRC buffer using ido to select from candidates."
   (interactive)
-  (let (final-list (list ))
+  (let ((final-list (list ))
+        (irc-modes '(circe-channel-mode
+                     circe-query-mode
+                     erc-mode)))
+
     (dolist (buf (buffer-list) final-list)
-      (if (equal 'erc-mode (with-current-buffer buf major-mode))
+      (if (member (with-current-buffer buf major-mode) irc-modes)
           (setq final-list (append (list (buffer-name buf)) final-list))))
     (when final-list
-      (switch-to-buffer (ido-completing-read "ERC Buffer: " final-list)))))
+      (switch-to-buffer (ido-completing-read "IRC Buffer: " final-list)))))
 
 (provide 'init-defuns)
