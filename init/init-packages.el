@@ -261,6 +261,14 @@
             projectile-known-projects-file prj-bookmarks-file
             projectile-indexing-method     'alien))))
 
+;; saveplace
+;; Remebers your location in a file when saving files.
+(use-package saveplace
+  :init
+  (progn
+    (setq save-place-file (sm/emacs.d "cache/saveplace"))
+    (setq-default save-place t)))
+
 ;; smooth-scrolling
 ;; Avoids annoying behaviour when scrolling past the edges of a buffer.
 (use-package smooth-scrolling
