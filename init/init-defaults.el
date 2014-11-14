@@ -32,6 +32,9 @@
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 
+;; Revert buffers automatically when underlying files are changed externally.
+(global-auto-revert-mode t)
+
 ;; Show column numbers in mode line.
 (setq column-number-mode t)
 
