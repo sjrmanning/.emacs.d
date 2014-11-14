@@ -16,6 +16,7 @@
 (when (equal system-type 'darwin)
   (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'super)
+  (global-set-key [(super v)] 'yank)
   (global-set-key [(super q)] 'save-buffers-kill-emacs))
 
 ;; Character encodings default to utf-8.
