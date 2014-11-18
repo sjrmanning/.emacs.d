@@ -9,7 +9,7 @@
              'default nil
              :family "Source Code Pro"
              :height 130
-             :weight 'light)
+             :weight 'normal)
             (set-face-attribute
              'linum nil
              :family "Source Code Pro"
