@@ -387,6 +387,13 @@
     (setq undo-tree-visualizer-timestamps t)
     (setq undo-tree-visualizer-diff t)))
 
+;; restclient
+;; Runs REST queries from a query sheet and pretty-prints responses.
+(use-package restclient
+  :ensure t
+  :commands (restclient-mode)
+  :mode ("\\.http$" . restclient-mode))
+
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
   (when buf (delete-windows-on buf)))
