@@ -352,6 +352,21 @@
                 (setq tab-width 2
                       c-basic-offset 2)))))
 
+;; dummy-h-mode
+;; Determines c/c++/objc mode based on contents of a .h file.
+(use-package dummy-h-mode
+  :ensure t
+  :mode ("\\.h$" . dummy-h-mode))
+
+;; objc-mode
+(use-package objc-mode
+  :commands (objc-mode)
+  :config
+  (progn
+    (add-hook 'objc-mode-hook
+              (lambda ()
+                (setq c-basic-offset 4)))))
+
 ;; aggressive-indent
 ;; Keeps code correctly indented during editing.
 (use-package aggressive-indent
