@@ -54,8 +54,8 @@
 (use-package monokai-theme
   :ensure t
   :config
-  (progn
-    (load-theme 'monokai t)))
+  (load-theme 'monokai t)
+  (load-theme 'monokai-overrides t))
 
 ;; ag (silver surfer)
 (use-package ag

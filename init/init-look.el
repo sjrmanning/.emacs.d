@@ -16,20 +16,14 @@
              :height 120
              :weight 'light)))
 
+;; Custom themes path.
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "etc/themes/" user-emacs-directory))
+
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
 ;; Redraw without pause while processing input.
 (setq redisplay-dont-pause t)
-
-;; Some minor tweaks to monokai-theme.
-(require 'linum)
-(defadvice load-theme
-    (after fix-monokai activate)
-  (set-face-attribute 'linum nil
-                      :background "#49483E")
-  (set-face-attribute 'mode-line-inactive nil
-                      :box '(:line-width 1 :color "#2c2d26" :style nil)
-                      :background "#2c2d26"))
 
 (provide 'init-look)
