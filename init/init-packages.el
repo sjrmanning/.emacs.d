@@ -104,6 +104,14 @@
     (define-key ac-menu-map (kbd "C-p") 'ac-previous)
     (define-key ac-menu-map "\t" 'ac-complete)))
 
+;; org-mode
+(use-package org
+  :ensure t
+  :commands (org-mode)
+  :config
+  (progn
+    (setq org-src-fontify-natively t)))
+
 ;; deft
 (use-package deft
   :ensure t
