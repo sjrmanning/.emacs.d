@@ -173,13 +173,32 @@
   :bind ("C-x g" . magit-status)
   :config
   (progn
+    ;; Full-screen magit status with restore.
+    (defadvice magit-status (around magit-fullscreen activate)
+      (window-configuration-to-register :magit-fullscreen)
+      ad-do-it
+      (delete-other-windows))
+    (defadvice magit-mode-quit-window (around magit-restore-screen activate)
+      ad-do-it
+      (jump-to-register :magit-fullscreen))
+    ;; Use flyspell during commits.
     (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t)))))
+
 (use-package monky
   :ensure t
   :commands (monky-status)
   :bind ("C-c g" . monky-status)
   :config
   (progn
+    ;; Similar full-screen config for monky.
+    (defadvice monky-status (around monky-fullscreen activate)
+      (window-configuration-to-register :monky-fullscreen)
+      ad-do-it
+      (delete-other-windows))
+    (defadvice monky-quit-window (around monky-restore-screen activate)
+      ad-do-it
+      (jump-to-register :monky-fullscreen))
+    ;; Flyspell during commits.
     (add-hook 'monky-log-edit-mode-hook '(lambda () (flyspell-mode t)))))
 
 ;; git-gutter
