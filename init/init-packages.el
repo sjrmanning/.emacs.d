@@ -104,6 +104,15 @@
     (define-key ac-menu-map (kbd "C-p") 'ac-previous)
     (define-key ac-menu-map "\t" 'ac-complete)))
 
+;; typo
+;; Mode for typographical editing.
+(use-package typo
+  :ensure t
+  :commands (typo-mode)
+  :init
+  (progn
+    (add-hook 'text-mode-hook 'typo-mode)))
+
 ;; org-mode
 (use-package org
   :ensure t
