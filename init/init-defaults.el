@@ -1,6 +1,10 @@
 ;; Sane defaults.
 (require 'init-defuns)
 
+;; GC optimisation.
+;; Increases garbage collection threshold to 50mb (from 0.76mb)
+(setq gc-cons-threshold 50000000)
+
 ;; Set default directory.
 (setq default-directory "~")
 
@@ -81,10 +85,6 @@
 
 ;; Change save-places file location.
 (setq save-place-file (sm/emacs.d "cache/places"))
-
-;; GC optimisation.
-;; Increases garbage collection threshold to 50mb (from 0.76mb)
-(setq gc-cons-threshold 50000000)
 
 ;; Allow pasting selection outside of Emacs.
 (setq x-select-enable-clipboard t)
