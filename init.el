@@ -5,11 +5,11 @@
 (add-to-list 'load-path (expand-file-name "init/" user-emacs-directory))
 (add-to-list 'exec-path "/usr/local/bin")
 
-;; Set up appearance.
-(require 'init-look)
-
 ;; Set up some sane defaults.
 (require 'init-defaults)
+
+;; Set up appearance.
+(require 'init-look)
 
 ;; Editing specific settings.
 (require 'init-editing)
