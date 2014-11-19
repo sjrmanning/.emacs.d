@@ -14,16 +14,16 @@
  ;; Additional modes
  ;; Circe
  '(circe-prompt-face
-   ((t (:foreground ,violet-l :weight bold))))
+   ((t (:foreground "#C2A1FF" :weight bold))))
 
  '(circe-server-face
-   ((t (:foreground ,monokai-comments))))
+   ((t (:foreground "#75715E"))))
 
  '(circe-highlight-nick-face
-   ((t (:foreground ,violet :weight bold))))
+   ((t (:foreground "#AE81FF" :weight bold))))
 
  '(circe-my-message-face
-   ((t (:foreground ,yellow))))
+   ((t (:foreground "#E6DB74"))))
 
  '(circe-originator-face
    ((t (:weight bold)))))
