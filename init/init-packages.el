@@ -345,6 +345,9 @@
   :defer t
   :config
   (progn
+    (add-hook 'objc-mode-hook
+              (lambda ()
+                (setq c-basic-offset 4)))
     (add-hook 'java-mode-hook
               (lambda ()
                 (c-set-offset 'arglist-intro '+)
@@ -357,15 +360,6 @@
 (use-package dummy-h-mode
   :ensure t
   :mode ("\\.h$" . dummy-h-mode))
-
-;; objc-mode
-(use-package objc-mode
-  :commands (objc-mode)
-  :config
-  (progn
-    (add-hook 'objc-mode-hook
-              (lambda ()
-                (setq c-basic-offset 4)))))
 
 ;; aggressive-indent
 ;; Keeps code correctly indented during editing.
