@@ -297,6 +297,19 @@
             projectile-known-projects-file prj-bookmarks-file
             projectile-indexing-method     'alien))))
 
+;; perspective
+(use-package perspective
+  :ensure perspective
+  :defer t
+  :init (add-hook 'after-init-hook 'persp-mode)
+  :config
+  (progn
+    (setq persp-initial-frame-name "emacs")
+    (defun persp-next ()
+      (interactive)
+      (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
+        (persp-switch (nth (1+ (persp-curr-position)) (persp-all-names)))))))
+
 ;; saveplace
 ;; Remebers your location in a file when saving files.
 (use-package saveplace
