@@ -118,7 +118,7 @@ point reaches the beginning or end of the buffer, stop there."
         (sm/load-directory fullpath))
        ((and (eq isdir nil)
              (string= (substring path -3) ".el")
-             (not (string-match ".*.el$" path)))
+             (not (string-match "^\\." path)))
         (load (file-name-sans-extension fullpath)))))))
 
 (provide 'init-defuns)
