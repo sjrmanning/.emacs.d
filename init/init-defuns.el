@@ -115,8 +115,10 @@ point reaches the beginning or end of the buffer, stop there."
            (ignore-dir (or (string= path ".") (string= path ".."))))
       (cond
        ((and (eq isdir t) (not ignore-dir))
-        (load-directory fullpath))
-       ((and (eq isdir nil) (string= (substring path -3) ".el"))
+        (sm/load-directory fullpath))
+       ((and (eq isdir nil)
+             (string= (substring path -3) ".el")
+             (not (string-match ".*.el$" path)))
         (load (file-name-sans-extension fullpath)))))))
 
 (provide 'init-defuns)
