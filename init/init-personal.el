@@ -1,7 +1,10 @@
 ;; Various personal settings probably only applicable to my setup.
 ;; Load private settings if found.
-(when (file-exists-p (locate-user-emacs-file "init/init-private.el"))
-  (require 'init-private))
+(require 'init-defuns)
+(defvar private-dir "~/.private/elisp"
+  "Private elisp directory")
+(if (file-exists-p private-dir)
+    (sm/load-directory private-dir))
 
 ;; Org-mode personal settings.
 (setq org-directory "~/Org")
