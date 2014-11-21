@@ -209,6 +209,7 @@
   :init
   (progn
     (require 'git-gutter-fringe)
+    (setq git-gutter:handled-backends '(git hg))
     (global-git-gutter-mode t)))
   
 ;; smex
