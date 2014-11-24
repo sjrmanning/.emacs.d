@@ -104,6 +104,10 @@
     (define-key ac-menu-map (kbd "C-p") 'ac-previous)
     (define-key ac-menu-map "\t" 'ac-complete)))
 
+;; editorconfig
+(use-package editorconfig
+  :ensure t)
+
 ;; typo
 ;; Mode for typographical editing.
 (use-package typo
