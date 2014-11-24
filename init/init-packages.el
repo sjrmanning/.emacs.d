@@ -434,6 +434,13 @@
   :commands (restclient-mode)
   :mode ("\\.http$" . restclient-mode))
 
+;; comment-dwim-2
+;; Better `comment-dwim' supporting uncommenting.
+(use-package comment-dwim-2
+  :ensure t
+  :commands (comment-dwim-2)
+  :bind ("M-;" . comment-dwim-2))
+
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
   (when buf (delete-windows-on buf)))
