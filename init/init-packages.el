@@ -335,14 +335,6 @@
   :diminish whitespace-cleanup-mode
   :init (global-whitespace-cleanup-mode))
 
-;; dtrt-indent
-;; Determines what indentation offset to use on files.
-(use-package dtrt-indent
-  :ensure t
-  :diminish dtrt-indent-mode
-  :commands (dtrt-indent-mode)
-  :init (add-hook 'prog-mode-hook 'dtrt-indent-mode))
-
 ;; uniquify
 ;; Overrides Emacs' default mechanism for making buffer names unique.
 (use-package uniquify
