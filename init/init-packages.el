@@ -383,13 +383,16 @@
   :defer t
   :config
   (progn
+    (defun sm/cc-mode-hook ()
+      (c-set-offset 'case-label '+)
+      (c-set-offset 'arglist-intro '+)
+      (c-set-offset 'inexpr-class 0))
+    (add-hook 'c-mode-common-hook 'sm/cc-mode-hook)
     (add-hook 'objc-mode-hook
               (lambda ()
                 (setq c-basic-offset 4)))
     (add-hook 'java-mode-hook
               (lambda ()
-                (c-set-offset 'arglist-intro '+)
-                (c-set-offset 'inexpr-class 0)
                 (setq tab-width 2
                       c-basic-offset 2)))))
 
