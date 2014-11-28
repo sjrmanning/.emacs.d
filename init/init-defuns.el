@@ -17,6 +17,13 @@
   (interactive)
   (switch-to-buffer (generate-new-buffer-name "*new*")))
 
+;; New line from any point.
+(defun newline-anywhere ()
+  "Add a newline from anywhere in the line."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
 ;; A function to use either projectile find if we're in a project,
 ;; or fall back to C-x C-f (`ido-find-file').
 (defun smart-find-file ()
