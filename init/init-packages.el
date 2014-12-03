@@ -104,9 +104,14 @@
     (define-key ac-menu-map (kbd "C-p") 'ac-previous)
     (define-key ac-menu-map "\t" 'ac-complete)))
 
-;; editorconfig
+;; editorconfig and conf-mode setup.
 (use-package editorconfig
   :ensure t)
+(use-package conf-mode
+  :mode (("\\.editorconfig$" . conf-mode)
+         ("\\.conf" . conf-mode)
+         ("\\.cfg" . conf-mode)
+         ("\\.ini" . conf-mode)))
 
 ;; typo
 ;; Mode for typographical editing.
@@ -400,7 +405,7 @@
 ;; Determines c/c++/objc mode based on contents of a .h file.
 (use-package dummy-h-mode
   :ensure t
-  :mode ("\\.h$" . dummy-h-mode))
+  :mode "\\.h$")
 
 ;; aggressive-indent
 ;; Keeps code correctly indented during editing.
