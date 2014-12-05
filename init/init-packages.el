@@ -441,6 +441,24 @@
   :commands (comment-dwim-2)
   :bind ("M-;" . comment-dwim-2))
 
+;; circe
+(use-package circe
+  :ensure t
+  :defer t
+  :commands (circe)
+  :config
+  (progn
+    (defun my-lui-setup ()
+      (setq
+       fringes-outside-margins t
+       right-margin-width 7
+       word-wrap t
+       wrap-prefix "    "))
+    (add-hook 'lui-mode-hook 'my-lui-setup)
+    (setq lui-time-stamp-position 'right-margin
+          lui-fill-type nil
+          lui-scroll-behavior 'post-scroll)))
+
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
   (when buf (delete-windows-on buf)))
