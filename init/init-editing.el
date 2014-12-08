@@ -15,4 +15,7 @@
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
+;; Prompt to automatically create parent dirs when required.
+(add-to-list 'find-file-not-found-functions #'sm/create-non-existent-directory)
+
 (provide 'init-editing)
