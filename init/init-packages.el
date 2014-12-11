@@ -75,6 +75,7 @@
 (use-package auto-complete
   :ensure t
   :diminish auto-complete-mode
+  :idle (global-auto-complete-mode t)
   :config
   (progn
     ;; Source for `completion-at-point'.
@@ -292,7 +293,7 @@
   :diminish projectile-mode
   :commands (projectile-mode projectile-global-mode)
   :bind ("C-c p a" . projectile-ag)
-  :init (projectile-global-mode t)
+  :idle (projectile-global-mode t)
   :config
   (progn
     ;; Ensure projectile dir exists.
@@ -448,6 +449,7 @@
   :commands (circe)
   :config
   (progn
+    (enable-circe-color-nicks)
     (defun my-lui-setup ()
       (setq
        fringes-outside-margins t
