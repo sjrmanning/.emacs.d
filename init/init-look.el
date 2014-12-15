@@ -7,14 +7,17 @@
             (set-fringe-mode '(8 . 0))
             (set-face-attribute
              'default nil
-             :family "Fira Mono OT"
+             :family "Fira Mono"
              :height 140
              :weight 'normal)
             (set-face-attribute
              'linum nil
-             :family "Fira Mono OT"
+             :family "Fira Mono"
              :height 120
-             :weight 'normal)))
+             :weight 'normal)
+            (set-face-attribute
+             'variable-pitch nil
+             :family "Fira Sans")))
 
 ;; Custom themes path.
 (add-to-list 'custom-theme-load-path
