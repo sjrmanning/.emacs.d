@@ -293,7 +293,7 @@
   :diminish projectile-mode
   :commands (projectile-mode projectile-global-mode)
   :bind ("C-c p a" . projectile-ag)
-  :idle (projectile-global-mode t)
+  :init (projectile-global-mode t)
   :config
   (progn
     ;; Ensure projectile dir exists.
