@@ -370,6 +370,29 @@
     (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
     (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)))
 
+;; javascript
+;; js-mode for json.
+(use-package js-mode
+  :mode ("\\.json$" . js-mode)
+  :init
+  (progn
+    (add-hook 'js-mode-hook (lambda () (setq js-indent-level 2)))))
+
+;; js2.
+(use-package js2-mode
+  :mode (("\\.js$" . js2-mode)
+         ("Jakefile$" . js2-mode))
+  :interpreter ("node" . js2-mode)
+  :config
+  (progn
+    (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 4)))))
+
+;; js2 autocomplete.
+(use-package ac-js2
+  :ensure t
+  :init
+  (add-hook 'js2-mode-hook 'ac-js2-mode))
+
 ;; python
 ;; Configures jedi to run with python-mode.
 (use-package python
