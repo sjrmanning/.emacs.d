@@ -25,14 +25,15 @@
 ;; Use $PATH from user's shell in Emacs.
 (use-package exec-path-from-shell
   :ensure t
-  :idle (exec-path-from-shell-initialize))
+  :defer 2)
 
 ;; yasnippet
 (use-package yasnippet
   :ensure t
-  :idle (yas-global-mode t)
+  :defer 2
   :init
   (progn
+    (yas-global-mode t)
     ;; Suppress excessive log messages
     (setq yas-verbosity 1)
 
@@ -75,7 +76,8 @@
 (use-package auto-complete
   :ensure t
   :diminish auto-complete-mode
-  :idle (global-auto-complete-mode t)
+  :defer 2
+  :init (global-auto-complete-mode t)
   :config
   (progn
     ;; Source for `completion-at-point'.
@@ -86,6 +88,9 @@
       (progn
         (add-hook 'inferior-python-mode-hook 'ac-capf-setup)
         (add-hook 'comint-mode-hook 'ac-capf-setup)))
+    ;; Fuzzy auto-completion.
+    (use-package fuzzy
+      :ensure t)
 
     ;; Standard auto-complete settings.
     (ac-config-default)
@@ -369,6 +374,11 @@
   (progn
     (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
     (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)))
+
+;; jade.
+(use-package jade-mode
+  :ensure t
+  :mode ("\\.jade$" . jade-mode))
 
 ;; javascript
 ;; js-mode for json.
