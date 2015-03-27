@@ -386,7 +386,7 @@
   :mode ("\\.json$" . javascript-mode)
   :init
   (progn
-    (add-hook 'js-mode-hook (lambda () (setq js-indent-level 2)))))
+    (add-hook 'js-mode-hook (lambda () (setq js-indent-level 4)))))
 
 ;; js2.
 (use-package js2-mode
