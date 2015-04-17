@@ -8,14 +8,14 @@
 ;; Set up some sane defaults.
 (require 'init-defaults)
 
+;; Custom functions.
+(require 'init-defuns)
+
 ;; Set up appearance.
 (require 'init-look)
 
 ;; Editing specific settings.
 (require 'init-editing)
-
-;; Custom functions.
-(require 'init-defuns)
 
 ;; Custom key-bindings separate from third-party package binds.
 (require 'init-bindings)
