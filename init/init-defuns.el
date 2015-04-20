@@ -135,4 +135,37 @@ point reaches the beginning or end of the buffer, stop there."
                (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
       (make-directory parent-directory t))))
 
+;; New line and previous line.
+;; From github.com/zk-phi dotfiles.
+(defun sm/next-line (n)
+  (interactive "p")
+  (call-interactively 'next-line)
+  (when (looking-back "^[\s\t]*")
+    (let (goal-column) (back-to-indentation))))
+
+(defun sm/previous-line (n)
+  (interactive "p")
+  (call-interactively 'previous-line)
+  (when (looking-back "^[\s\t]*")
+    (let (goal-column) (back-to-indentation))))
+
+;; Reference | http://github.com/milkypostman/dotemacs/init.el
+;; From zk-phi.
+(defun sm/rename-current-buffer-file ()
+  "Rename current buffer file."
+  (interactive)
+  (let ((oldname (buffer-file-name)))
+    (if (null oldname)
+        (error "Not a file buffer.")
+      (let ((newname (read-file-name "New name: " nil oldname)))
+        (if (get-file-buffer newname)
+            (error "A buffer named %s already exists." newname)
+          (rename-file oldname newname 0)
+          (rename-buffer newname)
+          (set-visited-file-name newname)
+          (set-buffer-modified-p nil)
+          (message "Successfully renamed to %s." (file-name-nondirectory newname)))))))
+
+
+
 (provide 'init-defuns)
