@@ -92,6 +92,10 @@
 ;; Move files to trash when deleting
 (setq delete-by-moving-to-trash t)
 
+;; Ignore case for completion.
+(setq completion-ignore-case t
+      read-file-name-completion-ignore-case t)
+
 ;; Misc.
 (setq inhibit-startup-message t)
 (global-font-lock-mode t)
