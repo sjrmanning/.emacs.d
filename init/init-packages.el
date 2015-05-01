@@ -436,6 +436,12 @@
                 (setq tab-width 2
                       c-basic-offset 2)))))
 
+;; C#
+(use-package csharp-mode
+  :ensure t
+  :defer t
+  :mode "\\.cs$")
+
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
 (use-package dummy-h-mode
