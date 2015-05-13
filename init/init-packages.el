@@ -256,11 +256,12 @@
     (ido-vertical-mode 1)
     (flx-ido-mode 1)))
 
-;; ace-jump-mode
-(use-package ace-jump-mode
+;; avy
+(use-package avy
   :ensure t
-  :commands (ace-jump-mode)
-  :bind ("C-o" . ace-jump-mode))
+  :config (setq avy-style 'at)
+  :bind (("C-o" . avy-goto-char)
+         ("M-g" . avy-goto-line)))
 
 ;; markdown
 (use-package markdown-mode
