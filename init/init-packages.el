@@ -31,7 +31,7 @@
 (use-package yasnippet
   :ensure t
   :defer 2
-  :init
+  :config
   (progn
     (yas-global-mode t)
     ;; Suppress excessive log messages
@@ -77,9 +77,9 @@
   :ensure t
   :diminish auto-complete-mode
   :defer 2
-  :init (global-auto-complete-mode t)
   :config
   (progn
+    (global-auto-complete-mode t)
     ;; Source for `completion-at-point'.
     (use-package ac-capf
       :ensure t
@@ -271,9 +271,9 @@
 ;; smartparens
 (use-package smartparens
   :ensure t
-  :defer t
+  :defer 2
   :diminish " ()"
-  :init
+  :config
   (progn
     (require 'smartparens-config)
     (smartparens-global-mode t)
