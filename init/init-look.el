@@ -2,7 +2,7 @@
 
 (require 'init-defuns)
 
-(defvar sm/fixed-font-name "Office Code Pro")
+(defvar sm/fixed-font-name "Office Code Pro D")
 (defvar sm/fixed-font-weight 'light)
 (defvar sm/var-font-name "Fira Sans")
 (defvar sm/font-height 150)
