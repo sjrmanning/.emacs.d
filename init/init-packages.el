@@ -504,6 +504,19 @@
           lui-fill-type nil
           lui-scroll-behavior 'post-scroll)))
 
+;; column-enforce mode (highlight long columns).
+(use-package column-enforce-mode
+  :ensure t
+  :diminish column-enforce-mode
+  :commands (column-enforce-mode)
+  :init
+  (progn
+    (add-hook 'prog-mode-hook 'column-enforce-mode)
+    (add-hook 'objc-mode-hook '(lambda ()
+                                 (setq-local column-enforce-column 100)))
+    (add-hook 'java-mode-hook '(lambda ()
+                                 (setq-local column-enforce-column 100)))))
+
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
   (when buf (delete-windows-on buf)))
