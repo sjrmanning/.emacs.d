@@ -31,12 +31,8 @@
 (use-package yasnippet
   :ensure t
   :defer 2
-  :config
+  :init
   (progn
-    (yas-global-mode t)
-    ;; Suppress excessive log messages
-    (setq yas-verbosity 1)
-
     ;; Ensure custom snippets dir exists.
     (defvar custom-snippets-dir (sm/emacs.d "etc/snippets/"))
     (sm/mkdir-p custom-snippets-dir)
@@ -45,6 +41,11 @@
     (setq yas-snippet-dirs '(custom-snippets-dir
                              yas-installed-snippets-dir))
 
+    ;; Suppress excessive log messages
+    (setq yas-verbosity 1))
+  :config
+  (progn
+    (yas-global-mode t)
     ;; Disable yasnippet in some modes.
     (defun yas-disable-hook ()
       (setq yas-dont-activate t))
