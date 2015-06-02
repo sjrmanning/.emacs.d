@@ -76,7 +76,6 @@
 (use-package auto-complete
   :ensure t
   :diminish auto-complete-mode
-  :defer 2
   :config
   (progn
     (global-auto-complete-mode t)
