@@ -96,6 +96,9 @@
 (setq completion-ignore-case t
       read-file-name-completion-ignore-case t)
 
+;; When copying something from outside emacs, save to kill-ring.
+(setq save-interprogram-paste-before-kill t)
+
 ;; Misc.
 (setq inhibit-startup-message t)
 (global-font-lock-mode t)
