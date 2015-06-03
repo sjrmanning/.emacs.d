@@ -86,6 +86,12 @@
 ;; Change save-places file location.
 (setq save-place-file (sm/emacs.d "cache/places"))
 
+;; Ido history.
+(setq ido-save-directory-list-file (sm/emacs.d "cache/ido.last"))
+
+;; Smex history.
+(setq smex-save-file (sm/emacs.d "cache/smex-items"))
+
 ;; Allow pasting selection outside of Emacs.
 (setq x-select-enable-clipboard t)
 
