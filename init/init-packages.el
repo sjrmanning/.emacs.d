@@ -226,7 +226,7 @@
     (require 'git-gutter-fringe)
     (setq git-gutter:handled-backends '(git hg))
     (global-git-gutter-mode t)))
-  
+
 ;; smex
 (use-package smex
   :ensure t
@@ -399,18 +399,22 @@
     (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 4)))))
 
 ;; python
-;; Configures jedi to run with python-mode.
 (use-package python
   :commands (python-mode)
   :config
   (progn
-    (use-package jedi
+    (use-package anaconda-mode
       :ensure t
-      :commands (jedi:setup)))
+      :commands (anaconda-mode))
+    (use-package company-anaconda
+      :ensure t
+      :init
+      (progn
+        (add-to-list 'company-backends
+                     (company-mode/backend-with-yas 'company-anaconda)))))
   :init
   (progn
-    (add-hook 'python-mode-hook 'jedi:setup)
-    (setq jedi:complete-on-dot t)))
+    (add-hook 'python-mode-hook 'anaconda-mode)))
 
 ;; cc-mode/derived modes and hooks
 (use-package cc-mode
