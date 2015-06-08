@@ -73,42 +73,41 @@
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp)))
 
-;; auto-complete
-(use-package auto-complete
+;; Use yasnippet in all company backends.
+;; Adapted from `https://github.com/syl20bnr/spacemacs/pull/179'.
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas)
+          (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+;; company-mode setup.
+(use-package company
   :ensure t
-  :diminish auto-complete-mode
+  :diminish " ©"
+  :commands (company-mode global-company-mode)
+  :init (add-hook 'prog-mode-hook 'company-mode)
   :config
   (progn
-    (global-auto-complete-mode t)
-    ;; Source for `completion-at-point'.
-    (use-package ac-capf
+    ;; Quick-help (popup documentation for suggestions).
+    (use-package company-quickhelp
       :ensure t
-      :commands (ac-capf-setup)
-      :init
-      (progn
-        (add-hook 'inferior-python-mode-hook 'ac-capf-setup)
-        (add-hook 'comint-mode-hook 'ac-capf-setup)))
-    ;; Fuzzy auto-completion.
-    (use-package fuzzy
-      :ensure t)
+      :init (company-quickhelp-mode 1))
 
-    ;; Standard auto-complete settings.
-    (ac-config-default)
-    (setq ac-comphist-file (sm/emacs.d "cache/ac-comphist.dat")
-          ac-delay 0.125
-          ac-auto-show-menu 0.25
-          ac-use-fuzzy t
-          ac-use-quick-help t
-          ac-quick-help-delay 1.0
-          ac-use-menu-map t
-          ac-ignore-case t)
-    (setq-default ac-sources '(ac-source-filename
-                               ac-source-abbrev
-                               ac-source-dictionary
-                               ac-source-words-in-same-mode-buffers))
-    (define-key ac-menu-map (kbd "C-n") 'ac-next)
-    (define-key ac-menu-map (kbd "C-p") 'ac-previous)
-    (define-key ac-menu-map "\t" 'ac-complete)))
+    ;; Company settings.
+    (setq company-tooltip-limit 20)
+    (setq company-idle-delay 0.25)
+    (setq company-echo-delay 0)
+    (setq company-begin-commands '(self-insert-command))
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") 'company-select-next)
+    (define-key company-active-map (kbd "C-p") 'company-select-previous)
+    (setq company-backends (mapcar #'company-mode/backend-with-yas
+                                   company-backends))))
 
 ;; editorconfig and conf-mode setup.
 (use-package editorconfig
@@ -399,12 +398,6 @@
   (progn
     (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 4)))))
 
-;; js2 autocomplete.
-(use-package ac-js2
-  :ensure t
-  :init
-  (add-hook 'js2-mode-hook 'ac-js2-mode))
-
 ;; python
 ;; Configures jedi to run with python-mode.
 (use-package python
@@ -442,9 +435,6 @@
   :ensure t
   :defer t
   :mode "\\.cs$"
-  :init
-  (progn
-    (add-to-list 'ac-modes 'csharp-mode))
   :config
   (progn
     ;; Omnisharp (C# completion, refactoring, etc.)
@@ -457,8 +447,7 @@
       :config
       (progn
         (setq omnisharp-server-executable-path
-              "~/Dev/omnisharp-server/OmniSharp.exe")
-        (add-to-list 'ac-sources 'ac-source-omnisharp)))))
+              "~/Dev/omnisharp-server/OmniSharp.exe")))))
 
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
