@@ -441,7 +441,24 @@
 (use-package csharp-mode
   :ensure t
   :defer t
-  :mode "\\.cs$")
+  :mode "\\.cs$"
+  :init
+  (progn
+    (add-to-list 'ac-modes 'csharp-mode))
+  :config
+  (progn
+    ;; Omnisharp (C# completion, refactoring, etc.)
+    (use-package omnisharp
+      :ensure t
+      :defer t
+      :mode "\\.cs$"
+      :bind ("." . omnisharp-add-dot-and-auto-complete)
+      :init (add-hook 'csharp-mode-hook 'omnisharp-mode)
+      :config
+      (progn
+        (setq omnisharp-server-executable-path
+              "~/Dev/omnisharp-server/OmniSharp.exe")
+        (add-to-list 'ac-sources 'ac-source-omnisharp)))))
 
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
