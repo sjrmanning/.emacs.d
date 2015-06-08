@@ -442,8 +442,11 @@
       :ensure t
       :defer t
       :mode "\\.cs$"
-      :bind ("." . omnisharp-add-dot-and-auto-complete)
-      :init (add-hook 'csharp-mode-hook 'omnisharp-mode)
+      :init
+      (progn
+        (add-hook 'csharp-mode-hook 'omnisharp-mode)
+        (add-to-list 'company-backends
+                     (company-mode/backend-with-yas 'company-omnisharp)))
       :config
       (progn
         (setq omnisharp-server-executable-path
