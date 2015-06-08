@@ -12,6 +12,33 @@
              :background "#2c2d26"))))
 
  ;; Additional modes
+ ;; Company tweaks.
+ '(company-tooltip-common
+   ((t :foreground "#F8F8F0"
+       :background "#474747"
+       :underline t)))
+
+ '(company-tooltip-common-selection
+   ((t :foreground "#F8F8F0"
+       :background "#474747"
+       :underline t)))
+
+ '(company-scrollbar-fg
+   ((t :background "#BBF7EF")))
+
+ '(company-tooltip-annotation
+   ((t :inherit company-tooltip
+       :foreground "#C2A1FF")))
+
+ ;; Popup menu tweaks.
+ '(popup-menu-face
+   ((t :foreground "#A1EFE4"
+       :background "#49483E")))
+
+ '(popup-menu-selection-face
+   ((t :background "#349B8D"
+       :foreground "#BBF7EF")))
+
  ;; Circe
  '(circe-prompt-face
    ((t (:foreground "#C2A1FF" :weight bold))))
