@@ -71,6 +71,10 @@
 (defun make-backup-file-name (file)
   (concat (sm/emacs.d "cache/backups/") (file-name-nondirectory file) "~"))
 
+;; Keep autosave files in /tmp.
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 ;; Change auto-save-list directory.
 (setq auto-save-list-file-prefix (sm/emacs.d "cache/auto-save-list/.saves-"))
 
