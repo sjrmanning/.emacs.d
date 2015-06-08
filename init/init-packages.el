@@ -391,12 +391,25 @@
 
 ;; js2.
 (use-package js2-mode
+  :ensure t
   :mode (("\\.js$" . js2-mode)
          ("Jakefile$" . js2-mode))
   :interpreter ("node" . js2-mode)
   :config
-  (progn
-    (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 4)))))
+  (use-package tern
+    :ensure t
+    :diminish tern-mode
+    :init
+    (add-hook 'js2-mode-hook 'tern-mode))
+  (use-package company-tern
+    :ensure t
+    :defer t
+    :config (setq company-tern-property-marker " *"))
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (setq js2-basic-offset 2)
+              (add-to-list 'company-backends
+                           (company-mode/backend-with-yas 'company-tern)))))
 
 ;; python
 (use-package python
