@@ -94,6 +94,7 @@
   (progn
     ;; Quick-help (popup documentation for suggestions).
     (use-package company-quickhelp
+      :if window-system
       :ensure t
       :init (company-quickhelp-mode 1))
 
