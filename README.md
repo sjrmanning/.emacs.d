@@ -35,3 +35,6 @@ There are a few cool external tools, mainly around code intelligence, syntax che
 
 #### C#
 * [OmniSharp](http://www.omnisharp.net) (see link for details.)
+
+#### Markdown
+* `brew install` either `discount` or `markdown` for previewing and compiling markdown documents with `markdown-mode`.
