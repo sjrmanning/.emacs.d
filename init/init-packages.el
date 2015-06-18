@@ -28,7 +28,9 @@
 ;; Use $PATH from user's shell in Emacs.
 (use-package exec-path-from-shell
   :ensure t
-  :defer 2)
+  :if (memq window-system (quote (mac ns)))
+  :defer 2
+  :config (exec-path-from-shell-initialize))
 
 ;; yasnippet
 (use-package yasnippet
