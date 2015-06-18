@@ -117,6 +117,12 @@
   :commands (typo-mode)
   :init (add-hook 'text-mode-hook 'typo-mode))
 
+;; flyspell spell checking.
+(use-package flyspell
+  :diminish flyspell-mode
+  :commands (flyspell-mode)
+  :init (add-hook 'text-mode-hook 'flyspell-mode))
+
 ;; org-mode
 (use-package org
   :ensure t
