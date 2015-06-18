@@ -37,25 +37,22 @@
   :ensure t
   :defer 2
   :init
-  (progn
-    ;; Ensure custom snippets dir exists.
-    (defvar custom-snippets-dir (sm/emacs.d "etc/snippets/"))
-    (sm/mkdir-p custom-snippets-dir)
-
-    ;; Replace default custom dir with our own.
-    (setq yas-snippet-dirs '(custom-snippets-dir
-                             yas-installed-snippets-dir))
-
-    ;; Suppress excessive log messages
-    (setq yas-verbosity 1))
+  ;; Ensure custom snippets dir exists.
+  (defvar custom-snippets-dir (sm/emacs.d "etc/snippets/"))
+  (sm/mkdir-p custom-snippets-dir)
+  ;; Replace default custom dir with our own.
+  (setq yas-snippet-dirs '(custom-snippets-dir
+                           yas-installed-snippets-dir))
+  ;; Suppress excessive log messages
+  (setq yas-verbosity 1)
   :config
-  (progn
-    (yas-global-mode t)
-    ;; Disable yasnippet in some modes.
-    (defun yas-disable-hook ()
-      (setq yas-dont-activate t))
-    (add-hook 'term-mode-hook 'yas-disable-hook)
-    (add-hook 'erc-mode-hook 'yas-disable-hook)))
+  (yas-global-mode t)
+  ;; Disable yasnippet in some modes.
+  (defun yas-disable-hook ()
+    (setq yas-dont-activate t))
+  (add-hook 'term-mode-hook 'yas-disable-hook)
+  (add-hook 'comint-mode-hook 'yas-disable-hook)
+  (add-hook 'erc-mode-hook 'yas-disable-hook))
 
 ;; colors!
 (use-package monokai-theme
@@ -87,24 +84,22 @@
   (add-hook 'prog-mode-hook 'company-mode)
   (add-hook 'comint-mode-hook 'company-mode)
   :config
-  (progn
-    ;; Quick-help (popup documentation for suggestions).
-    (use-package company-quickhelp
-      :if window-system
-      :ensure t
-      :init (company-quickhelp-mode 1))
-
-    ;; Company settings.
-    (setq company-tooltip-limit 20)
-    (setq company-idle-delay 0.25)
-    (setq company-echo-delay 0)
-    (setq company-minimum-prefix-length 2)
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") 'company-select-next)
-    (define-key company-active-map (kbd "C-p") 'company-select-previous)
-    (setq company-backends
-          (mapcar #'sm/backend-with-yas company-backends))))
+  ;; Quick-help (popup documentation for suggestions).
+  (use-package company-quickhelp
+    :if window-system
+    :ensure t
+    :init (company-quickhelp-mode 1))
+  ;; Company settings.
+  (setq company-tooltip-limit 20)
+  (setq company-idle-delay 0.25)
+  (setq company-echo-delay 0)
+  (setq company-minimum-prefix-length 2)
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  (setq company-backends
+        (mapcar #'sm/backend-with-yas company-backends)))
 
 ;; editorconfig and conf-mode setup.
 (use-package editorconfig
@@ -120,17 +115,14 @@
 (use-package typo
   :ensure t
   :commands (typo-mode)
-  :init
-  (progn
-    (add-hook 'text-mode-hook 'typo-mode)))
+  :init (add-hook 'text-mode-hook 'typo-mode))
 
 ;; org-mode
 (use-package org
   :ensure t
   :commands (org-mode)
   :config
-  (progn
-    (setq org-src-fontify-natively t)))
+  (setq org-src-fontify-natively t))
 
 ;; deft
 (use-package deft
@@ -138,13 +130,11 @@
   :commands (deft)
   :bind ("M-<f1>" . deft)
   :config
-  (progn
-    (setq
-     deft-extension "org"
-     deft-directory "~/Org/deft/"
-     deft-text-mode 'org-mode
-     deft-use-filename-as-title t
-     deft-auto-save-interval 30.0)))
+  (setq deft-extension "org"
+        deft-directory "~/Org/deft/"
+        deft-text-mode 'org-mode
+        deft-use-filename-as-title t
+        deft-auto-save-interval 30.0))
 
 ;; multiple-cursors
 (use-package multiple-cursors
@@ -164,9 +154,7 @@
   :ensure t
   :commands (flycheck-mode)
   :diminish " ✓"
-  :init
-  (progn
-    (add-hook 'prog-mode-hook 'flycheck-mode)))
+  :init (add-hook 'prog-mode-hook 'flycheck-mode))
 
 ;; switch-window
 ;; Provides visual cues to instantly switch on C-x o.
@@ -184,73 +172,67 @@
   :bind ("C-x g" . magit-status)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :config
-  (progn
-    ;; Full-screen magit status with restore.
-    (defadvice magit-status (around magit-fullscreen activate)
-      (window-configuration-to-register :magit-fullscreen)
-      ad-do-it
-      (delete-other-windows))
-    (defadvice magit-mode-quit-window (around magit-restore-screen activate)
-      ad-do-it
-      (jump-to-register :magit-fullscreen))
-    ;; Use flyspell during commits.
-    (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t)))))
+  ;; Full-screen magit status with restore.
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+  (defadvice magit-mode-quit-window (around magit-restore-screen activate)
+    ad-do-it
+    (jump-to-register :magit-fullscreen))
+  ;; Use flyspell during commits.
+  (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t))))
 
 (use-package monky
   :ensure t
   :commands (monky-status)
   :bind ("C-c g" . monky-status)
   :config
-  (progn
-    ;; Similar full-screen config for monky.
-    (defadvice monky-status (around monky-fullscreen activate)
-      (window-configuration-to-register :monky-fullscreen)
-      ad-do-it
-      (delete-other-windows))
-    (defadvice monky-quit-window (around monky-restore-screen activate)
-      ad-do-it
-      (jump-to-register :monky-fullscreen))
-    ;; Flyspell during commits.
-    (add-hook 'monky-log-edit-mode-hook '(lambda () (flyspell-mode t)))))
+  ;; Similar full-screen config for monky.
+  (defadvice monky-status (around monky-fullscreen activate)
+    (window-configuration-to-register :monky-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+  (defadvice monky-quit-window (around monky-restore-screen activate)
+    ad-do-it
+    (jump-to-register :monky-fullscreen))
+  ;; Flyspell during commits.
+  (add-hook 'monky-log-edit-mode-hook '(lambda () (flyspell-mode t))))
 
 ;; git-gutter
-(use-package git-gutter-fringe
-  :ensure t)
 (use-package git-gutter
   :ensure t
+  :config (use-package git-gutter-fringe :ensure t)
   :init
-  (progn
-    (require 'git-gutter-fringe)
-    (setq git-gutter:handled-backends '(git hg))
-    (global-git-gutter-mode t)))
+  (require 'git-gutter-fringe)
+  (setq git-gutter:handled-backends '(git hg))
+  (global-git-gutter-mode t))
 
 ;; smex
 (use-package smex
   :ensure t
   :bind ("M-x" . smex)
-  :init
-  (smex-initialize))
+  :init (smex-initialize))
 
 ;; ido
 (use-package ido
   :ensure t
   :init (ido-mode 1)
   :config
-  (progn
-    (use-package flx-ido
-      :ensure t)
-    (use-package ido-vertical-mode
-      :ensure t)
-    (use-package ido-ubiquitous
-      :ensure t)
-    (setq ido-enable-flex-matching t
-          ido-enable-prefix nil
-          ido-max-prospects 10
-          ido-use-faces nil
-          flx-ido-use-faces t)
-    (ido-everywhere 1)
-    (ido-vertical-mode 1)
-    (flx-ido-mode 1)))
+  (use-package flx-ido
+    :ensure t)
+  (use-package ido-vertical-mode
+    :ensure t)
+  (use-package ido-ubiquitous
+    :ensure t)
+  (setq ido-enable-flex-matching t
+        ido-enable-prefix nil
+        ido-max-prospects 10
+        ido-use-faces nil
+        flx-ido-use-faces t)
+  (ido-everywhere 1)
+  (ido-vertical-mode 1)
+  (flx-ido-mode 1))
 
 ;; avy
 (use-package avy
@@ -270,19 +252,18 @@
   :defer 2
   :diminish " ()"
   :config
-  (progn
-    (require 'smartparens-config)
-    (smartparens-global-mode t)
-    (show-smartparens-global-mode t)
+  (require 'smartparens-config)
+  (smartparens-global-mode t)
+  (show-smartparens-global-mode t)
 
-    ;; sp keybindings.
-    (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
-    (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
-    (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
-    (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
+  ;; sp keybindings.
+  (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
+  (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
+  (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
+  (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
 
-    (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
-    (define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp)))
+  (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
+  (define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp))
 
 ;; browse-kill-ring
 (use-package browse-kill-ring
@@ -298,18 +279,16 @@
   :bind ("C-c p a" . projectile-ag)
   :init (projectile-global-mode t)
   :config
-  (progn
-    ;; Ensure projectile dir exists.
-    (defvar my-projectile-dir (sm/emacs.d "cache/projectile"))
-    (sm/mkdir-p my-projectile-dir)
-
-    ;; Use projectile dir for cache and bookmarks.
-    (let* ((prj-dir (file-name-as-directory my-projectile-dir))
-           (prj-cache-file (concat prj-dir "projectile.cache"))
-           (prj-bookmarks-file (concat prj-dir "projectile-bkmrks.eld")))
-      (setq projectile-cache-file          prj-cache-file
-            projectile-known-projects-file prj-bookmarks-file
-            projectile-indexing-method     'alien))))
+  ;; Ensure projectile dir exists.
+  (defvar my-projectile-dir (sm/emacs.d "cache/projectile"))
+  (sm/mkdir-p my-projectile-dir)
+  ;; Use projectile dir for cache and bookmarks.
+  (let* ((prj-dir (file-name-as-directory my-projectile-dir))
+         (prj-cache-file (concat prj-dir "projectile.cache"))
+         (prj-bookmarks-file (concat prj-dir "projectile-bkmrks.eld")))
+    (setq projectile-cache-file          prj-cache-file
+          projectile-known-projects-file prj-bookmarks-file
+          projectile-indexing-method     'alien)))
 
 ;; perspective
 (use-package perspective
@@ -317,20 +296,18 @@
   :defer t
   :init (add-hook 'after-init-hook 'persp-mode)
   :config
-  (progn
-    (setq persp-initial-frame-name "emacs")
-    (defun persp-next ()
-      (interactive)
-      (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
-        (persp-switch (nth (1+ (persp-curr-position)) (persp-all-names)))))))
+  (setq persp-initial-frame-name "scratch")
+  (defun persp-next ()
+    (interactive)
+    (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
+      (persp-switch (nth (1+ (persp-curr-position)) (persp-all-names))))))
 
 ;; saveplace
 ;; Remebers your location in a file when saving files.
 (use-package saveplace
   :init
-  (progn
-    (setq save-place-file (sm/emacs.d "cache/saveplace"))
-    (setq-default save-place t)))
+  (setq save-place-file (sm/emacs.d "cache/saveplace"))
+  (setq-default save-place t))
 
 ;; smooth-scrolling
 ;; Avoids annoying behaviour when scrolling past the edges of a buffer.
@@ -360,8 +337,7 @@
   :ensure t
   :commands (highlight-numbers-mode)
   :init
-  (progn
-    (add-hook 'prog-mode-hook 'highlight-numbers-mode)))
+  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
 ;; rainbow-delimiters
 ;; Highlights parens, brackets, and braces according to their depth.
@@ -369,9 +345,8 @@
   :ensure t
   :commands (rainbow-delimiters-mode)
   :init
-  (progn
-    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
-    (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)))
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
 
 ;; jade.
 (use-package jade-mode
@@ -383,15 +358,14 @@
 (use-package javascript-mode
   :mode ("\\.json$" . javascript-mode)
   :init
-  (progn
-    (add-hook 'js-mode-hook (lambda () (setq js-indent-level 4)))))
+  (add-hook 'js-mode-hook (lambda () (setq js-indent-level 4))))
 
 ;; js2.
 (use-package js2-mode
   :ensure t
   :mode (("\\.js$" . js2-mode)
          ("Jakefile$" . js2-mode))
-  :interpreter ("node" . js2-mode)
+  :interpreter "node"
   :config
   (use-package tern
     :ensure t
@@ -411,18 +385,15 @@
 ;; python
 (use-package python
   :commands (python-mode)
+  :init (add-hook 'python-mode-hook 'anaconda-mode)
   :config
-  (progn
-    (use-package anaconda-mode
-      :ensure t
-      :commands (anaconda-mode))
-    (use-package company-anaconda
-      :ensure t
-      :init (add-to-list 'company-backends
-                         (sm/backend-with-yas 'company-anaconda))))
-  :init
-  (progn
-    (add-hook 'python-mode-hook 'anaconda-mode)))
+  (use-package anaconda-mode
+    :ensure t
+    :commands (anaconda-mode))
+  (use-package company-anaconda
+    :ensure t
+    :init (add-to-list 'company-backends
+                       (sm/backend-with-yas 'company-anaconda))))
 
 ;; ruby
 (use-package ruby-mode
@@ -432,7 +403,6 @@
   :config
   (use-package ruby-tools :ensure t)
   (use-package inf-ruby :ensure t)
-
   (add-hook 'ruby-mode-hook
             (lambda ()
               (inf-ruby-minor-mode t)
@@ -442,19 +412,18 @@
 (use-package cc-mode
   :defer t
   :config
-  (progn
-    (defun sm/cc-mode-hook ()
-      (c-set-offset 'case-label '+)
-      (c-set-offset 'arglist-intro '+)
-      (c-set-offset 'inexpr-class 0))
-    (add-hook 'c-mode-common-hook 'sm/cc-mode-hook)
-    (add-hook 'objc-mode-hook
-              (lambda ()
-                (setq c-basic-offset 4)))
-    (add-hook 'java-mode-hook
-              (lambda ()
-                (setq tab-width 2
-                      c-basic-offset 2)))))
+  (defun sm/cc-mode-hook ()
+    (c-set-offset 'case-label '+)
+    (c-set-offset 'arglist-intro '+)
+    (c-set-offset 'inexpr-class 0))
+  (add-hook 'c-mode-common-hook 'sm/cc-mode-hook)
+  (add-hook 'objc-mode-hook
+            (lambda ()
+              (setq c-basic-offset 4)))
+  (add-hook 'java-mode-hook
+            (lambda ()
+              (setq tab-width 2
+                    c-basic-offset 2))))
 
 ;; C#
 (use-package csharp-mode
@@ -462,21 +431,18 @@
   :defer t
   :mode "\\.cs$"
   :config
-  (progn
-    ;; Omnisharp (C# completion, refactoring, etc.)
-    (use-package omnisharp
-      :ensure t
-      :defer t
-      :mode "\\.cs$"
-      :init
-      (progn
-        (add-hook 'csharp-mode-hook 'omnisharp-mode)
-        (add-to-list 'company-backends (sm/backend-with-yas
-                                        'company-omnisharp))))
-    :config
-    (progn
-      (setq omnisharp-server-executable-path
-            "~/Dev/omnisharp-server/OmniSharp.exe"))))
+  ;; Omnisharp (C# completion, refactoring, etc.)
+  (use-package omnisharp
+    :ensure t
+    :defer t
+    :mode "\\.cs$"
+    :init
+    (add-hook 'csharp-mode-hook 'omnisharp-mode)
+    (add-to-list 'company-backends (sm/backend-with-yas
+                                    'company-omnisharp)))
+  :config
+  (setq omnisharp-server-executable-path
+        "~/Dev/omnisharp-server/OmniSharp.exe"))
 
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
@@ -490,10 +456,9 @@
   :ensure t
   :commands (aggressive-indent-mode)
   :init
-  (progn
-    (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode)
-    (add-hook 'lisp-mode-hook 'aggressive-indent-mode)
-    (add-hook 'c-mode-common-hook 'aggressive-indent-mode)))
+  (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode)
+  (add-hook 'lisp-mode-hook 'aggressive-indent-mode)
+  (add-hook 'c-mode-common-hook 'aggressive-indent-mode))
 
 ;; undo-tree
 ;; Treat undo history as a tree.
@@ -501,10 +466,9 @@
   :ensure t
   :diminish undo-tree-mode
   :init
-  (progn
-    (global-undo-tree-mode)
-    (setq undo-tree-visualizer-timestamps t)
-    (setq undo-tree-visualizer-diff t)))
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t))
 
 ;; restclient
 ;; Runs REST queries from a query sheet and pretty-prints responses.
@@ -526,18 +490,17 @@
   :defer t
   :commands (circe)
   :config
-  (progn
-    (enable-circe-color-nicks)
-    (defun my-lui-setup ()
-      (setq
-       fringes-outside-margins t
-       right-margin-width 7
-       word-wrap t
-       wrap-prefix "    "))
-    (add-hook 'lui-mode-hook 'my-lui-setup)
-    (setq lui-time-stamp-position 'right-margin
-          lui-fill-type nil
-          lui-scroll-behavior 'post-scroll)))
+  (enable-circe-color-nicks)
+  (defun my-lui-setup ()
+    (setq
+     fringes-outside-margins t
+     right-margin-width 7
+     word-wrap t
+     wrap-prefix "    "))
+  (add-hook 'lui-mode-hook 'my-lui-setup)
+  (setq lui-time-stamp-position 'right-margin
+        lui-fill-type nil
+        lui-scroll-behavior 'post-scroll))
 
 ;; column-enforce mode (highlight long columns).
 (use-package column-enforce-mode
@@ -545,12 +508,11 @@
   :diminish column-enforce-mode
   :commands (column-enforce-mode)
   :init
-  (progn
-    (add-hook 'prog-mode-hook 'column-enforce-mode)
-    (add-hook 'objc-mode-hook '(lambda ()
-                                 (setq-local column-enforce-column 100)))
-    (add-hook 'java-mode-hook '(lambda ()
-                                 (setq-local column-enforce-column 100)))))
+  (add-hook 'prog-mode-hook 'column-enforce-mode)
+  (add-hook 'objc-mode-hook '(lambda ()
+                               (setq-local column-enforce-column 100)))
+  (add-hook 'java-mode-hook '(lambda ()
+                               (setq-local column-enforce-column 100))))
 
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
