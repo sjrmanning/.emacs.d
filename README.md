@@ -28,6 +28,9 @@ There are a few cool external tools, mainly around code intelligence, syntax che
 #### Javascript
 * `npm install -g tern` for code-analysis and completion via `tern`.
 
+#### Ruby
+* `gem install rubocop` for style-checking via flycheck.
+
 #### Python
 * Install with `pip install`.
 * `jedi` and `service_factory` for company intelligence and completion.
