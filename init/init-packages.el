@@ -76,23 +76,14 @@
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp)))
 
-;; Use yasnippet in all company backends.
-;; Adapted from `https://github.com/syl20bnr/spacemacs/pull/179'.
-(defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
-(defun company-mode/backend-with-yas (backend)
-  (if (or (not company-mode/enable-yas)
-          (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
-
-;; company-mode setup.
+;; company-mode
 (use-package company
   :ensure t
   :diminish " ©"
   :commands (company-mode global-company-mode)
-  :init (add-hook 'prog-mode-hook 'company-mode)
+  :init
+  (add-hook 'prog-mode-hook 'company-mode)
+  (add-hook 'comint-mode-hook 'company-mode)
   :config
   (progn
     ;; Quick-help (popup documentation for suggestions).
@@ -105,13 +96,13 @@
     (setq company-tooltip-limit 20)
     (setq company-idle-delay 0.25)
     (setq company-echo-delay 0)
-    (setq company-begin-commands '(self-insert-command))
+    (setq company-minimum-prefix-length 2)
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") 'company-select-next)
     (define-key company-active-map (kbd "C-p") 'company-select-previous)
-    (setq company-backends (mapcar #'company-mode/backend-with-yas
-                                   company-backends))))
+    (setq company-backends
+          (mapcar #'sm/backend-with-yas company-backends))))
 
 ;; editorconfig and conf-mode setup.
 (use-package editorconfig
@@ -408,12 +399,12 @@
   (use-package company-tern
     :ensure t
     :defer t
-    :config (setq company-tern-property-marker " *"))
+    :config (setq company-tern-property-marker " *")
+    :init (add-to-list 'company-backends
+                       (sm/backend-with-yas 'company-tern)))
   (add-hook 'js2-mode-hook
             (lambda ()
-              (setq js2-basic-offset 2)
-              (add-to-list 'company-backends
-                           (company-mode/backend-with-yas 'company-tern)))))
+              (setq js2-basic-offset 2))))
 
 ;; python
 (use-package python
@@ -425,13 +416,25 @@
       :commands (anaconda-mode))
     (use-package company-anaconda
       :ensure t
-      :init
-      (progn
-        (add-to-list 'company-backends
-                     (company-mode/backend-with-yas 'company-anaconda)))))
+      :init (add-to-list 'company-backends
+                         (sm/backend-with-yas 'company-anaconda))))
   :init
   (progn
     (add-hook 'python-mode-hook 'anaconda-mode)))
+
+;; ruby
+(use-package ruby-mode
+  :interpreter "ruby"
+  :mode (("Fastfile$" . ruby-mode)
+         ("Appfile$" . ruby-mode))
+  :config
+  (use-package ruby-tools :ensure t)
+  (use-package inf-ruby :ensure t)
+
+  (add-hook 'ruby-mode-hook
+            (lambda ()
+              (inf-ruby-minor-mode t)
+              (ruby-tools-mode t))))
 
 ;; cc-mode/derived modes and hooks
 (use-package cc-mode
@@ -466,12 +469,12 @@
       :init
       (progn
         (add-hook 'csharp-mode-hook 'omnisharp-mode)
-        (add-to-list 'company-backends
-                     (company-mode/backend-with-yas 'company-omnisharp)))
-      :config
-      (progn
-        (setq omnisharp-server-executable-path
-              "~/Dev/omnisharp-server/OmniSharp.exe")))))
+        (add-to-list 'company-backends (sm/backend-with-yas
+                                        'company-omnisharp))))
+    :config
+    (progn
+      (setq omnisharp-server-executable-path
+            "~/Dev/omnisharp-server/OmniSharp.exe"))))
 
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.

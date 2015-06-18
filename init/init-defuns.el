@@ -166,6 +166,10 @@ point reaches the beginning or end of the buffer, stop there."
           (set-buffer-modified-p nil)
           (message "Successfully renamed to %s." (file-name-nondirectory newname)))))))
 
-
+;; Add yasnippet support for company backends
+;; https://github.com/syl20bnr/spacemacs/pull/179
+(defun sm/backend-with-yas (backend)
+  (append (if (consp backend) backend (list backend))
+          '(:with company-yasnippet)))
 
 (provide 'init-defuns)
