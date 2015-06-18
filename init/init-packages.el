@@ -121,7 +121,11 @@
 (use-package flyspell
   :diminish flyspell-mode
   :commands (flyspell-mode)
-  :init (add-hook 'text-mode-hook 'flyspell-mode))
+  :init (add-hook 'text-mode-hook 'flyspell-mode)
+  :config
+  (setq ispell-extra-args '("--sug-mode=fast"))
+  (setq flyspell-issue-message-flag nil)
+  (setq flyspell-issue-welcome-flag nil))
 
 ;; org-mode
 (use-package org
