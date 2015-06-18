@@ -67,6 +67,7 @@
         live-cycle-clj-coll
         magit-stage-item
         markdown-enter-key
+        markdown-exdent-or-delete
         markdown-insert-link
         move-line-down
         move-line-up
