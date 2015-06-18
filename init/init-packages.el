@@ -382,6 +382,16 @@
             (lambda ()
               (setq js2-basic-offset 2))))
 
+;; go
+(use-package go-mode
+  :ensure t
+  :ensure company-go
+  :defer t
+  :config
+  (setq company-go-show-annotation t)
+  (add-to-list 'company-backends
+               (sm/backend-with-yas 'company-go)))
+
 ;; python
 (use-package python
   :commands (python-mode)
