@@ -21,6 +21,10 @@
          :background "#474747"
          :underline t)))
 
+   `(company-template-field
+     ((t :inherit company-tooltip
+         :foreground "#C2A1FF")))
+
    `(company-tooltip-common-selection
      ((t :foreground "#F8F8F0"
          :background "#474747"
