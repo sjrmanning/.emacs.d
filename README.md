@@ -24,9 +24,13 @@ There are a few cool external tools, mainly around code intelligence, syntax che
 #### Editor-wide
 * `brew install the_silver_searcher` for `ag.el` search via `C-s`.
 * `brew install editorconfig` for parsing .editorconfig files in projects.
+* `brew install aspell --with-lang-en --with-lang-uk` for spell-checking in writing/commit/text modes.
 
-#### Javascript
+#### JavaScript
 * `npm install -g tern` for code-analysis and completion via `tern`.
+
+#### Go
+* `go get -u github.com/nsf/gocode` for context-sensitive code completion.
 
 #### Ruby
 * `gem install rubocop` for style-checking via flycheck.
