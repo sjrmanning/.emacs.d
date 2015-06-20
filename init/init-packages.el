@@ -300,13 +300,20 @@
           projectile-known-projects-file prj-bookmarks-file
           projectile-indexing-method     'alien)))
 
+;; persistent scratch buffer across emacs sessions.
+(use-package persistent-scratch
+  :ensure t
+  :init
+  (persistent-scratch-setup-default)
+  (setq persistent-scratch-save-file (sm/emacs.d "cache/scratch")))
+
 ;; perspective
 (use-package perspective
   :ensure perspective
   :defer t
   :init (add-hook 'after-init-hook 'persp-mode)
   :config
-  (setq persp-initial-frame-name "scratch")
+  (setq persp-initial-frame-name "notes")
   (defun persp-next ()
     (interactive)
     (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
