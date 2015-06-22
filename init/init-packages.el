@@ -30,7 +30,9 @@
   :ensure t
   :if (memq window-system (quote (mac ns)))
   :defer 2
-  :config (exec-path-from-shell-initialize))
+  :config
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
 
 ;; yasnippet
 (use-package yasnippet
