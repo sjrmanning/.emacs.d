@@ -234,7 +234,9 @@
   (use-package flx-ido
     :ensure t)
   (use-package ido-vertical-mode
-    :ensure t)
+    :ensure t
+    :config
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
   (use-package ido-ubiquitous
     :ensure t)
   (setq ido-enable-flex-matching t
