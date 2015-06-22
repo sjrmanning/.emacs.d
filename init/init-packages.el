@@ -224,7 +224,8 @@
 (use-package smex
   :ensure t
   :bind ("M-x" . smex)
-  :init (smex-initialize))
+  :init (setq smex-save-file (sm/emacs.d "cache/smex-items"))
+  :config (smex-initialize))
 
 ;; ido
 (use-package ido
@@ -307,7 +308,8 @@
 ;; persistent scratch buffer across emacs sessions.
 (use-package persistent-scratch
   :ensure t
-  :init
+  :defer 5
+  :config
   (setq persistent-scratch-save-file (sm/emacs.d "cache/scratch"))
   (persistent-scratch-setup-default))
 

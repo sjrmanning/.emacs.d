@@ -11,11 +11,6 @@
 ;; Set home dir.
 (cd (expand-file-name "~/"))
 
-;; Disable GUI.
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
 ;; Fix mac-port defaults.
 (when (equal system-type 'darwin)
   (setq mac-option-modifier 'meta)
@@ -92,9 +87,6 @@
 
 ;; Ido history.
 (setq ido-save-directory-list-file (sm/emacs.d "cache/ido.last"))
-
-;; Smex history.
-(setq smex-save-file (sm/emacs.d "cache/smex-items"))
 
 ;; Allow pasting selection outside of Emacs.
 (setq x-select-enable-clipboard t)

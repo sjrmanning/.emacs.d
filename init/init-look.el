@@ -5,11 +5,14 @@
 (defvar sm/fixed-font-name "Office Code Pro D")
 (defvar sm/fixed-font-weight 'light)
 (defvar sm/var-font-name "Fira Sans")
-(defvar sm/font-height 150)
+(defvar sm/font-height 120)
 
 ;; Window setup.
 (add-hook 'window-setup-hook
           (lambda nil
+            (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+            (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+            (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
             (run-with-idle-timer 0.1 nil (lambda nil (toggle-frame-maximized)))
             (set-fringe-mode '(8 . 0))
             (setq-default cursor-type 'bar)
