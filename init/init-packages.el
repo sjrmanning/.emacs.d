@@ -308,8 +308,8 @@
 (use-package persistent-scratch
   :ensure t
   :init
-  (persistent-scratch-setup-default)
-  (setq persistent-scratch-save-file (sm/emacs.d "cache/scratch")))
+  (setq persistent-scratch-save-file (sm/emacs.d "cache/scratch"))
+  (persistent-scratch-setup-default))
 
 ;; perspective
 (use-package perspective
