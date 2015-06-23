@@ -172,4 +172,11 @@ point reaches the beginning or end of the buffer, stop there."
   (append (if (consp backend) backend (list backend))
           '(:with company-yasnippet)))
 
+;; Call magit or monky based on current directory.
+(defun magit-or-monky-status (arg)
+  (interactive "P")
+  (condition-case nil
+      (monky-status arg)
+    ((debug error) (call-interactively 'magit-status))))
+
 (provide 'init-defuns)

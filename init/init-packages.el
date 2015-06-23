@@ -181,7 +181,7 @@
   :ensure t
   :diminish magit-auto-revert-mode
   :commands (magit-status)
-  :bind ("C-x g" . magit-status)
+  :bind ("C-x g" . magit-or-monky-status)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   ;; Full-screen magit status with restore.
@@ -198,7 +198,6 @@
 (use-package monky
   :ensure t
   :commands (monky-status)
-  :bind ("C-c g" . monky-status)
   :config
   ;; Similar full-screen config for monky.
   (defadvice monky-status (around monky-fullscreen activate)
