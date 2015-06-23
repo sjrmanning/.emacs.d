@@ -474,8 +474,7 @@
     (add-to-list 'company-backends (sm/backend-with-yas
                                     'company-omnisharp)))
   :config
-  (setq omnisharp-server-executable-path
-        "~/Dev/omnisharp-server/OmniSharp.exe"))
+  (setq omnisharp-server-executable-path "/usr/local/bin/omnisharp"))
 
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
