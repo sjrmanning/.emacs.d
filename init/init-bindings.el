@@ -68,6 +68,8 @@
                 'new-emacs-instance)
 (global-set-key (kbd "M-RET")
                 'newline-anywhere)
+(global-set-key (kbd "C-x C-b")
+                'ibuffer)
 
 ;; Switch/cycle through ERC buffers.
 (global-set-key (kbd "C-c e") 'switch-to-irc)
