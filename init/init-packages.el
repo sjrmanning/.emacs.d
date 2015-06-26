@@ -460,14 +460,12 @@
 ;; C#
 (use-package csharp-mode
   :ensure t
-  :defer t
   :mode "\\.cs$"
   :config
   ;; Omnisharp (C# completion, refactoring, etc.)
   (use-package omnisharp
     :ensure t
-    :defer t
-    :mode "\\.cs$"
+    :commands omnisharp-mode
     :init
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-to-list 'company-backends (sm/backend-with-yas
