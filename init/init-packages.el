@@ -116,13 +116,13 @@
 ;; Mode for typographical editing.
 (use-package typo
   :ensure t
-  :commands (typo-mode)
+  :commands typo-mode
   :init (add-hook 'text-mode-hook 'typo-mode))
 
 ;; flyspell spell checking.
 (use-package flyspell
   :diminish flyspell-mode
-  :commands (flyspell-mode)
+  :commands flyspell-mode
   :init (add-hook 'text-mode-hook 'flyspell-mode)
   :config
   (setq ispell-extra-args '("--sug-mode=fast"))
@@ -132,14 +132,14 @@
 ;; org-mode
 (use-package org
   :ensure t
-  :commands (org-mode)
+  :commands org-mode
   :config
   (setq org-src-fontify-natively t))
 
 ;; deft
 (use-package deft
   :ensure t
-  :commands (deft)
+  :commands deft
   :bind ("M-<f1>" . deft)
   :config
   (setq deft-extension "org"
@@ -164,7 +164,7 @@
 ;; flycheck
 (use-package flycheck
   :ensure t
-  :commands (flycheck-mode)
+  :commands flycheck-mode
   :diminish " ✓"
   :init (add-hook 'prog-mode-hook 'flycheck-mode))
 
@@ -172,7 +172,6 @@
 ;; Provides visual cues to instantly switch on C-x o.
 (use-package switch-window
   :ensure t
-  :defer t
   :bind ("C-x o" . switch-window))
 
 ;; magit and monky
@@ -180,7 +179,7 @@
 (use-package magit
   :ensure t
   :diminish magit-auto-revert-mode
-  :commands (magit-status)
+  :commands magit-status
   :bind ("C-x g" . magit-or-monky-status)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :config
@@ -197,7 +196,7 @@
 
 (use-package monky
   :ensure t
-  :commands (monky-status)
+  :commands monky-status
   :config
   ;; Similar full-screen config for monky.
   (defadvice monky-status (around monky-fullscreen activate)
@@ -282,7 +281,6 @@
 ;; browse-kill-ring
 (use-package browse-kill-ring
   :ensure t
-  :defer t
   :bind ("M-y" . browse-kill-ring))
 
 ;; projectile
@@ -357,7 +355,7 @@
 ;; Highlights magic numbers in programming modes.
 (use-package highlight-numbers
   :ensure t
-  :commands (highlight-numbers-mode)
+  :commands highlight-numbers-mode
   :init
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
@@ -365,7 +363,7 @@
 ;; Highlights parens, brackets, and braces according to their depth.
 (use-package rainbow-delimiters
   :ensure t
-  :commands (rainbow-delimiters-mode)
+  :commands rainbow-delimiters-mode
   :init
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
   (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
@@ -408,7 +406,7 @@
 (use-package go-mode
   :ensure t
   :ensure company-go
-  :defer t
+  :commands go-mode
   :config
   (setq company-go-show-annotation t)
   (add-to-list 'company-backends
@@ -416,14 +414,15 @@
 
 ;; python
 (use-package python
-  :commands (python-mode)
+  :commands python-mode
   :init (add-hook 'python-mode-hook 'anaconda-mode)
   :config
   (use-package anaconda-mode
     :ensure t
-    :commands (anaconda-mode))
+    :commands anaconda-mode)
   (use-package company-anaconda
     :ensure t
+    :defer t
     :init (add-to-list 'company-backends
                        (sm/backend-with-yas 'company-anaconda))))
 
@@ -483,7 +482,7 @@
 ;; Keeps code correctly indented during editing.
 (use-package aggressive-indent
   :ensure t
-  :commands (aggressive-indent-mode)
+  :commands aggressive-indent-mode
   :init
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode)
   (add-hook 'lisp-mode-hook 'aggressive-indent-mode)
@@ -503,21 +502,20 @@
 ;; Runs REST queries from a query sheet and pretty-prints responses.
 (use-package restclient
   :ensure t
-  :commands (restclient-mode)
+  :commands restclient-mode
   :mode ("\\.http$" . restclient-mode))
 
 ;; comment-dwim-2
 ;; Better `comment-dwim' supporting uncommenting.
 (use-package comment-dwim-2
   :ensure t
-  :commands (comment-dwim-2)
+  :commands comment-dwim-2
   :bind ("M-;" . comment-dwim-2))
 
 ;; circe
 (use-package circe
   :ensure t
-  :defer t
-  :commands (circe)
+  :commands circe
   :config
   (enable-circe-color-nicks)
   (defun my-lui-setup ()
@@ -535,7 +533,7 @@
 (use-package column-enforce-mode
   :ensure t
   :diminish column-enforce-mode
-  :commands (column-enforce-mode)
+  :commands column-enforce-mode
   :init
   (add-hook 'prog-mode-hook 'column-enforce-mode)
   (add-hook 'objc-mode-hook '(lambda ()
