@@ -92,6 +92,7 @@
     :ensure t
     :init (company-quickhelp-mode 1))
   ;; Company settings.
+  (setq-default company-backends (remove 'company-eclim company-backends))
   (setq company-tooltip-limit 20)
   (setq company-idle-delay 0.25)
   (setq company-echo-delay 0)
