@@ -178,9 +178,10 @@ point reaches the beginning or end of the buffer, stop there."
     (list (apply 'call-process program nil (current-buffer) nil args)
           (buffer-string))))
 
-(defun magit-or-monky-status (arg)
-  "Call `magit-status' or `monky-status' if git/hg repo found."
-  (interactive "P")
+(defun magit-or-monky-status ()
+  "Call `magit-status' or `monky-status' depending on whether a
+git or hg repository is found in the buffer-local working dir."
+  (interactive)
   (cond
    ((eq (car (process-exit-code-and-output "hg" "status")) 0)
     (monky-status))
