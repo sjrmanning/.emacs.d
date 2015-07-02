@@ -172,6 +172,12 @@ point reaches the beginning or end of the buffer, stop there."
   (append (if (consp backend) backend (list backend))
           '(:with company-yasnippet)))
 
+(defun process-exit-code-and-output (program &rest args)
+  "Run PROGRAM with ARGS and return the exit code and output in a list."
+  (with-temp-buffer
+    (list (apply 'call-process program nil (current-buffer) nil args)
+          (buffer-string))))
+
 (defun magit-or-monky-status (arg)
   "Call `magit-status' or `monky-status' if git/hg repo found."
   (interactive "P")
