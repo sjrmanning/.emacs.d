@@ -178,7 +178,6 @@
 ;; Modes for git and mercurial.
 (use-package magit
   :ensure t
-  :diminish magit-auto-revert-mode
   :commands magit-status
   :bind ("C-x g" . magit-or-monky-status)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
