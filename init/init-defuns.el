@@ -172,11 +172,21 @@ point reaches the beginning or end of the buffer, stop there."
   (append (if (consp backend) backend (list backend))
           '(:with company-yasnippet)))
 
-;; Call magit or monky based on current directory.
-(defun magit-or-monky-status (arg)
-  (interactive "P")
-  (condition-case nil
-      (monky-status arg)
-    ((debug error) (call-interactively 'magit-status))))
+(defun process-exit-code-and-output (program &rest args)
+  "Run PROGRAM with ARGS and return the exit code and output in a list."
+  (with-temp-buffer
+    (list (apply 'call-process program nil (current-buffer) nil args)
+          (buffer-string))))
+
+(defun magit-or-monky-status ()
+  "Call `magit-status' or `monky-status' depending on whether a
+git or hg repository is found in the buffer-local working dir."
+  (interactive)
+  (cond
+   ((eq (car (process-exit-code-and-output "hg" "status")) 0)
+    (monky-status))
+   ((eq (car (process-exit-code-and-output "git" "status")) 0)
+    (call-interactively 'magit-status))
+   (t (message "No hg or git repository found at %s" default-directory))))
 
 (provide 'init-defuns)
