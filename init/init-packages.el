@@ -238,6 +238,7 @@
     (setq ido-vertical-define-keys 'C-n-and-C-p-only))
   (use-package ido-ubiquitous
     :ensure t)
+  (add-to-list 'ido-ignore-files "\\.DS_Store")
   (setq ido-enable-flex-matching t
         ido-enable-prefix nil
         ido-max-prospects 10
