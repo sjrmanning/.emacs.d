@@ -37,7 +37,9 @@
         delete-indentation
         dired-back-to-start-of-files
         down-list
+        downcase-region
         duplicate-current-line-or-region
+        electric-newline-and-maybe-indent
         end-of-buffer
         end-of-visual-line
         eval-and-replace
@@ -64,6 +66,7 @@
         kill-and-retry-line
         kill-region-or-backward-word
         kill-sexp
+        kill-visual-line
         live-cycle-clj-coll
         magit-stage-item
         markdown-enter-key
@@ -130,6 +133,7 @@
         sgml-slash
         skeleton-pair-insert-maybe
         slime-space
+        sm/previous-line
         smarter-move-beginning-of-line
         sp--self-insert-command
         sp-remove-active-pair-overlay
@@ -154,6 +158,7 @@
         touch-buffer-file
         transpose-params
         transpose-sexps
+        typo-cycle-ellipsis
         undefined
         wrap-region-trigger
         yaml-electric-backspace
@@ -168,6 +173,7 @@
         adv-insert-new-number
         beginning-of-buffer
         cleanup-buffer
+        count-lines-page
         describe-key
         dired-toggle-read-only
         edebug-next-mode
@@ -183,6 +189,7 @@
         jump-between-source-and-test-files
         kill-this-buffer
         kmacro-end-or-call-macro
+        mac-mwheel-scroll
         magit-status
         mc/add-cursor-on-click
         mc/add-cursors-to-all-matches
