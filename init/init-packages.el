@@ -486,8 +486,7 @@
   :commands aggressive-indent-mode
   :init
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode)
-  (add-hook 'lisp-mode-hook 'aggressive-indent-mode)
-  (add-hook 'c-mode-common-hook 'aggressive-indent-mode))
+  (add-hook 'lisp-mode-hook 'aggressive-indent-mode))
 
 ;; undo-tree
 ;; Treat undo history as a tree.
