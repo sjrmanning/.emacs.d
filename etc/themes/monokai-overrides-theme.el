@@ -14,6 +14,13 @@
      ((,class (:box (:line-width 1 :color "#2c2d26" :style nil)
                     :background "#2c2d26"))))
 
+   ;; Custom region colouring.
+   `(region
+     ((,class :foreground "#75715E"
+              :background "#49483E")
+      (,terminal-class :foreground "#1B1E1C"
+                       :background "#8B8878")))
+
    ;; Additional modes
    ;; Company tweaks.
    `(company-tooltip-common
