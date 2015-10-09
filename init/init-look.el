@@ -5,7 +5,7 @@
 (defvar sm/fixed-font-name "Office Code Pro D")
 (defvar sm/fixed-font-weight 'light)
 (defvar sm/var-font-name "Fira Sans")
-(defvar sm/font-height 120)
+(defvar sm/font-height 100)
 
 ;; Window setup.
 (add-hook 'window-setup-hook
