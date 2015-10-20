@@ -32,6 +32,10 @@
      ((t :inherit company-tooltip
          :foreground "#C2A1FF")))
 
+   `(company-tooltip-selection
+     ((t :background "#349B8D"
+         :foreground "#BBF7EF")))
+
    `(company-tooltip-common-selection
      ((t :foreground "#F8F8F0"
          :background "#474747"
