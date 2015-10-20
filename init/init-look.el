@@ -15,7 +15,6 @@
             (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
             (run-with-idle-timer 0.1 nil (lambda nil (toggle-frame-maximized)))
             (set-fringe-mode '(8 . 0))
-            (setq-default cursor-type 'bar)
             (set-face-attribute
              'default nil
              :family sm/fixed-font-name
