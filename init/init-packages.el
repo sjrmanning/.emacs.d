@@ -303,14 +303,6 @@
           projectile-known-projects-file prj-bookmarks-file
           projectile-indexing-method     'alien)))
 
-;; persistent scratch buffer across emacs sessions.
-(use-package persistent-scratch
-  :ensure t
-  :defer 5
-  :config
-  (setq persistent-scratch-save-file (sm/emacs.d "cache/scratch"))
-  (persistent-scratch-setup-default))
-
 ;; perspective
 (use-package perspective
   :ensure perspective
