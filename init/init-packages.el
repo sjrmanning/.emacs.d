@@ -212,6 +212,7 @@
 ;; git-gutter
 (use-package git-gutter
   :ensure t
+  :diminish git-gutter-mode
   :config (use-package git-gutter-fringe :ensure t)
   :init
   (require 'git-gutter-fringe)
@@ -224,6 +225,19 @@
   :bind ("M-x" . smex)
   :init (setq smex-save-file (sm/emacs.d "cache/smex-items"))
   :config (smex-initialize))
+
+;; diminish some modes.
+(use-package simple
+  :diminish visual-line-mode)
+(use-package abbrev
+  :diminish abbrev-mode)
+
+;; get rid of the mouse.
+(use-package avoid
+  :if window-system
+  :defer 10
+  :config
+  (mouse-avoidance-mode 'exile))
 
 ;; ido
 (use-package ido
