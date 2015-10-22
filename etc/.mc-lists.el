@@ -64,6 +64,7 @@
         jump-char-forward
         jump-char-process-char
         kill-and-retry-line
+        kill-region
         kill-region-or-backward-word
         kill-sexp
         kill-visual-line
