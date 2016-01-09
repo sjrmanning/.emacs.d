@@ -79,6 +79,7 @@
         move-text-up
         move-to-window-line-top-bottom
         new-line-above
+        nxml-electric-slash
         open-line-above
         open-line-and-indent
         open-line-below
