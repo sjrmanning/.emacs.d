@@ -3,6 +3,12 @@
 (let ((class '((class color) (min-colors 257)))
       (terminal-class '((class color) (min-colors 89))))
 
+  (custom-theme-set-variables
+   'monokai-overrides
+
+   `(pos-tip-background-color "#E6DB74")
+   `(pos-tip-foreground-color "#272822"))
+
   (custom-theme-set-faces
    'monokai-overrides
 
