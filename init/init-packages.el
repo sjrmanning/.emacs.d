@@ -446,6 +446,16 @@
               (inf-ruby-minor-mode t)
               (ruby-tools-mode t))))
 
+;; elixir
+(use-package elixir-mode
+  :ensure t
+  :mode (("\\.ex\\'" . elixir-mode)
+         ("\\.exs\\'" . elixir-mode))
+  :config
+  (use-package alchemist
+    :ensure t
+    :diminish alchemist-mode))
+
 ;; cc-mode/derived modes and hooks
 (use-package cc-mode
   :defer t
