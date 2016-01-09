@@ -48,6 +48,12 @@
      ((t :inherit company-tooltip
          :foreground "#C2A1FF")))
 
+   ;; pos-tip
+   `(tooltip
+     ((t :inherit tooltip
+         :foreground "#272822"
+         :background "#E6DB74")))
+
    ;; Popup menu tweaks.
    `(popup-menu-face
      ((t :foreground "#A1EFE4"
