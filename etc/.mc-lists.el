@@ -135,6 +135,7 @@
         sgml-slash
         skeleton-pair-insert-maybe
         slime-space
+        sm/next-line
         sm/previous-line
         smarter-move-beginning-of-line
         sp--self-insert-command
