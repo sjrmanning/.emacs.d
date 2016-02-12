@@ -286,6 +286,9 @@
   :diminish " ()"
   :config
   (require 'smartparens-config)
+  (sp-local-pair 'swift-mode "\\(" nil :actions nil)
+  (sp-local-pair 'swift-mode "\\(" ")")
+  (sp-local-pair 'swift-mode "<" ">")
   (smartparens-global-mode t)
   (show-smartparens-global-mode t)
 
@@ -457,9 +460,21 @@
   :mode (("\\.ex\\'" . elixir-mode)
          ("\\.exs\\'" . elixir-mode))
   :config
+  (company-quickhelp-mode -1)
   (use-package alchemist
     :ensure t
     :diminish alchemist-mode))
+
+;; swift
+(use-package swift-mode
+  :ensure t
+  :commands swift-mode
+  :mode ("\\.swift\\'" . swift-mode)
+  :init
+  (use-package company-sourcekit
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-sourcekit)))
 
 ;; cc-mode/derived modes and hooks
 (use-package cc-mode
