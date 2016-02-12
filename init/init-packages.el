@@ -106,7 +106,12 @@
 
 ;; editorconfig and conf-mode setup.
 (use-package editorconfig
-  :ensure t)
+  :ensure t
+  :init (editorconfig-mode t)
+  :config
+  (progn
+    (add-to-list 'editorconfig-indentation-alist
+                 '(swift-mode swift-indent-offset))))
 (use-package conf-mode
   :mode (("\\.editorconfig$" . conf-mode)
          ("\\.conf" . conf-mode)
