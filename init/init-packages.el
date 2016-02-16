@@ -24,10 +24,12 @@
 (require 'diminish)
 (require 'bind-key)
 
+;; use-package settings
+(setq use-package-always-ensure t)
+
 ;; exec-path-from-shell
 ;; Use $PATH from user's shell in Emacs.
 (use-package exec-path-from-shell
-  :ensure t
   :if (memq window-system (quote (mac ns)))
   :defer 2
   :config
@@ -36,7 +38,6 @@
 
 ;; yasnippet
 (use-package yasnippet
-  :ensure t
   :defer 2
   :init
   ;; Ensure custom snippets dir exists.
@@ -58,20 +59,17 @@
 
 ;; colors!
 (use-package monokai-theme
-  :ensure t
   :config
   (load-theme 'monokai t)
   (load-theme 'monokai-overrides t))
 
 ;; ag (silver surfer)
 (use-package ag
-  :ensure t
   :bind ("C-c s" . ag)
   :config (setq ag-highlight-search t))
 
 ;; anzu
 (use-package anzu
-  :ensure t
   :diminish anzu-mode
   :init (global-anzu-mode)
   :bind (("M-%" . anzu-query-replace)
@@ -79,7 +77,6 @@
 
 ;; company-mode
 (use-package company
-  :ensure t
   :diminish " ©"
   :commands (company-mode global-company-mode)
   :init
@@ -89,7 +86,6 @@
   ;; Quick-help (popup documentation for suggestions).
   (use-package company-quickhelp
     :if window-system
-    :ensure t
     :init (company-quickhelp-mode 1))
   ;; Company settings.
   (setq-default company-backends (remove 'company-eclim company-backends))
@@ -106,7 +102,6 @@
 
 ;; editorconfig and conf-mode setup.
 (use-package editorconfig
-  :ensure t
   :init (editorconfig-mode t)
   :config
   (progn
@@ -121,7 +116,6 @@
 ;; typo
 ;; Mode for typographical editing.
 (use-package typo
-  :ensure t
   :commands typo-mode
   :init (add-hook 'text-mode-hook 'typo-mode))
 
@@ -137,14 +131,12 @@
 
 ;; org-mode
 (use-package org
-  :ensure t
   :commands org-mode
   :config
   (setq org-src-fontify-natively t))
 
 ;; deft
 (use-package deft
-  :ensure t
   :commands deft
   :bind ("M-<f1>" . deft)
   :config
@@ -156,7 +148,6 @@
 
 ;; multiple-cursors
 (use-package multiple-cursors
-  :ensure t
   :init (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
@@ -164,12 +155,10 @@
 
 ;; expand-region
 (use-package expand-region
-  :ensure t
   :bind ("C-=" . er/expand-region))
 
 ;; flycheck
 (use-package flycheck
-  :ensure t
   :commands flycheck-mode
   :diminish " ✓"
   :init (add-hook 'prog-mode-hook 'flycheck-mode))
@@ -177,13 +166,11 @@
 ;; switch-window
 ;; Provides visual cues to instantly switch on C-x o.
 (use-package switch-window
-  :ensure t
   :bind ("C-x o" . switch-window))
 
 ;; magit and monky
 ;; Modes for git and mercurial.
 (use-package magit
-  :ensure t
   :commands magit-status
   :bind ("C-x g" . magit-or-monky-status)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
@@ -200,7 +187,6 @@
   (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t))))
 
 (use-package monky
-  :ensure t
   :commands monky-status
   :config
   ;; Similar full-screen config for monky.
@@ -216,9 +202,8 @@
 
 ;; git-gutter
 (use-package git-gutter
-  :ensure t
   :diminish git-gutter-mode
-  :config (use-package git-gutter-fringe :ensure t)
+  :ensure git-gutter-fringe
   :init
   (require 'git-gutter-fringe)
   (setq git-gutter:handled-backends '(git hg))
@@ -226,15 +211,16 @@
 
 ;; smex
 (use-package smex
-  :ensure t
   :bind ("M-x" . smex)
   :init (setq smex-save-file (sm/emacs.d "cache/smex-items"))
   :config (smex-initialize))
 
 ;; diminish some modes.
 (use-package simple
+  :ensure nil
   :diminish visual-line-mode)
 (use-package abbrev
+  :ensure nil
   :diminish abbrev-mode)
 
 ;; get rid of the mouse.
@@ -246,17 +232,13 @@
 
 ;; ido
 (use-package ido
-  :ensure t
+  :ensure flx-ido
+  :ensure ido-ubiquitous
   :init (ido-mode 1)
   :config
-  (use-package flx-ido
-    :ensure t)
   (use-package ido-vertical-mode
-    :ensure t
     :config
     (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-  (use-package ido-ubiquitous
-    :ensure t)
   (add-to-list 'ido-ignore-files "\\.DS_Store")
   (setq ido-enable-flex-matching t
         ido-enable-prefix nil
@@ -269,19 +251,16 @@
 
 ;; avy
 (use-package avy
-  :ensure t
   :config (setq avy-style 'at)
   :bind (("C-o" . avy-goto-char)
          ("M-g" . avy-goto-line)))
 
 ;; markdown
 (use-package markdown-mode
-  :ensure t
   :mode "\\.md\\'")
 
 ;; smartparens
 (use-package smartparens
-  :ensure t
   :defer 2
   :diminish " ()"
   :config
@@ -303,12 +282,10 @@
 
 ;; browse-kill-ring
 (use-package browse-kill-ring
-  :ensure t
   :bind ("M-y" . browse-kill-ring))
 
 ;; projectile
 (use-package projectile
-  :ensure t
   :diminish projectile-mode
   :commands (projectile-mode projectile-global-mode)
   :bind ("C-c p a" . projectile-ag)
@@ -327,7 +304,6 @@
 
 ;; perspective
 (use-package perspective
-  :ensure perspective
   :defer t
   :init (add-hook 'after-init-hook 'persp-mode)
   :config
@@ -346,19 +322,18 @@
 
 ;; smooth-scrolling
 ;; Avoids annoying behaviour when scrolling past the edges of a buffer.
-(use-package smooth-scrolling
-  :ensure t)
+(use-package smooth-scrolling)
 
 ;; whitespace cleanup
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
-  :ensure t
   :diminish whitespace-cleanup-mode
   :init (global-whitespace-cleanup-mode))
 
 ;; uniquify
 ;; Overrides Emacs' default mechanism for making buffer names unique.
 (use-package uniquify
+  :ensure nil
   :config (setq uniquify-buffer-name-style 'forward))
 
 ;; subword
@@ -369,7 +344,6 @@
 ;; highlight-numbers
 ;; Highlights magic numbers in programming modes.
 (use-package highlight-numbers
-  :ensure t
   :commands highlight-numbers-mode
   :init
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
@@ -377,7 +351,6 @@
 ;; rainbow-delimiters
 ;; Highlights parens, brackets, and braces according to their depth.
 (use-package rainbow-delimiters
-  :ensure t
   :commands rainbow-delimiters-mode
   :init
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
@@ -385,30 +358,27 @@
 
 ;; jade.
 (use-package jade-mode
-  :ensure t
   :mode ("\\.jade$" . jade-mode))
 
 ;; javascript
 ;; js-mode for json.
 (use-package javascript-mode
+  :ensure nil
   :mode ("\\.json$" . javascript-mode)
   :init
   (add-hook 'js-mode-hook (lambda () (setq js-indent-level 4))))
 
 ;; js2.
 (use-package js2-mode
-  :ensure t
   :mode (("\\.js$" . js2-mode)
          ("Jakefile$" . js2-mode))
   :interpreter "node"
   :config
   (use-package tern
-    :ensure t
     :diminish tern-mode
     :init
     (add-hook 'js2-mode-hook 'tern-mode))
   (use-package company-tern
-    :ensure t
     :defer t
     :config (setq company-tern-property-marker " *")
     :init (add-to-list 'company-backends
@@ -419,7 +389,6 @@
 
 ;; go
 (use-package go-mode
-  :ensure t
   :ensure company-go
   :commands go-mode
   :config
@@ -433,22 +402,20 @@
   :init (add-hook 'python-mode-hook 'anaconda-mode)
   :config
   (use-package anaconda-mode
-    :ensure t
     :commands anaconda-mode)
   (use-package company-anaconda
-    :ensure t
     :defer t
     :init (add-to-list 'company-backends
                        (sm/backend-with-yas 'company-anaconda))))
 
 ;; ruby
 (use-package ruby-mode
+  :ensure ruby-tools
+  :ensure inf-ruby
   :interpreter "ruby"
   :mode (("Fastfile$" . ruby-mode)
          ("Appfile$" . ruby-mode))
   :config
-  (use-package ruby-tools :ensure t)
-  (use-package inf-ruby :ensure t)
   (add-hook 'ruby-mode-hook
             (lambda ()
               (inf-ruby-minor-mode t)
@@ -456,23 +423,19 @@
 
 ;; elixir
 (use-package elixir-mode
-  :ensure t
   :mode (("\\.ex\\'" . elixir-mode)
          ("\\.exs\\'" . elixir-mode))
   :config
   (company-quickhelp-mode -1)
   (use-package alchemist
-    :ensure t
     :diminish alchemist-mode))
 
 ;; swift
 (use-package swift-mode
-  :ensure t
   :commands swift-mode
   :mode ("\\.swift\\'" . swift-mode)
   :init
   (use-package company-sourcekit
-    :ensure t
     :config
     (add-to-list 'company-backends 'company-sourcekit)))
 
@@ -495,30 +458,26 @@
 
 ;; C#
 (use-package csharp-mode
-  :ensure t
   :mode "\\.cs$"
   :config
   ;; Omnisharp (C# completion, refactoring, etc.)
   (use-package omnisharp
-    :ensure t
     :commands omnisharp-mode
     :init
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-to-list 'company-backends (sm/backend-with-yas
-                                    'company-omnisharp)))
-  :config
-  (setq omnisharp-server-executable-path "/usr/local/bin/omnisharp"))
+                                    'company-omnisharp))
+    :config
+    (setq omnisharp-server-executable-path "/usr/local/bin/omnisharp")))
 
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
 (use-package dummy-h-mode
-  :ensure t
   :mode "\\.h$")
 
 ;; aggressive-indent
 ;; Keeps code correctly indented during editing.
 (use-package aggressive-indent
-  :ensure t
   :commands aggressive-indent-mode
   :init
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode)
@@ -527,7 +486,6 @@
 ;; undo-tree
 ;; Treat undo history as a tree.
 (use-package undo-tree
-  :ensure t
   :diminish undo-tree-mode
   :init
   (global-undo-tree-mode)
@@ -537,20 +495,17 @@
 ;; restclient
 ;; Runs REST queries from a query sheet and pretty-prints responses.
 (use-package restclient
-  :ensure t
   :commands restclient-mode
   :mode ("\\.http$" . restclient-mode))
 
 ;; comment-dwim-2
 ;; Better `comment-dwim' supporting uncommenting.
 (use-package comment-dwim-2
-  :ensure t
   :commands comment-dwim-2
   :bind ("M-;" . comment-dwim-2))
 
 ;; circe
 (use-package circe
-  :ensure t
   :commands circe
   :config
   (enable-circe-color-nicks)
@@ -567,7 +522,6 @@
 
 ;; column-enforce mode (highlight long columns).
 (use-package column-enforce-mode
-  :ensure t
   :diminish column-enforce-mode
   :commands column-enforce-mode
   :init
