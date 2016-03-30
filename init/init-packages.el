@@ -322,7 +322,8 @@
 
 ;; smooth-scrolling
 ;; Avoids annoying behaviour when scrolling past the edges of a buffer.
-(use-package smooth-scrolling)
+(use-package smooth-scrolling
+  :init (smooth-scrolling-mode t))
 
 ;; whitespace cleanup
 ;; Automatically cleans whitespace on save.
