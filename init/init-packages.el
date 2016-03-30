@@ -499,11 +499,10 @@
   :commands restclient-mode
   :mode ("\\.http$" . restclient-mode))
 
-;; comment-dwim-2
+;; smart-comment
 ;; Better `comment-dwim' supporting uncommenting.
-(use-package comment-dwim-2
-  :commands comment-dwim-2
-  :bind ("M-;" . comment-dwim-2))
+(use-package smart-comment
+  :bind ("M-;" . smart-comment))
 
 ;; circe
 (use-package circe
