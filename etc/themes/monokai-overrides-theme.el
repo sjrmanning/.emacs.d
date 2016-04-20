@@ -17,8 +17,10 @@
      ((,class :foreground "#75715E"
               :background "#49483E")))
    `(mode-line-inactive
-     ((,class (:box (:line-width 1 :color "#2c2d26" :style nil)
+     ((,class (:box (:line-width 8 :color "#2c2d26" :style nil)
                     :background "#2c2d26"))))
+   `(mode-line
+     ((,class (:box (:line-width 8 :color "#3E3D31" :style nil)))))
 
    ;; Custom region colouring.
    `(region
