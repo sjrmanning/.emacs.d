@@ -29,6 +29,24 @@
       (,terminal-class :foreground "#1B1E1C"
                        :background "#8B8878")))
 
+   ;; smartparens
+   `(sp-show-pair-match-face
+     ((,class (:foreground "#AE81FF"
+                           :background "#272822"
+                           :weight normal
+                           :inverse-video t))
+      (,terminal-class (:foreground "#AF87FF"
+                                    :background "#1B1E1C"
+                                    :weight normal
+                                    :inverse-video t))))
+
+   ;; isearch
+   `(isearch
+     ((,class (:inherit region
+                        :background "#C9ACFF"))
+      (,terminal-class (:inherit region
+                                 :background "#AF87D7"))))
+
    ;; Additional modes
    ;; Company tweaks.
    `(company-tooltip-common
