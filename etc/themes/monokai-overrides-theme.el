@@ -47,6 +47,10 @@
       (,terminal-class (:inherit region
                                  :background "#AF87D7"))))
 
+   ;; monky
+   `(monky-diff-title
+     ((,class (:background "#3e3d31"))))
+
    ;; Additional modes
    ;; Company tweaks.
    `(company-tooltip-common
