@@ -42,8 +42,8 @@
 
    ;; isearch
    `(isearch
-     ((,class (:inherit region
-                        :background "#C9ACFF"))
+     ((,class (:background "#349B8D"
+                           :foreground "#BBF7EF"))
       (,terminal-class (:inherit region
                                  :background "#AF87D7"))))
 
