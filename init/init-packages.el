@@ -532,6 +532,21 @@
   (add-hook 'java-mode-hook '(lambda ()
                                (setq-local column-enforce-column 100))))
 
+;; engine
+;; Search engines integrated into Emacs.
+(use-package engine-mode
+  :commands (engine/search-github engine/search-google)
+  :bind (("C-c / g" . engine/search-google)
+         ("C-c / h" . engine/search-github))
+  :config
+  (setq engine/browser-function 'eww-browse-url)
+  (defengine github
+    "https://github.com/search?ref=simplesearch&q=%s"
+    :keybinding "h")
+  (defengine google
+    "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s"
+    :keybinding "g"))
+
 ;; Finally, if the compile-log window is active, kill it.
 (let ((buf (get-buffer "*Compile-Log*")))
   (when buf (delete-windows-on buf)))
