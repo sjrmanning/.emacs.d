@@ -117,6 +117,7 @@
 ;; Mode for typographical editing.
 (use-package typo
   :commands typo-mode
+  :config (setq-default typo-language "English")
   :init (add-hook 'text-mode-hook 'typo-mode))
 
 ;; flyspell spell checking.
