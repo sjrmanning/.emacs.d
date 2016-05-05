@@ -137,6 +137,7 @@
         slime-space
         sm/next-line
         sm/previous-line
+        smart-comment
         smarter-move-beginning-of-line
         sp--self-insert-command
         sp-remove-active-pair-overlay
