@@ -101,6 +101,13 @@
 ;; When copying something from outside emacs, save to kill-ring.
 (setq save-interprogram-paste-before-kill t)
 
+;; Dired defaults.
+(setq-default insert-directory-program "gls")
+(setq-default dired-listing-switches "-lhva")
+(setq-default dired-clean-up-buffers-too t)
+(setq-default dired-recursive-copies 'always)
+(setq-default dired-recursive-deletes 'top)
+
 ;; Misc.
 (setq inhibit-startup-message t)
 (global-font-lock-mode t)
