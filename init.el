@@ -23,6 +23,9 @@
 ;; Ensure required packages are installed and configured.
 (require 'init-packages)
 
+;; Org-mode configuration in its own file.
+(require 'init-org)
+
 ;; Personal settings unique to my setup.
 (require 'init-personal)
 
