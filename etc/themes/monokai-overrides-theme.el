@@ -12,20 +12,28 @@
   (custom-theme-set-faces
    'monokai-overrides
 
+   ;; default
+   `(default
+      ((,class (:foreground "#F8F8F2"
+                            :background "#242728"))
+       (,terminal-class (:foreground "#F8F8F2"
+                                     :background "#242728"))))
+
    ;; Linum and mode-line improvements (only in sRGB).
    `(linum
      ((,class :foreground "#75715E"
-              :background "#49483E")))
+              :background "#383c3d")))
    `(mode-line-inactive
-     ((,class (:box (:line-width 8 :color "#2c2d26" :style nil)
-                    :background "#2c2d26"))))
+     ((,class (:box (:line-width 8 :color "#2e3132" :style nil)
+                    :background "#2e3132"))))
    `(mode-line
-     ((,class (:box (:line-width 8 :color "#3E3D31" :style nil)))))
+     ((,class (:box (:line-width 8 :color "#35393b" :style nil)
+                    :background "#35393b"))))
 
    ;; Custom region colouring.
    `(region
      ((,class :foreground "#75715E"
-              :background "#49483E")
+              :background "#424748")
       (,terminal-class :foreground "#1B1E1C"
                        :background "#8B8878")))
 
