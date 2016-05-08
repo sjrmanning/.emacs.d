@@ -58,10 +58,11 @@
   (add-hook 'erc-mode-hook 'yas-disable-hook))
 
 ;; colors!
-(use-package monokai-theme
+(use-package rainbow-mode
+  :commands rainbow-mode)
+(use-package darkokai-theme
   :config
-  (load-theme 'monokai t)
-  (load-theme 'monokai-overrides t))
+  (load-theme 'darkokai t))
 
 ;; ag (silver surfer)
 (use-package ag
