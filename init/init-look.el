@@ -2,10 +2,10 @@
 
 (require 'init-defuns)
 
-(defvar sm/fixed-font-name "Operator Mono")
+(defvar sm/fixed-font-name "Office Code Pro D")
 (defvar sm/fixed-font-weight 'light)
-(defvar sm/var-font-name "Operator SSm")
-(defvar sm/font-height 110)
+(defvar sm/var-font-name "SF UI Text")
+(defvar sm/font-height 120)
 
 ;; Window setup.
 (add-hook 'window-setup-hook
@@ -15,6 +15,7 @@
             (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
             (run-with-idle-timer 0.1 nil (lambda nil (toggle-frame-maximized)))
             (set-fringe-mode '(8 . 0))
+            (setq-default cursor-type '(bar . 1))
             (set-face-attribute
              'default nil
              :family sm/fixed-font-name
