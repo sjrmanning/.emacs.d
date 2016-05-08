@@ -131,11 +131,28 @@
   (setq flyspell-issue-message-flag nil)
   (setq flyspell-issue-welcome-flag nil))
 
-;; org-mode
-(use-package org
-  :commands org-mode
+;; recentf
+;; Open/view recent files.
+(use-package recentf
+  :commands ido-recentf-open
+  :bind ("C-x C-r" . ido-recentf-open)
+  :init
+  (setq recentf-save-file (sm/emacs.d "cache/recentf"))
+  (recentf-mode)
   :config
-  (setq org-src-fontify-natively t))
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to \\[find-file] a recent file"
+    (interactive)
+    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+        (message "Opening file...")
+      (message "Aborting")))
+  (setq recentf-max-saved-items 200
+        recentf-auto-cleanup 300
+        recentf-exclude '("/TAGS$"
+                          "/var/tmp/"
+                          ".recentf"
+                          "ido.last"
+                          "/elpa/.*\\'")))
 
 ;; deft
 (use-package deft
@@ -143,7 +160,7 @@
   :bind ("M-<f1>" . deft)
   :config
   (setq deft-extension "org"
-        deft-directory "~/Org/deft/"
+        deft-directory "~/Documents/Org/deft/"
         deft-text-mode 'org-mode
         deft-use-filename-as-title t
         deft-auto-save-interval 30.0))
@@ -260,6 +277,11 @@
 ;; markdown
 (use-package markdown-mode
   :mode "\\.md\\'")
+
+;; embrace
+;; Add/Change/Delete pairs based on expand-region.
+(use-package embrace
+  :bind ("C-," . embrace-commander))
 
 ;; smartparens
 (use-package smartparens
