@@ -481,6 +481,14 @@
               (setq tab-width 2
                     c-basic-offset 2))))
 
+;; Java / android.
+(use-package java
+  :ensure java-imports
+  :bind ("M-I" . java-imports-add-import-dwim)
+  :config
+  (add-hook 'java-mode-hook 'java-imports-scan-file)
+  (setq java-imports-find-block-function 'java-imports-find-place-sorted-block))
+
 ;; C#
 (use-package csharp-mode
   :mode "\\.cs$"
