@@ -162,8 +162,10 @@
         touch-buffer-file
         transpose-params
         transpose-sexps
+        typo-cycle-dashes
         typo-cycle-ellipsis
         undefined
+        upcase-region
         wrap-region-trigger
         yaml-electric-backspace
         yaml-electric-dash-and-dot
