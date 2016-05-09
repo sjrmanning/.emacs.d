@@ -61,8 +61,7 @@
 (use-package rainbow-mode
   :commands rainbow-mode)
 (use-package darkokai-theme
-  :config
-  (load-theme 'darkokai t))
+  :config (load-theme 'darkokai t))
 
 ;; ag (silver surfer)
 (use-package ag
@@ -221,9 +220,10 @@
 
 ;; git-gutter
 (use-package git-gutter
+  :defer 5
   :diminish git-gutter-mode
   :ensure git-gutter-fringe
-  :init
+  :config
   (require 'git-gutter-fringe)
   (setq git-gutter:handled-backends '(git hg))
   (global-git-gutter-mode t))
@@ -313,7 +313,7 @@
   :diminish projectile-mode
   :commands (projectile-mode projectile-global-mode)
   :bind ("C-c p a" . projectile-ag)
-  :init (projectile-global-mode t)
+  :init (add-hook 'after-init-hook 'projectile-global-mode)
   :config
   ;; Ensure projectile dir exists.
   (defvar my-projectile-dir (sm/emacs.d "cache/projectile"))
@@ -459,7 +459,7 @@
 (use-package swift-mode
   :commands swift-mode
   :mode ("\\.swift\\'" . swift-mode)
-  :init
+  :config
   (use-package company-sourcekit
     :config
     (add-to-list 'company-backends 'company-sourcekit)))
