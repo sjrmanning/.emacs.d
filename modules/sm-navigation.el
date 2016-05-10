@@ -78,6 +78,7 @@
         recentf-max-saved-items 200
         recentf-auto-cleanup 300
         recentf-exclude '("/TAGS$"
+                          "/tmp/"
                           "/var/tmp/"
                           ".recentf"
                           "ido.last"
