@@ -1,33 +1,27 @@
-;; Init
-;; Uses `use-package' extensively to configure packages.
+;;; init.el --- Start of the Emacs initialisation process.
 
 ;; Prepare paths.
-(add-to-list 'load-path (expand-file-name "init/" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "core/" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "modules/" user-emacs-directory))
 (add-to-list 'exec-path "/usr/local/bin")
 
 ;; Set up some sane defaults.
-(require 'init-defaults)
+(require 'sm-defaults)
 
 ;; Custom functions.
-(require 'init-defuns)
-
-;; Set up appearance.
-(require 'init-look)
-
-;; Editing specific settings.
-(require 'init-editing)
+(require 'sm-defuns)
 
 ;; Custom key-bindings separate from third-party package binds.
-(require 'init-bindings)
+(require 'sm-bindings)
 
-;; Ensure required packages are installed and configured.
-(require 'init-packages)
-
-;; Org-mode configuration in its own file.
-(require 'init-org)
+;; Set up available modules and `load-modules' function.
+(require 'sm-modules)
 
 ;; Personal settings unique to my setup.
-(require 'init-personal)
+(require 'sm-personal)
+
+;; Load configured modules.
+(sm/load-modules)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)

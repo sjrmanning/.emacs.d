@@ -6,6 +6,9 @@
 (defun sm/emacs.d (path)
   (expand-file-name path user-emacs-directory))
 
+(defun sm/cache-for (path)
+  (expand-file-name path (sm/emacs.d "var/cache")))
+
 ;; Make directory if it doesn't exist.
 (defun sm/mkdir-p (dir-path)
   (unless (file-exists-p dir-path)
@@ -189,4 +192,4 @@ git or hg repository is found in the buffer-local working dir."
     (call-interactively 'magit-status))
    (t (message "No hg or git repository found at %s" default-directory))))
 
-(provide 'init-defuns)
+(provide 'sm-defuns)

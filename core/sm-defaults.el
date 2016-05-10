@@ -1,5 +1,5 @@
 ;; Sane defaults.
-(require 'init-defuns)
+(require 'sm-defuns)
 
 ;; GC optimisation.
 ;; Increases garbage collection threshold to 50mb (from 0.76mb)
@@ -58,23 +58,23 @@
 ;; Automatically scroll compilation window.
 (setq compilation-scroll-output 1)
 
-(sm/mkdir-p (sm/emacs.d "cache"))
+(sm/mkdir-p (sm/emacs.d "var/cache"))
 (sm/mkdir-p (sm/emacs.d "etc"))
-(sm/mkdir-p (sm/emacs.d "cache/backups"))
+(sm/mkdir-p (sm/cache-for "backups"))
 
 ;; Keep backups in a separate directory.
 (defun make-backup-file-name (file)
-  (concat (sm/emacs.d "cache/backups/") (file-name-nondirectory file) "~"))
+  (concat (sm/cache-for "backups/") (file-name-nondirectory file) "~"))
 
 ;; Keep autosave files in /tmp.
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
 ;; Change auto-save-list directory.
-(setq auto-save-list-file-prefix (sm/emacs.d "cache/auto-save-list/.saves-"))
+(setq auto-save-list-file-prefix (sm/cache-for "auto-save-list/.saves-"))
 
 ;; Change eshell directory.
-(setq eshell-directory-name (sm/emacs.d "cache/eshell"))
+(setq eshell-directory-name (sm/cache-for "eshell"))
 
 ;; Disable annoying lock files.
 (setq create-lockfiles nil)
@@ -83,10 +83,10 @@
 (setq bookmark-file (sm/emacs.d "etc/bookmarks"))
 
 ;; Change save-places file location.
-(setq save-place-file (sm/emacs.d "cache/places"))
+(setq save-place-file (sm/cache-for "places"))
 
 ;; Ido history.
-(setq ido-save-directory-list-file (sm/emacs.d "cache/ido.last"))
+(setq ido-save-directory-list-file (sm/cache-for "ido.last"))
 
 ;; Allow pasting selection outside of Emacs.
 (setq x-select-enable-clipboard t)
@@ -112,4 +112,4 @@
 (setq inhibit-startup-message t)
 (global-font-lock-mode t)
 
-(provide 'init-defaults)
+(provide 'sm-defaults)

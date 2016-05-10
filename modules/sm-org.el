@@ -1,7 +1,6 @@
-;; org-mode settings
-(eval-when-compile
-  (require 'use-package))
-(require 'bind-key)
+;;; sm-org.el --- Org-mode and related config.
+
+(setq sm/org-dir "~/Documents/org")
 
 ;; Pretty bullets.
 (use-package org-bullets
@@ -44,7 +43,7 @@ Captured %<%Y-%m-%d %H:%M>
         (message "Opening file...")
       (message "Aborting")))
 
-  (setq org-directory "~/Documents/org"
+  (setq org-directory sm/org-dir
         org-completion-use-ido t
         org-ellipsis "⤵"
         org-src-fontify-natively t
@@ -73,4 +72,15 @@ Captured %<%Y-%m-%d %H:%M>
           ("n" "Notes and ideas" entry
            (file+headline (org-file-path "index.org") "Notes")))))
 
-(provide 'init-org)
+;; deft
+(use-package deft
+  :commands deft
+  :bind ("M-<f1>" . deft)
+  :config
+  (setq deft-extension "org"
+        deft-directory (concat sm/org-dir "/deft")
+        deft-text-mode 'org-mode
+        deft-use-filename-as-title t
+        deft-auto-save-interval 30.0))
+
+(provide 'sm-org)

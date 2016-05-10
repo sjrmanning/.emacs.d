@@ -1,14 +1,17 @@
-;; Display related settings.
+;;; sm-appearance.el --- Display and appearance related settings.
 
-(require 'init-defuns)
+;; Disable cursor display in inactive windows.
+(setq-default cursor-in-non-selected-windows nil)
+
+;; Redraw without pause while processing input.
+(setq redisplay-dont-pause t)
 
 (defvar sm/fixed-font-name "Office Code Pro D")
 (defvar sm/fixed-font-weight 'light)
 (defvar sm/var-font-name "SF UI Text")
 (defvar sm/font-height 120)
 
-;; Window setup.
-(add-hook 'window-setup-hook
+(add-hook 'emacs-startup-hook ;; 'window-setup-hook
           (lambda nil
             (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
             (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -28,15 +31,11 @@
              :weight sm/fixed-font-weight)
             (set-face-attribute
              'variable-pitch nil
-             :family sm/var-font-name)))
+             :family sm/var-font-name))
+          (use-package darkokai-theme
+            :config (load-theme 'darkokai t)))
 
-;; Custom themes path.
-(add-to-list 'custom-theme-load-path (sm/emacs.d "etc/themes"))
+(use-package rainbow-mode
+  :commands rainbow-mode)
 
-;; Disable cursor display in inactive windows.
-(setq-default cursor-in-non-selected-windows nil)
-
-;; Redraw without pause while processing input.
-(setq redisplay-dont-pause t)
-
-(provide 'init-look)
+(provide 'sm-appearance)

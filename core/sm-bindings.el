@@ -77,8 +77,4 @@
 ;; Smart file finding using projectile if available.
 (global-set-key (kbd "C-x f") 'smart-find-file)
 
-;; Better next/previous lines.
-(global-set-key (kbd "C-n") 'sm/next-line)
-(global-set-key (kbd "C-p") 'sm/previous-line)
-
-(provide 'init-bindings)
+(provide 'sm-bindings)
