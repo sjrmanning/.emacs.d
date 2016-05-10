@@ -22,7 +22,6 @@ git or hg repository is found in the buffer-local working dir."
 (use-package magit
   :commands magit-status
   :bind ("C-x g" . sm/magit-or-monky-status)
-  :init (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   ;; Full-screen magit status with restore.
   (defadvice magit-status (around magit-fullscreen activate)
