@@ -11,10 +11,7 @@
 ;; Custom functions.
 (require 'sm-defuns)
 
-;; Custom key-bindings separate from third-party package binds.
-(require 'sm-bindings)
-
-;; Set up available modules and `load-modules' function.
+;; Set up available modules and the `load-modules' function.
 (require 'sm-modules)
 
 ;; Personal settings unique to my setup.

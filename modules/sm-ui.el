@@ -1,5 +1,8 @@
 ;;; sm-ui.el --- UI niceties.
 
+;; Bind for toggling fullscreen.
+(bind-key "C-c M-f" 'toggle-frame-fullscreen)
+
 ;; uniquify
 ;; Overrides Emacs' default mechanism for making buffer names unique.
 (use-package uniquify
@@ -27,7 +30,9 @@
 
 ;; smex
 (use-package smex
-  :bind ("M-x" . smex)
+  :bind (("M-x" . smex)
+         ("C-x C-m" . smex)
+         ("C-c C-m" . smex))
   :init (setq smex-save-file (sm/cache-for "smex-items"))
   :config (smex-initialize))
 

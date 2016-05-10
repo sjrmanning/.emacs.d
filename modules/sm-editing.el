@@ -15,8 +15,38 @@
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
-;; Prompt to automatically create parent dirs when required.
-(add-to-list 'find-file-not-found-functions #'sm/create-non-existent-directory)
+;; General editing-related bindings.
+(bind-key "C-w" 'backward-kill-word)
+(bind-key "C-x C-k" 'kill-region)
+(bind-key "C-c C-k" 'kill-region)
+
+(bind-key "<f5>" 'sort-lines)
+(bind-key "C-c b" 'switch-to-previous-buffer)
+
+;; Cursor movement
+(defun sm/next-line-fast ()
+  "Faster `C-n'"
+  (interactive)
+  (ignore-errors (next-line 5)))
+
+(defun sm/previous-line-fast ()
+  "Faster `C-p'"
+  (interactive)
+  (ignore-errors (previous-line 5)))
+
+(bind-key "C-S-n" 'sm/next-line-fast)
+(bind-key "C-S-p" 'sm/previous-line-fast)
+
+;; Crux (Collection of Ridiculously Useful eXtensions)
+;; Replaces a lot of my old defuns and bindings.
+(use-package crux
+  :bind (("C-x C-r" . crux-recentf-ido-find-file)
+         ("C-a" . crux-move-beginning-of-line)
+         ("<S-return>" . crux-smart-open-line)
+         ("C-c R" . crux-rename-buffer-and-file)
+         ("C-c D" . crux-delete-buffer-and-file)
+         ("<f2>" . crux-visit-term-buffer)
+         ("s-j" . crux-top-join-line)))
 
 ;; EditorConfig.org -- project-local indentation setup.
 (use-package editorconfig

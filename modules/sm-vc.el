@@ -1,10 +1,27 @@
 ;;; sm-vc.el --- Version control config.
 
+(defun process-exit-code-and-output (program &rest args)
+  "Run PROGRAM with ARGS and return the exit code and output in a list."
+  (with-temp-buffer
+    (list (apply 'call-process program nil (current-buffer) nil args)
+          (buffer-string))))
+
+(defun sm/magit-or-monky-status ()
+  "Call `magit-status' or `monky-status' depending on whether a
+git or hg repository is found in the buffer-local working dir."
+  (interactive)
+  (cond
+   ((eq (car (process-exit-code-and-output "hg" "status")) 0)
+    (monky-status))
+   ((eq (car (process-exit-code-and-output "git" "status")) 0)
+    (call-interactively 'magit-status))
+   (t (message "No hg or git repository found at %s" default-directory))))
+
 ;; magit and monky
 ;; Modes for git and mercurial.
 (use-package magit
   :commands magit-status
-  :bind ("C-x g" . magit-or-monky-status)
+  :bind ("C-x g" . sm/magit-or-monky-status)
   :init (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   ;; Full-screen magit status with restore.

@@ -6,6 +6,10 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
 
+;; Refresh the archive if we have no local cache.
+(unless package-archive-contents
+    (package-refresh-contents))
+
 ;; Ensure `use-package' is installed.
 (when (not (package-installed-p 'use-package))
   (package-install 'use-package))

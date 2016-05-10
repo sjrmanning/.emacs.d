@@ -1,3 +1,51 @@
+;; Navigation related settings and binds.
+(bind-key "C-x C-b" 'ibuffer)
+
+(defun create-new-buffer ()
+  "Create a new buffer named *new*."
+  (interactive)
+  (switch-to-buffer (generate-new-buffer-name "*new*")))
+
+(bind-key "C-c n" 'create-new-buffer)
+
+(defun sm/smart-find-file ()
+  "Find files using projectile if within a project, or fall-back to ido."
+  (interactive)
+  (if (projectile-project-p)
+      (projectile-find-file)
+    (ido-find-file)))
+
+(bind-key "C-x f" 'sm/smart-find-file)
+
+(defun sm/kill-default-buffer ()
+  "Kill the currently active buffer."
+  (interactive)
+  (let (kill-buffer-query-functions) (kill-buffer)))
+
+(bind-key "C-x k" 'sm/kill-default-buffer)
+
+(defun switch-to-irc nil
+  "Switch to IRC buffer using ido to select from candidates."
+  (interactive)
+  (let ((final-list (list ))
+        (irc-modes '(circe-channel-mode
+                     circe-query-mode
+                     erc-mode)))
+
+    (dolist (buf (buffer-list) final-list)
+      (if (member (with-current-buffer buf major-mode) irc-modes)
+          (setq final-list (append (list (buffer-name buf)) final-list))))
+    (when final-list
+      (switch-to-buffer (ido-completing-read "IRC Buffer: " final-list)))))
+
+(defun sm/create-non-existent-directory ()
+  "Prompt to automagically create parent directories."
+  (let ((parent-directory (file-name-directory buffer-file-name)))
+    (when (and (not (file-exists-p parent-directory))
+               (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
+      (make-directory parent-directory t))))
+(add-to-list 'find-file-not-found-functions #'sm/create-non-existent-directory)
+
 ;; switch-window
 ;; Provides visual cues to instantly switch on C-x o.
 (use-package switch-window
@@ -25,15 +73,7 @@
 ;; recentf
 ;; Open/view recent files.
 (use-package recentf
-  :commands ido-recentf-open
-  :bind ("C-x C-r" . ido-recentf-open)
   :config
-  (defun ido-recentf-open ()
-    "Use `ido-completing-read' to \\[find-file] a recent file"
-    (interactive)
-    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-        (message "Opening file...")
-      (message "Aborting")))
   (setq recentf-auto-cleanup 'never
         recentf-max-saved-items 200
         recentf-auto-cleanup 300

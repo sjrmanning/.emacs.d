@@ -1,6 +1,7 @@
 ;; Various personal settings probably only applicable to my setup.
-;; Load private settings if found.
 (require 'sm-defuns)
+
+;; Load private settings if found.
 (defvar private-dir "~/.private/elisp"
   "Private elisp directory")
 (if (file-exists-p private-dir)
