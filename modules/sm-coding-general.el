@@ -1,5 +1,14 @@
 ;;; sm-coding-general.el --- General coding-related config.
 
+;; EditorConfig.org -- project-local coding style definitions.
+(use-package editorconfig
+  :commands editorconfig-mode
+  :init (add-hook 'prog-mode-hook 'editorconfig-mode)
+  :config
+  (progn
+    (add-to-list 'editorconfig-indentation-alist
+                 '(swift-mode swift-indent-offset))))
+
 ;; highlight-numbers
 ;; Highlights magic numbers in programming modes.
 (use-package highlight-numbers

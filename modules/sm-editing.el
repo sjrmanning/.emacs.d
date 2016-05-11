@@ -46,15 +46,8 @@
          ("C-c R" . crux-rename-buffer-and-file)
          ("C-c D" . crux-delete-buffer-and-file)
          ("<f2>" . crux-visit-term-buffer)
-         ("s-j" . crux-top-join-line)))
-
-;; EditorConfig.org -- project-local indentation setup.
-(use-package editorconfig
-  :init (editorconfig-mode t)
-  :config
-  (progn
-    (add-to-list 'editorconfig-indentation-alist
-                 '(swift-mode swift-indent-offset))))
+         ("s-j" . crux-top-join-line))
+  :config (recentf-mode t))
 
 ;; Use conf-mode where appropriate.
 (use-package conf-mode
@@ -103,7 +96,10 @@
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
   :diminish whitespace-cleanup-mode
-  :init (global-whitespace-cleanup-mode))
+  :commands whitespace-cleanup-mode
+  :init
+  (add-hook 'text-mode-hook 'whitespace-cleanup-mode)
+  (add-hook 'prog-mode-hook 'whitespace-cleanup-mode))
 
 ;; subword
 (use-package subword

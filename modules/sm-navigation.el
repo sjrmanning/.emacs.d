@@ -73,6 +73,7 @@
 ;; recentf
 ;; Open/view recent files.
 (use-package recentf
+  :commands recentf-mode
   :config
   (setq recentf-auto-cleanup 'never
         recentf-max-saved-items 200
