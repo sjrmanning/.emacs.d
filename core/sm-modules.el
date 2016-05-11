@@ -28,7 +28,7 @@
         sm-company
         sm-writing
         sm-projects
-        sm-vc
+        sm-source-control
         sm-org
         sm-coding-general
         sm-coding-c

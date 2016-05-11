@@ -1,4 +1,12 @@
-;;; sm-vc.el --- Version control config.
+;;; sm-source-control.el --- Source control and related configuration.
+
+;; gist.el
+;; Provides ability to create github gists from region, file, etc., as well as
+;; browse, edit, and update metadata of your gists.
+(use-package gist
+  :bind ("C-c g p" . gist-region-or-buffer-private)
+  :config
+  (setq gist-view-gist t))
 
 (defun process-exit-code-and-output (program &rest args)
   "Run PROGRAM with ARGS and return the exit code and output in a list."
@@ -58,4 +66,4 @@ git or hg repository is found in the buffer-local working dir."
   (setq git-gutter:handled-backends '(git hg))
   (global-git-gutter-mode t))
 
-(provide 'sm-vc)
+(provide 'sm-source-control)
