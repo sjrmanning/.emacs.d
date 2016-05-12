@@ -31,7 +31,7 @@
         sm-source-control
         sm-org
         sm-coding-general
-        sm-coding-c
+        sm-coding-cc
         sm-coding-csharp
         sm-coding-elixir
         sm-coding-java
