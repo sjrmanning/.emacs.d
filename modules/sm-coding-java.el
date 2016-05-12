@@ -2,10 +2,12 @@
 
 (use-package java
   :ensure java-imports
+  :ensure ggtags
   :bind ("M-I" . java-imports-add-import-dwim)
   :init
   (add-hook 'java-mode-hook
             (lambda ()
+              (ggtags-mode)
               (java-imports-scan-file)
               (setq tab-width 2
                     c-basic-offset 2)))
