@@ -16,6 +16,7 @@
          ("C-c l" . org-store-link)
          ("C-c o" . sm/ido-find-orgfile))
   :config
+  (org-indent-mode)
   ;; Functions and custom vars.
   (defvar sm/org-basic-task-template "* TODO %^{Task}
 :PROPERTIES:
