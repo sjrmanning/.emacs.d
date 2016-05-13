@@ -1,5 +1,13 @@
 ;;; init.el --- Start of the Emacs initialisation process.
 
+;; Increase the GC threshold as soon as possible.
+(setq gc-cons-threshold 50000000)
+
+;; Packages need to be initialised in init.el in Emacs 25.x.
+(unless (fboundp 'package-initialize)
+  (require 'package))
+(package-initialize)
+
 ;; Prepare paths.
 (add-to-list 'load-path (expand-file-name "core/" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "modules/" user-emacs-directory))
@@ -19,7 +27,3 @@
 
 ;; Load configured modules.
 (sm/load-modules)
-
-;; Local Variables:
-;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
-;; End:
