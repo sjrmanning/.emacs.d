@@ -50,7 +50,7 @@
 (setq make-pointer-invisible t)
 
 ;; Reduce keystroke echo delay.
-(setq echo-keystrokes 0.1)
+(setq echo-keystrokes 0.001)
 
 ;; Enable y/n answers.
 (fset 'yes-or-no-p 'y-or-n-p)
