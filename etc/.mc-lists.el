@@ -31,6 +31,7 @@
         cljr-splice-sexp-killing-backward
         cljr-unwind
         clojure-toggle-keyword-string
+        crux-move-beginning-of-line
         crux-smart-open-line
         cua-replace-region
         cua-set-mark
