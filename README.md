@@ -7,14 +7,14 @@ Setup
 
 Clone this repository into your home directory as .emacs.d.
 
-    git clone git://github.com/stafu/.emacs.d.git ~/.emacs.d
+    git clone git://github.com/sjrmanning/.emacs.d.git ~/.emacs.d
 
 ...then run Emacs. On the first run, Emacs will install and compile any packages handled by the package manager. This is checked on each run, so if you want to add a package to install, simply add it to the list in `init-packages.el`, and the next time Emacs runs it will automatically install and compile the new package alone.
 
 Prerequisites
 -------------
 
-Emacs 24+ is needed for package.el and the deftheme color-theme system. This setup is used and tested with 24.5.
+Emacs 24+ is needed for package.el and the deftheme color-theme system. This setup is used and tested with 24.5. Starting to play around with Emacs 25, so hopefully 25.x related changes aren’t breaking 24.5 at all.
 
 External requirements
 --------------
@@ -26,22 +26,22 @@ There are a few cool external tools, mainly around code intelligence, syntax che
 * `brew install editorconfig` for parsing .editorconfig files in projects.
 * `brew install aspell --with-lang-en` for spell-checking in writing/commit/text modes.
 
-#### JavaScript
+#### `JavaScript`
 * `npm install -g tern` for code-analysis and completion via `tern`.
 
-#### Go
-* `go get -u github.com/nsf/gocode` for context-sensitive code completion.
-
-#### Ruby
+#### `Ruby`
 * `gem install rubocop` for style-checking via flycheck.
 
-#### Python
+#### `Python`
 * Install with `pip install`.
 * `jedi` and `service_factory` for company intelligence and completion.
 * `flake8` for pep8 syntax checking via flycheck.
 
-#### C#
+#### `C#`
 * [OmniSharp](http://www.omnisharp.net) (see link for details.)
 
-#### Markdown
+#### Java
+* `brew install global` for the GNU global tag system. Used by [ggtags](https://github.com/leoliu/ggtags).
+
+#### `Markdown`
 * `brew install` either `discount` or `markdown` for previewing and compiling markdown documents with `markdown-mode`.
