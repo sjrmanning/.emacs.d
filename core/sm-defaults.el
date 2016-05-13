@@ -1,6 +1,9 @@
 ;; Sane defaults.
 (require 'sm-defuns)
 
+;; Ignore customisation by putting it in the cache dir.
+(setq custom-file (sm/cache-for "custom.el"))
+
 ;; Set default directory.
 (setq default-directory "~")
 
