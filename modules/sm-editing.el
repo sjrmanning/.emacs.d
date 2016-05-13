@@ -7,6 +7,12 @@
 ;; Require newline at end of file.
 (setq require-final-newline t)
 
+;; Revert buffers automatically when underlying files are changed externally.
+(use-package autorevert
+  :diminish auto-revert-mode
+  :config
+  (global-auto-revert-mode t))
+
 ;; Linum.
 (add-hook 'prog-mode-hook 'linum-mode)
 (setq linum-format " %4d ")

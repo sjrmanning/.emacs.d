@@ -1,10 +1,6 @@
 ;; Sane defaults.
 (require 'sm-defuns)
 
-;; GC optimisation.
-;; Increases garbage collection threshold to 50mb (from 0.76mb)
-(setq gc-cons-threshold 50000000)
-
 ;; Set default directory.
 (setq default-directory "~")
 
@@ -30,9 +26,6 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
-
-;; Revert buffers automatically when underlying files are changed externally.
-(global-auto-revert-mode t)
 
 ;; Show column numbers in mode line.
 (setq column-number-mode t)
