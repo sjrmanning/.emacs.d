@@ -2,6 +2,8 @@
 
 My personal Emacs configuration, reworked and cleaned up using [use-package](https://github.com/jwiegley/use-package) for third-party package management and setup.
 
+Configuration is split up into modules which can be enabled or disabled in the `core/sm-modules.el` file.
+
 Setup
 -----
 
@@ -21,7 +23,7 @@ External requirements
 
 There are a few cool external tools, mainly around code intelligence, syntax checking and auto-completion, that make this setup work a lot better, but obviously they need to be installed to work.
 
-#### Editor-wide
+#### `Editor-wide`
 * `brew install the_silver_searcher` for `ag.el` search via `C-s`.
 * `brew install editorconfig` for parsing .editorconfig files in projects.
 * `brew install aspell --with-lang-en` for spell-checking in writing/commit/text modes.
