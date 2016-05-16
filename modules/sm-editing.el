@@ -116,7 +116,8 @@
 ;; Treat undo history as a tree.
 (use-package undo-tree
   :diminish undo-tree-mode
-  :init
+  :bind ("C-x u" . undo-tree-visualize)
+  :config
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t))
