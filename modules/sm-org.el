@@ -4,7 +4,6 @@
 
 ;; Pretty bullets.
 (use-package org-bullets
-  :ensure t
   :commands org-bullets-mode
   :init (add-hook 'org-mode-hook 'org-bullets-mode))
 
@@ -15,8 +14,8 @@
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link)
          ("C-c o" . sm/ido-find-orgfile))
+  :init (add-hook 'org-mode-hook #'org-indent-mode)
   :config
-  (org-indent-mode)
   ;; Functions and custom vars.
   (defvar sm/org-basic-task-template "* TODO %^{Task}
 :PROPERTIES:
@@ -46,6 +45,7 @@ Captured %<%Y-%m-%d %H:%M>
       (message "Aborting")))
 
   (setq org-directory sm/org-dir
+        org-use-speed-commands t
         org-completion-use-ido t
         org-ellipsis "⤵"
         org-src-fontify-natively t
