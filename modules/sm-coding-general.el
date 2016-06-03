@@ -36,4 +36,36 @@
   :commands restclient-mode
   :mode ("\\.http$" . restclient-mode))
 
+;; ycmd
+;; A code-completion & comprehension server.
+(use-package ycmd
+  :commands ycmd-mode
+  :bind ("C-c y g" . ycmd-goto)
+  :init
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (unless (or (eq major-mode 'emacs-lisp-mode)
+                          (eq major-mode 'lisp-interaction-mode))
+                (ycmd-mode))))
+  :config
+  (setq ycmd-parse-conditions '(save new-line buffer-focus)
+        ycmd-idle-change-delay 0.1
+        ycmd-server-command '("python" "/usr/local/ycmd/ycmd")
+        ycmd-global-config (sm/emacs.d "etc/ycmd_cfg.py")
+        ycmd-global-modes '(c++-mode
+                            c-mode
+                            csharp-mode
+                            go-mode
+                            js-mode
+                            js2-mode
+                            objc-mode
+                            php-mode
+                            python-mode
+                            ruby-mode))
+  (use-package company-ycmd
+    :config
+    (add-to-list 'company-backends (sm/backend-with-yas 'company-ycmd)))
+  (use-package flycheck-ycmd
+    :config (flycheck-ycmd-setup)))
+
 (provide 'sm-coding-general)

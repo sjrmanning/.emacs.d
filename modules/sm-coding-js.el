@@ -11,15 +11,6 @@
          ("Jakefile$" . js2-mode))
   :interpreter "node"
   :config
-  (use-package tern
-    :diminish tern-mode
-    :init
-    (add-hook 'js2-mode-hook 'tern-mode))
-  (use-package company-tern
-    :defer t
-    :config (setq company-tern-property-marker " *")
-    :init (add-to-list 'company-backends
-                       (sm/backend-with-yas 'company-tern)))
   (add-hook 'js2-mode-hook
             (lambda ()
               (setq js2-basic-offset 2))))

@@ -15,21 +15,6 @@
             '(lambda ()
                (setq c-basic-offset 4))))
 
-(use-package irony
-  :commands irony-mode
-  :init
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'objc-mode-hook 'irony-mode)
-  :config
-  (use-package flycheck-irony)
-  (use-package company-irony
-    :config
-    (add-to-list 'company-backends 'company-irony))
-  (setq irony-server-install-prefix (sm/cache-for "irony"))
-  (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-  (flycheck-irony-setup))
-
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
 (use-package dummy-h-mode

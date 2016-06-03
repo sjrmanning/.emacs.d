@@ -47,3 +47,6 @@ url/
 
 # Flycheck
 flycheck_*
+
+# Python compiled files
+*.pyc
