@@ -31,6 +31,7 @@
 ;; smex
 (use-package smex
   :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands)
          ("C-x C-m" . smex)
          ("C-c C-m" . smex))
   :init (setq smex-save-file (sm/cache-for "smex-items"))
