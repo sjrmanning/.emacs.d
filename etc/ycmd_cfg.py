@@ -24,6 +24,18 @@ default_flags = [
 '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1',
 '-isystem',
 '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include',
+'-isysroot',
+'/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk',
+'-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks',
+'-I/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include',
+'-fblocks',
+'-fobjc-runtime=ios-9.3',
+'-fencode-extended-block-signature',
+'-fobjc-arc',
+'-fobjc-exceptions',
+'-fexceptions',
+'-x',
+'objective-c'
 ]
 
 def DirectoryOfThisScript():

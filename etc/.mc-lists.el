@@ -132,6 +132,7 @@
         previous-error-no-select
         quoted-insert
         ruby-electric-brace
+        ruby-tools-interpolate
         save-region-or-current-line
         sgml-delete-tag
         sgml-slash
@@ -166,6 +167,9 @@
         transpose-sexps
         typo-cycle-dashes
         typo-cycle-ellipsis
+        typo-cycle-left-angle-brackets
+        typo-cycle-right-angle-brackets
+        typo-insert-quotation-mark
         undefined
         upcase-region
         wrap-region-trigger

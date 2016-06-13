@@ -36,7 +36,8 @@
         sm-coding-js
         sm-coding-python
         sm-coding-ruby
-        sm-coding-swift))
+        sm-coding-swift
+        sm-coding-web))
 
 (defun sm/load-modules ()
   (interactive)
