@@ -15,8 +15,8 @@
   ;; Disable yasnippet in some modes.
   (defun yas-disable-hook ()
     (setq yas-dont-activate t))
-  (add-hook 'term-mode-hook 'yas-disable-hook)
-  (add-hook 'comint-mode-hook 'yas-disable-hook)
-  (add-hook 'erc-mode-hook 'yas-disable-hook))
+  (add-hook 'term-mode-hook #'yas-disable-hook)
+  (add-hook 'comint-mode-hook #'yas-disable-hook)
+  (add-hook 'erc-mode-hook #'yas-disable-hook))
 
 (provide 'sm-snippets)

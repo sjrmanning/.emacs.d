@@ -14,7 +14,7 @@
   (global-auto-revert-mode t))
 
 ;; Linum.
-(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook #'linum-mode)
 (setq linum-format " %4d ")
 
 ;; Don't use tabs for indent; replace tabs with two spaces.
@@ -104,8 +104,8 @@
   :diminish whitespace-cleanup-mode
   :commands whitespace-cleanup-mode
   :init
-  (add-hook 'text-mode-hook 'whitespace-cleanup-mode)
-  (add-hook 'prog-mode-hook 'whitespace-cleanup-mode))
+  (add-hook 'text-mode-hook #'whitespace-cleanup-mode)
+  (add-hook 'prog-mode-hook #'whitespace-cleanup-mode))
 
 ;; subword
 (use-package subword
@@ -137,7 +137,7 @@
 (use-package aggressive-indent
   :commands aggressive-indent-mode
   :init
-  (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode)
-  (add-hook 'lisp-mode-hook 'aggressive-indent-mode))
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+  (add-hook 'lisp-mode-hook #'aggressive-indent-mode))
 
 (provide 'sm-editing)

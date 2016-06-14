@@ -3,7 +3,7 @@
 ;; EditorConfig.org -- project-local coding style definitions.
 (use-package editorconfig
   :commands editorconfig-mode
-  :init (add-hook 'prog-mode-hook 'editorconfig-mode)
+  :init (add-hook 'prog-mode-hook #'editorconfig-mode)
   :config
   (progn
     (add-to-list 'editorconfig-indentation-alist
@@ -14,20 +14,20 @@
 (use-package highlight-numbers
   :commands highlight-numbers-mode
   :init
-  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
 
 ;; rainbow-delimiters
 ;; Highlights parens, brackets, and braces according to their depth.
 (use-package rainbow-delimiters
   :commands rainbow-delimiters-mode
   :init
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; flycheck
 (use-package flycheck
   :commands flycheck-mode
   :diminish " ✓"
-  :init (add-hook 'prog-mode-hook 'flycheck-mode)
+  :init (add-hook 'prog-mode-hook #'flycheck-mode)
   :config (setq flycheck-emacs-lisp-load-path 'inherit))
 
 ;; restclient

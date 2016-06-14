@@ -8,7 +8,7 @@
     (c-set-offset 'case-label '+)
     (c-set-offset 'arglist-intro '+)
     (c-set-offset 'inexpr-class 0))
-  (add-hook 'c-mode-common-hook 'sm/cc-mode-hook)
+  (add-hook 'c-mode-common-hook #'sm/cc-mode-hook)
 
   ;; Objective-C
   (add-hook 'objc-mode-hook

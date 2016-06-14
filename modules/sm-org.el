@@ -5,7 +5,7 @@
 ;; Pretty bullets.
 (use-package org-bullets
   :commands org-bullets-mode
-  :init (add-hook 'org-mode-hook 'org-bullets-mode))
+  :init (add-hook 'org-mode-hook #'org-bullets-mode))
 
 (use-package org
   :ensure org-plus-contrib
