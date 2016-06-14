@@ -6,7 +6,7 @@
 ;; Redraw without pause while processing input.
 (setq redisplay-dont-pause t)
 
-(defvar sm/fixed-font-name "Office Code Pro D")
+(defvar sm/fixed-font-name "SF Mono")
 (defvar sm/fixed-font-weight 'light)
 (defvar sm/var-font-name "SF UI Text")
 (defvar sm/font-height 120)
