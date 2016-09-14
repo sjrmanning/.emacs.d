@@ -54,6 +54,7 @@
         hippie-expand-no-case-fold
         html-paragraph
         html-wrap-in-tag
+        indent-new-comment-line
         insert-postfix-whitespace
         isearch-forward-use-region
         js2-beginning-of-line
@@ -89,6 +90,7 @@
         org-delete-backward-char
         org-delete-char
         org-end-of-line
+        org-kill-line
         org-metaleft
         org-metaright
         org-return-indent
