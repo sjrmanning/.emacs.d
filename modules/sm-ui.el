@@ -26,6 +26,7 @@
         flx-ido-use-faces t)
   (ido-everywhere 1)
   (ido-vertical-mode 1)
+  (ido-ubiquitous-mode t)
   (flx-ido-mode 1))
 
 ;; smex
