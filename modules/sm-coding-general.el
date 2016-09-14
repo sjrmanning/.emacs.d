@@ -45,7 +45,11 @@
   (add-hook 'prog-mode-hook
             (lambda ()
               (unless (or (eq major-mode 'emacs-lisp-mode)
-                          (eq major-mode 'lisp-interaction-mode))
+                          (eq major-mode 'lisp-interaction-mode)
+                          (eq major-mode 'css-mode)
+                          (eq major-mode 'ruby-mode)
+                          (eq major-mode 'swift-mode)
+                          (eq major-mode 'elixir-mode))
                 (ycmd-mode))))
   :config
   (setq ycmd-parse-conditions '(save new-line buffer-focus)
@@ -60,8 +64,7 @@
                             js2-mode
                             objc-mode
                             php-mode
-                            python-mode
-                            ruby-mode))
+                            python-mode))
   (use-package company-ycmd
     :config
     (add-to-list 'company-backends (sm/backend-with-yas 'company-ycmd)))
