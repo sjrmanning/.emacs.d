@@ -15,9 +15,6 @@ tramp
 # Packages installed & byte-compiled by elpa
 elpa/
 
-# Graphene's geometry details
-.graphene-geometry
-
 # DS_Store
 .DS_Store
 
@@ -47,6 +44,9 @@ url/
 
 # Flycheck
 flycheck_*
+
+# Ensime
+ensime/
 
 # Python compiled files
 *.pyc
