@@ -1,11 +1,13 @@
 ;;; sm-coding-elixir.el --- Elixir configuration.
 
+(use-package alchemist
+  :commands (elixir-mode alchemist-mode)
+  :diminish alchemist-mode)
+
 (use-package elixir-mode
   :mode (("\\.ex\\'" . elixir-mode)
          ("\\.exs\\'" . elixir-mode))
   :config
-  (company-quickhelp-mode -1)
-  (use-package alchemist
-    :diminish alchemist-mode))
+  (alchemist-mode t))
 
 (provide 'sm-coding-elixir)
