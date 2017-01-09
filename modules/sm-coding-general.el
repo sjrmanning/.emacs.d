@@ -3,6 +3,7 @@
 ;; EditorConfig.org -- project-local coding style definitions.
 (use-package editorconfig
   :commands editorconfig-mode
+  :diminish editorconfig-mode
   :init (add-hook 'prog-mode-hook #'editorconfig-mode)
   :config
   (progn
