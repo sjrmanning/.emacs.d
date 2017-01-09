@@ -17,7 +17,11 @@
 
 ;; markdown
 (use-package markdown-mode
-  :mode "\\.md\\'")
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
 
 ;; Double spaces at the end of sentences is a bit outdated.
 (setq sentence-end-double-space nil)
