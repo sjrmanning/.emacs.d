@@ -50,6 +50,7 @@
                           (eq major-mode 'css-mode)
                           (eq major-mode 'ruby-mode)
                           (eq major-mode 'swift-mode)
+                          (eq major-mode 'java-mode)
                           (eq major-mode 'elixir-mode))
                 (ycmd-mode))))
   :config
