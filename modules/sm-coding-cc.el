@@ -18,6 +18,7 @@
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.
 (use-package dummy-h-mode
+  :load-path "etc/extra"
   :mode "\\.h$")
 
 (provide 'sm-coding-cc)

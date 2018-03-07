@@ -3,7 +3,7 @@
 ;; EditorConfig.org -- project-local coding style definitions.
 (use-package editorconfig
   :commands editorconfig-mode
-  :diminish editorconfig-mode
+  :delight editorconfig-mode
   :init (add-hook 'prog-mode-hook #'editorconfig-mode)
   :config
   (progn
@@ -27,7 +27,7 @@
 ;; flycheck
 (use-package flycheck
   :commands flycheck-mode
-  :diminish " ✓"
+  :delight " ✓"
   :init (add-hook 'prog-mode-hook #'flycheck-mode)
   :config (setq flycheck-emacs-lisp-load-path 'inherit))
 
@@ -49,7 +49,6 @@
                           (eq major-mode 'lisp-interaction-mode)
                           (eq major-mode 'css-mode)
                           (eq major-mode 'ruby-mode)
-                          (eq major-mode 'swift-mode)
                           (eq major-mode 'java-mode)
                           (eq major-mode 'elixir-mode))
                 (ycmd-mode))))

@@ -7,7 +7,7 @@
 
 ;; flyspell spell checking.
 (use-package flyspell
-  :diminish flyspell-mode
+  :delight flyspell-mode
   :commands flyspell-mode
   :init (add-hook 'text-mode-hook #'flyspell-mode)
   :config
@@ -21,7 +21,8 @@
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)))
+         ("\\.markdown\\'" . markdown-mode))
+  :config (add-hook 'markdown-mode-hook (lambda () (setq display-line-numbers t))))
 
 ;; Double spaces at the end of sentences is a bit outdated.
 (setq sentence-end-double-space nil)

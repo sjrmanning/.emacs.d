@@ -9,13 +9,12 @@
 
 ;; Revert buffers automatically when underlying files are changed externally.
 (use-package autorevert
-  :diminish auto-revert-mode
+  :delight auto-revert-mode
   :config
   (global-auto-revert-mode t))
 
-;; Linum.
-(add-hook 'prog-mode-hook #'linum-mode)
-(setq linum-format " %4d ")
+;; Native line numbers.
+(add-hook 'prog-mode-hook (lambda () (setq display-line-numbers t)))
 
 ;; Don't use tabs for indent; replace tabs with two spaces.
 (setq-default tab-width 2)
@@ -46,7 +45,7 @@
 ;; Crux (Collection of Ridiculously Useful eXtensions)
 ;; Replaces a lot of my old defuns and bindings.
 (use-package crux
-  :bind (("C-x C-r" . crux-recentf-ido-find-file)
+  :bind (("C-x C-r" . crux-recentf-find-file)
          ("C-a" . crux-move-beginning-of-line)
          ("<S-return>" . crux-smart-open-line)
          ("C-c R" . crux-rename-buffer-and-file)
@@ -76,7 +75,7 @@
 ;; smartparens
 (use-package smartparens
   :defer 2
-  :diminish " ()"
+  :delight " ()"
   :config
   (require 'smartparens-config)
   (sp-local-pair 'swift-mode "\\(" nil :actions nil)
@@ -101,7 +100,7 @@
 ;; whitespace cleanup
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
-  :diminish whitespace-cleanup-mode
+  :delight whitespace-cleanup-mode
   :commands whitespace-cleanup-mode
   :init
   (add-hook 'text-mode-hook #'whitespace-cleanup-mode)
@@ -109,13 +108,13 @@
 
 ;; subword
 (use-package subword
-  :diminish subword-mode
+  :delight subword-mode
   :init (global-subword-mode))
 
 ;; undo-tree
 ;; Treat undo history as a tree.
 (use-package undo-tree
-  :diminish undo-tree-mode
+  :delight undo-tree-mode
   :bind ("C-x u" . undo-tree-visualize)
   :config
   (global-undo-tree-mode)

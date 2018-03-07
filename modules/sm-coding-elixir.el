@@ -2,7 +2,7 @@
 
 (use-package alchemist
   :commands (elixir-mode alchemist-mode)
-  :diminish alchemist-mode)
+  :delight alchemist-mode)
 
 (use-package elixir-mode
   :mode (("\\.ex\\'" . elixir-mode)

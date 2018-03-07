@@ -33,41 +33,25 @@ git or hg repository is found in the buffer-local working dir."
 ;; Modes for git and mercurial.
 (use-package magit
   :commands magit-status
-  :bind ("C-x g" . sm/magit-or-monky-status)
+  :bind ("C-x g" . magit-status)
   :config
-  ;; Full-screen magit status with restore.
-  (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
-    (delete-other-windows))
-  (defadvice magit-mode-quit-window (around magit-restore-screen activate)
-    ad-do-it
-    (jump-to-register :magit-fullscreen))
-  ;; Use flyspell during commits.
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t))))
-
-(use-package monky
-  :commands monky-status
-  :config
-  ;; Similar full-screen config for monky.
-  (defadvice monky-status (around monky-fullscreen activate)
-    (window-configuration-to-register :monky-fullscreen)
-    ad-do-it
-    (delete-other-windows))
-  (defadvice monky-quit-window (around monky-restore-screen activate)
-    ad-do-it
-    (jump-to-register :monky-fullscreen))
-  ;; Flyspell during commits.
-  (add-hook 'monky-log-edit-mode-hook '(lambda () (flyspell-mode t))))
 
 ;; git-gutter
 (use-package git-gutter
   :defer 2
-  :diminish git-gutter-mode
+  :delight git-gutter-mode
   :ensure git-gutter-fringe
   :config
   (require 'git-gutter-fringe)
   (setq git-gutter:handled-backends '(git hg))
   (global-git-gutter-mode t))
+
+;; GitHub pull request support in magit.
+(use-package magit-gh-pulls
+  :ensure t
+  :config
+  (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
 (provide 'sm-source-control)

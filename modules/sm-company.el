@@ -1,7 +1,7 @@
 ;; company-mode
 ;; Auto-completion backend.
 (use-package company
-  :diminish " ©"
+  :delight " ©"
   :commands (company-mode global-company-mode)
   :init
   (add-hook 'prog-mode-hook #'company-mode)

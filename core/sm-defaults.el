@@ -104,6 +104,12 @@
 (setq-default dired-recursive-copies 'always)
 (setq-default dired-recursive-deletes 'top)
 
+;; Scratch buffer configuration.
+(setq initial-major-mode 'markdown-mode)
+(setq initial-scratch-message "\
+### Scratch buffer
+This buffer is for text that is not saved.")
+
 ;; Misc.
 (setq inhibit-startup-message t)
 (global-font-lock-mode t)

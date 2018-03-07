@@ -17,6 +17,9 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; Install delight as required by `:delight' with use-package.
+(use-package delight)
+
 (setq sm/modules
       '(sm-path
         sm-editing

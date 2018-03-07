@@ -41,10 +41,10 @@
 ;; diminish some modes.
 (use-package simple
   :ensure nil
-  :diminish visual-line-mode)
+  :delight visual-line-mode)
 (use-package abbrev
   :ensure nil
-  :diminish abbrev-mode)
+  :delight abbrev-mode)
 
 ;; get rid of the mouse.
 (use-package avoid
