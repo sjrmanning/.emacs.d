@@ -9,25 +9,29 @@
 
 ;; ido
 (use-package ido
-  :straight (flx-ido ido-completing-read+)
-  :init (ido-mode 1)
+  :straight (flx-ido ido-completing-read+ ido-vertical-mode)
   :config
-  (use-package ido-vertical-mode
-    :config
-    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
   (add-to-list 'ido-ignore-files "\\.DS_Store")
   (setq ido-enable-flex-matching t
         ido-enable-prefix nil
         ido-max-prospects 10
         ido-use-faces nil
-        flx-ido-use-faces t)
-  (ido-everywhere 1)
-  (ido-vertical-mode 1)
-  (ido-ubiquitous-mode t)
-  (flx-ido-mode 1))
+        flx-ido-use-faces t
+        ido-vertical-define-keys 'C-n-and-C-p-only
+        ido-auto-merge-delay-time 99999999
+        ido-everywhere t
+        ido-virtual-buffers t)
+  (ido-mode)
+  (ido-vertical-mode)
+  (ido-ubiquitous-mode)
+  (flx-ido-mode))
+
+;; (use-package flx-ido :config (flx-ido-mode))
+;; (use-package ido-vertical-mode :config (ido-vertical-mode))
 
 ;; smex
 (use-package smex
+  :commands smex
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)
          ("C-x C-m" . smex)
