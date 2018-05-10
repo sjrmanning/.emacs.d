@@ -1,8 +1,8 @@
 ;;; sm-coding-ruby.el --- Ruby configuration.
 
 (use-package ruby-mode
-  :ensure ruby-tools
-  :ensure inf-ruby
+  :straight ruby-tools
+  :straight inf-ruby
   :interpreter "ruby"
   :mode (("Fastfile$" . ruby-mode)
          ("Appfile$" . ruby-mode))

@@ -54,6 +54,7 @@
         hippie-expand-no-case-fold
         html-paragraph
         html-wrap-in-tag
+        indent-for-tab-command
         indent-new-comment-line
         insert-postfix-whitespace
         isearch-forward-use-region

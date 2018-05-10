@@ -35,6 +35,7 @@
             :config (load-theme 'darkokai t)))
 
 (use-package rainbow-mode
+  :straight (rainbow-mode :type git :host github :repo "emacsmirror/rainbow-mode")
   :commands rainbow-mode)
 
 (provide 'sm-appearance)

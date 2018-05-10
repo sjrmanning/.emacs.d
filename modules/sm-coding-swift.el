@@ -6,7 +6,6 @@
   :mode ("\\.swift\\'" . swift-mode)
   :config
   (use-package flycheck-swift
-    :pin melpa
     :config
     (flycheck-swift-setup))
   ;; (ycmd-mode -1)

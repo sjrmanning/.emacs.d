@@ -1,12 +1,11 @@
 ;;; sm-coding-java.el --- Java and Android config.
 
 (use-package ensime
-  :commands java-mode
-  :pin melpa-stable)
+  :commands java-mode)
 
 (use-package java
+  :straight java-imports
   :commands java-mode
-  :ensure java-imports
   :config
   (setq java-imports-find-block-function 'java-imports-find-place-sorted-block)
   :init

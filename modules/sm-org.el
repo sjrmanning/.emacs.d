@@ -8,7 +8,7 @@
   :init (add-hook 'org-mode-hook #'org-bullets-mode))
 
 (use-package org
-  :ensure org-plus-contrib
+  :straight org-plus-contrib
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)

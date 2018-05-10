@@ -1,7 +1,7 @@
 ;; sm-coding-js.el --- JavaScript and json configuration.
 
 (use-package javascript-mode
-  :ensure nil
+  :straight nil
   :mode ("\\.json$" . javascript-mode)
   :init
   (add-hook 'js-mode-hook (lambda () (setq js-indent-level 4))))

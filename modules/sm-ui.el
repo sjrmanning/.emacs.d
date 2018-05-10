@@ -5,14 +5,11 @@
 
 ;; uniquify
 ;; Overrides Emacs' default mechanism for making buffer names unique.
-(use-package uniquify
-  :ensure nil
-  :config (setq uniquify-buffer-name-style 'forward))
+(setq uniquify-buffer-name-style 'forward)
 
 ;; ido
 (use-package ido
-  :ensure flx-ido
-  :ensure ido-ubiquitous
+  :straight (flx-ido ido-completing-read+)
   :init (ido-mode 1)
   :config
   (use-package ido-vertical-mode
@@ -40,10 +37,10 @@
 
 ;; diminish some modes.
 (use-package simple
-  :ensure nil
+  :straight nil
   :delight visual-line-mode)
 (use-package abbrev
-  :ensure nil
+  :straight nil
   :delight abbrev-mode)
 
 ;; get rid of the mouse.

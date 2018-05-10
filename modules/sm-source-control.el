@@ -7,10 +7,11 @@
 ;; gist.el
 ;; Provides ability to create github gists from region, file, etc., as well as
 ;; browse, edit, and update metadata of your gists.
-(use-package gist
-  :bind ("C-c g p" . gist-region-or-buffer-private)
-  :config
-  (setq gist-view-gist t))
+;; (use-package gist
+;;   :commands gist-region-or-buffer-private
+;;   :bind ("C-c g p" . gist-region-or-buffer-private)
+;;   :config
+;;   (setq gist-view-gist t))
 
 (defun process-exit-code-and-output (program &rest args)
   "Run PROGRAM with ARGS and return the exit code and output in a list."
@@ -32,26 +33,22 @@ git or hg repository is found in the buffer-local working dir."
 ;; magit and monky
 ;; Modes for git and mercurial.
 (use-package magit
+  :straight magit-gh-pulls
   :commands magit-status
   :bind ("C-x g" . magit-status)
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-  (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t))))
+  (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t)))
+  (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
 ;; git-gutter
 (use-package git-gutter
+  :straight git-gutter-fringe
   :defer 2
   :delight git-gutter-mode
-  :ensure git-gutter-fringe
   :config
   (require 'git-gutter-fringe)
   (setq git-gutter:handled-backends '(git hg))
   (global-git-gutter-mode t))
-
-;; GitHub pull request support in magit.
-(use-package magit-gh-pulls
-  :ensure t
-  :config
-  (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
 (provide 'sm-source-control)

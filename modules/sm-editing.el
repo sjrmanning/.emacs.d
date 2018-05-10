@@ -114,6 +114,7 @@
 ;; undo-tree
 ;; Treat undo history as a tree.
 (use-package undo-tree
+  :straight (undo-tree :type git :host github :repo "martinp26/undo-tree")
   :delight undo-tree-mode
   :bind ("C-x u" . undo-tree-visualize)
   :config

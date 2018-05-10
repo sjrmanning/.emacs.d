@@ -3,10 +3,8 @@
 ;; Increase the GC threshold as soon as possible.
 (setq gc-cons-threshold 50000000)
 
-;; Packages need to be initialised in init.el in Emacs 25.x.
-(unless (fboundp 'package-initialize)
-  (require 'package))
-(package-initialize)
+;; Not using package.el.
+(setq package-enable-at-startup nil)
 
 ;; Prepare paths.
 (add-to-list 'load-path (expand-file-name "core/" user-emacs-directory))

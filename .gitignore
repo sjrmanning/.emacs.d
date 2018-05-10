@@ -12,7 +12,8 @@ tramp
 # ELC
 *.elc
 
-# Packages installed & byte-compiled by elpa
+# Packages
+straight/
 elpa/
 
 # DS_Store

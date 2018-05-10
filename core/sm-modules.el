@@ -1,24 +1,28 @@
 ;;; sm-modules.el --- Configures available modules and the package manager.
 
-;; Set up the package manager.
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+;; Bootstrap straight.
+(let ((bootstrap-file (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
+      (bootstrap-version 3))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-;; Refresh the archive if we have no local cache.
-(unless package-archive-contents
-  (package-refresh-contents))
+;; straight.el tuning
+(setq straight-cache-autoloads t)
+(setq straight-check-for-modifications 'live)
 
-;; Ensure `use-package' is installed.
-(when (not (package-installed-p 'use-package))
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
+;; Use `use-package' via straight.el
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
 ;; Install delight as required by `:delight' with use-package.
-(use-package delight)
+(use-package delight
+  :straight (delight :type git :host github :repo "emacsmirror/delight"))
 
 (setq sm/modules
       '(sm-path
