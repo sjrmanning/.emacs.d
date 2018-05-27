@@ -105,14 +105,23 @@
 (use-package browse-kill-ring
   :bind ("M-y" . browse-kill-ring))
 
+;; whitespace
+(use-package whitespace
+  :config
+  (setq whitespace-line-column 80)
+  (setq whitespace-style '(face tabs empty trailing lines-tail))
+  :init
+  (dolist (hook '(prog-mode-hook text-mode-hook))
+    (add-hook hook #'whitespace-mode))
+  )
 ;; whitespace cleanup
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
   :delight whitespace-cleanup-mode
   :commands whitespace-cleanup-mode
   :init
-  (add-hook 'text-mode-hook #'whitespace-cleanup-mode)
-  (add-hook 'prog-mode-hook #'whitespace-cleanup-mode))
+  (dolist (hook '(prog-mode-hook text-mode-hook))
+    (add-hook hook #'whitespace-cleanup-mode)))
 
 ;; subword
 (use-package subword
