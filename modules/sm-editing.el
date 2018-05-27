@@ -146,18 +146,10 @@
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'lisp-mode-hook #'aggressive-indent-mode))
 
-;; ace-jump-mode enables movement in 3 keystrokes
-(use-package ace-jump-mode
-  :config
-  (ace-jump-mode-enable-mark-sync))
-
 ;; map pairs of simultaneously/rapidly pressed keys to commands
 (use-package key-chord
   :init
   (progn
-    (key-chord-define-global "jj" 'ace-jump-word-mode)
-    (key-chord-define-global "jl" 'ace-jump-line-mode)
-    (key-chord-define-global "jk" 'ace-jump-char-mode)
     ;;(key-chord-define-global "JJ" 'prelude-switch-to-previous-buffer)
     (key-chord-define-global "uu" 'undo-tree-visualize)
     (key-chord-define-global "xx" 'execute-extended-command)

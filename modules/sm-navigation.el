@@ -61,9 +61,11 @@
 ;; avy
 ;; A better jump to char and line.
 (use-package avy
-  :config (setq avy-style 'at)
-  :bind (("C-o" . avy-goto-char)
-         ("M-g" . avy-goto-line)))
+  :config
+  (setq avy-style 'at)
+  (key-chord-define-global "jk" 'avy-goto-char)
+  (key-chord-define-global "jl" 'avy-goto-line)
+  (key-chord-define-global "jj" 'avy-goto-word-1))
 
 ;; smooth-scrolling
 ;; Avoids annoying behaviour when scrolling past the edges of a buffer.
