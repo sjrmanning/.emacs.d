@@ -169,4 +169,20 @@
     (key-chord-mode +1)
     ))
 
+;; encryption, the way that I'm used to doing it.
+(use-package crypt++
+  :straight nil
+  :load-path "etc/extra"
+  :config
+  (progn
+    (epa-file-disable)
+    (setq crypt-encryption-type 'gpg)
+    (setq crypt-encryption-file-extension "\\(\\.gpg\\)$")
+    (modify-coding-system-alist 'file "\\.bz\\'" 'no-conversion)
+    (modify-coding-system-alist 'file "\\.bz2\\'" 'no-conversion)
+    (modify-coding-system-alist 'file "\\.gpg\\'" 'no-conversion)
+    (modify-coding-system-alist 'file "\\.gz\\'" 'no-conversion)
+    (modify-coding-system-alist 'file "\\.Z\\'" 'no-conversion)
+    ))
+
 (provide 'sm-editing)
