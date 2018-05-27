@@ -3,10 +3,10 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "iA Writer Mono V")
-(defvar sm/fixed-font-weight 'regular)
-(defvar sm/var-font-name "iA Writer Quattro V")
-(defvar sm/font-height 160)
+(defvar sm/fixed-font-name "Inconsolata LGC")
+(defvar sm/fixed-font-weight 'normal)
+(defvar sm/var-font-name "SF Pro Text")
+(defvar sm/font-height 140)
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes
@@ -30,11 +30,12 @@
              :family sm/fixed-font-name
              :height sm/font-height
              :weight sm/fixed-font-weight)
-            (set-face-attribute
-             'line-number nil
-             :family sm/fixed-font-name
-             :height (- sm/font-height 10)
-             :weight sm/fixed-font-weight)
+            ;; this is part of the native line numbers in v26
+            ;; (set-face-attribute
+            ;;  'line-number nil
+            ;;  :family sm/fixed-font-name
+            ;;  :height (- sm/font-height 10)
+            ;;  :weight sm/fixed-font-weight)
             (set-face-attribute
              'variable-pitch nil
              :family sm/var-font-name)))
