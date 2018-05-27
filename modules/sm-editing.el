@@ -7,6 +7,14 @@
 ;; Require newline at end of file.
 (setq require-final-newline t)
 
+;; map pairs of simultaneously/rapidly pressed keys to commands
+;; other packages use key-chord-define*, so hook it up early
+(use-package key-chord
+  :init
+  (progn
+    (key-chord-define-global "xx" 'execute-extended-command)
+    (key-chord-mode +1)))
+
 ;; Revert buffers automatically when underlying files are changed externally.
 (use-package autorevert
   :hook (after-init . global-auto-revert-mode)
@@ -103,7 +111,8 @@
 
 ;; browse-kill-ring
 (use-package browse-kill-ring
-  :bind ("M-y" . browse-kill-ring))
+  :config
+  (key-chord-define-global "yy" 'browse-kill-ring))
 
 ;; whitespace
 (use-package whitespace
@@ -137,8 +146,8 @@
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
-  ;; use uu via key-chord
-  (unbind-key "C-x u" undo-tree-map))
+  (unbind-key "C-x u" undo-tree-map)
+  (key-chord-define-global "uu" 'undo-tree-visualize))
 
 ;; smart-comment
 ;; Better `comment-dwim' supporting uncommenting.
@@ -157,17 +166,6 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'lisp-mode-hook #'aggressive-indent-mode))
-
-;; map pairs of simultaneously/rapidly pressed keys to commands
-(use-package key-chord
-  :init
-  (progn
-    ;;(key-chord-define-global "JJ" 'prelude-switch-to-previous-buffer)
-    (key-chord-define-global "uu" 'undo-tree-visualize)
-    (key-chord-define-global "xx" 'execute-extended-command)
-    (key-chord-define-global "yy" 'browse-kill-ring)
-    (key-chord-mode +1)
-    ))
 
 ;; encryption, the way that I'm used to doing it.
 (use-package crypt++
