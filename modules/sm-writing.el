@@ -40,4 +40,7 @@
   :config
   (setq markdown-command "pandoc"))
 
+;; lorem ipsum, generate fun text
+(use-package lorem-ipsum)
+
 (provide 'sm-writing)
