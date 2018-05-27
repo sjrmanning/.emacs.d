@@ -49,6 +49,7 @@
         ;; sm-coding-swift
         sm-coding-perl
         sm-coding-sh
+        sm-coding-stats
         sm-coding-web))
 
 (defun sm/load-modules ()
