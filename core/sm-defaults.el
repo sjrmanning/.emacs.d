@@ -17,6 +17,11 @@
   (global-set-key [(super v)] 'yank)
   (global-set-key [(super q)] 'save-buffers-kill-emacs))
 
+;; this should probably be conditional on OS....
+(setq browse-url-browser-function 'browse-url-generic)
+(setq browse-url-generic-program "open")
+(global-set-key [s-mouse-1] 'browse-url-at-mouse)
+
 ;; Frame title formatting.
 (setq-default frame-title-format
               '((:eval (if (buffer-file-name)
