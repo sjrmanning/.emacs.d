@@ -31,6 +31,9 @@
   :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-word-generic))
   :custom (flyspell-correct-interface 'flyspell-correct-ivy))
 
+;; lorem ipsum, generate fun text
+(use-package lorem-ipsum)
+
 ;; markdown
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -40,7 +43,10 @@
   :config
   (setq markdown-command "pandoc"))
 
-;; lorem ipsum, generate fun text
-(use-package lorem-ipsum)
+(use-package markdownfmt
+  :config
+  (progn
+    ;; (add-hook 'markdown-mode-hook #'markdownfmt-enable-on-save)
+    ))
 
 (provide 'sm-writing)
