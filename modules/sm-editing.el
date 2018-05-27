@@ -12,16 +12,18 @@
   :hook (after-init . global-auto-revert-mode)
   :delight auto-revert-mode)
 
-;; Native line numbers.
-(add-hook 'prog-mode-hook (lambda () (setq display-line-numbers t)))
+;; Native line numbers won't work until 26.x.  In the meantime, use linum
+;; (add-hook 'prog-mode-hook (lambda () (setq display-line-numbers t)))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (linum-mode +1)
+            (setq linum-format " %4d ")))
 
 ;; Don't use tabs for indent; replace tabs with two spaces.
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
 ;; General editing-related bindings.
-(bind-key "C-w" 'backward-kill-word)
-(bind-key "C-x C-k" 'kill-region)
 (bind-key "C-c C-k" 'kill-region)
 
 (bind-key "<f5>" 'sort-lines)
@@ -119,11 +121,12 @@
 (use-package undo-tree
   :straight (undo-tree :type git :host github :repo "martinp26/undo-tree")
   :delight undo-tree-mode
-  :bind ("C-x u" . undo-tree-visualize)
   :config
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t))
+  (setq undo-tree-visualizer-diff t)
+  ;; use uu via key-chord
+  (unbind-key "C-x u" undo-tree-map))
 
 ;; smart-comment
 ;; Better `comment-dwim' supporting uncommenting.
@@ -142,5 +145,24 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'lisp-mode-hook #'aggressive-indent-mode))
+
+;; ace-jump-mode enables movement in 3 keystrokes
+(use-package ace-jump-mode
+  :config
+  (ace-jump-mode-enable-mark-sync))
+
+;; map pairs of simultaneously/rapidly pressed keys to commands
+(use-package key-chord
+  :init
+  (progn
+    (key-chord-define-global "jj" 'ace-jump-word-mode)
+    (key-chord-define-global "jl" 'ace-jump-line-mode)
+    (key-chord-define-global "jk" 'ace-jump-char-mode)
+    ;;(key-chord-define-global "JJ" 'prelude-switch-to-previous-buffer)
+    (key-chord-define-global "uu" 'undo-tree-visualize)
+    (key-chord-define-global "xx" 'execute-extended-command)
+    (key-chord-define-global "yy" 'browse-kill-ring)
+    (key-chord-mode +1)
+    ))
 
 (provide 'sm-editing)
