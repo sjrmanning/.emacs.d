@@ -113,6 +113,8 @@
 (setq-default dired-clean-up-buffers-too t)
 (setq-default dired-recursive-copies 'always)
 (setq-default dired-recursive-deletes 'top)
+(when (string= system-type "darwin")
+  (setq dired-use-ls-dired nil))
 
 ;; Scratch buffer configuration.
 (setq initial-major-mode 'markdown-mode)
