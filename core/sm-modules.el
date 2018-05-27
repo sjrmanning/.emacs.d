@@ -47,11 +47,12 @@
         sm-coding-python
         sm-coding-ruby
         ;; sm-coding-swift
+        sm-coding-web
         sm-coding-perl
         sm-coding-sh
         sm-coding-stats
         sm-dired
-        sm-coding-web))
+        ))
 
 (defun sm/load-modules ()
   (interactive)
