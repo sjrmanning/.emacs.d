@@ -37,7 +37,7 @@
         sm-writing
         sm-projects
         sm-source-control
-        sm-org
+        ;; sm-org
         sm-coding-general
         sm-coding-cc
         sm-coding-csharp
