@@ -13,7 +13,7 @@
 ;; Fix mac-port defaults.
 (when (equal system-type 'darwin)
   (setq mac-option-modifier 'meta)
-  (setq mac-command-modifier 'meta)
+  (setq mac-command-modifier 'super)
   (global-set-key [(super v)] 'yank)
   (global-set-key [(super q)] 'save-buffers-kill-emacs))
 
