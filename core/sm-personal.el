@@ -7,7 +7,4 @@
 (if (file-exists-p private-dir)
     (sm/load-directory private-dir))
 
-;; Use zsh as default term shell.
-(setq explicit-shell-file-name "zsh")
-
 (provide 'sm-personal)
