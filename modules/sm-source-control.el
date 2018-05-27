@@ -1,9 +1,5 @@
 ;;; sm-source-control.el --- Source control and related configuration.
 
-;; Disable since I use magit for everything.
-(setq vc-handled-backends '())
-(remove-hook 'find-file-hooks 'vc-find-file-hook)
-
 ;; gist.el
 ;; Provides ability to create github gists from region, file, etc., as well as
 ;; browse, edit, and update metadata of your gists.
@@ -37,12 +33,12 @@ git or hg repository is found in the buffer-local working dir."
   :bind ("C-x g" . magit-status)
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-  <<<<<<< HEAD
+
   (add-hook 'git-commit-mode-hook '(lambda ()
                                      (progn
                                        (git-commit-turn-on-flyspell)
                                        (git-commit-turn-on-auto-fill)
-                                       (setq git-commit-summary-max-length 50))))
+                                       (setq git-commit-summary-max-length 50)))))
 
 ;; Git forge w/ magit.
 (use-package forge
