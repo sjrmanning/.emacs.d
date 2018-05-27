@@ -40,13 +40,13 @@
         ;; sm-org
         sm-coding-general
         sm-coding-cc
-        sm-coding-csharp
+        ;; sm-coding-csharp
         sm-coding-elixir
         sm-coding-java
         sm-coding-js
         sm-coding-python
         sm-coding-ruby
-        sm-coding-swift
+        ;; sm-coding-swift
         sm-coding-web))
 
 (defun sm/load-modules ()
