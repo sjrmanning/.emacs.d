@@ -24,7 +24,6 @@
             (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
             (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
             (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-            (run-with-idle-timer 0.1 nil (lambda nil (toggle-frame-maximized)))
             (set-face-attribute
              'default nil
              :family sm/fixed-font-name
