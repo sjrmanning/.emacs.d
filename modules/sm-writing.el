@@ -1,10 +1,3 @@
-;; typo
-;; Mode for typographical editing.
-(use-package typo
-  :commands typo-mode
-  :config (setq-default typo-language "English")
-  :init (add-hook 'text-mode-hook #'typo-mode))
-
 ;; Distraction-free writing.
 (use-package writeroom-mode
   :commands (writeroom-mode)
@@ -46,8 +39,5 @@
          ("\\.markdown\\'" . markdown-mode))
   :config
   (setq markdown-command "pandoc"))
-
-;; Double spaces at the end of sentences is a bit outdated.
-(setq sentence-end-double-space nil)
 
 (provide 'sm-writing)
