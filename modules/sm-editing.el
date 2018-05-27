@@ -23,9 +23,12 @@
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
-;; General editing-related bindings.
-(bind-key "C-c C-k" 'kill-region)
+;; george is weird.  swap backspace and del at very low level
+(keyboard-translate ?\C-h ?\C-?)
 
+;; General editing-related bindings.
+(bind-key "\e \C-g" 'goto-line)
+(bind-key "C-c C-k" 'kill-region)
 (bind-key "<f5>" 'sort-lines)
 (bind-key "C-c b" 'switch-to-previous-buffer)
 
