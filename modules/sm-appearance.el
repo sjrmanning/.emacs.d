@@ -6,7 +6,7 @@
 (defvar sm/fixed-font-name "Inconsolata LGC")
 (defvar sm/fixed-font-weight 'normal)
 (defvar sm/var-font-name "SF Pro Text")
-(defvar sm/font-height 130)
+(defvar sm/font-height 120)
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes
