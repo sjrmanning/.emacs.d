@@ -8,7 +8,6 @@
   (progn
     (add-hook 'bbdb-load-hook
               '(lambda ()
-                 (setq bbdb-file "~/.bbdb")
                  (setq bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook)
                  (setq bbdb-change-hook 'bbdb-timestamp-hook)
                  (setq bbdb-completion-type 'primary-or-name)
