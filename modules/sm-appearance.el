@@ -70,4 +70,16 @@
 (use-package rainbow-mode
   :commands rainbow-mode)
 
+;; Emacs on Mac OS X has a habit of opening new frames right on top of
+;; existing frames, which make the older ones hard to get to.  This
+;; just joggles new frames down and right a bit so they stack neatly.
+(defun joggle (frame)
+  (set-frame-parameter frame 'top
+                       ;; make room for title bar
+                       (+ (frame-parameter (selected-frame) 'top) 30))
+  (set-frame-parameter frame 'left
+                       (+ (frame-parameter (selected-frame) 'left) 15)))
+(when window-system
+  (add-hook 'after-make-frame-functions 'joggle))
+
 (provide 'sm-appearance)
