@@ -56,3 +56,4 @@ ensime/
 mspyls/
 
 network-security.data
+etc/.mc-lists.el
