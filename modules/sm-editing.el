@@ -40,6 +40,20 @@
 (bind-key "<f5>" 'sort-lines)
 (bind-key "C-c b" 'switch-to-previous-buffer)
 
+;; Toggle map, from
+;; http://endlessparentheses.com/the-toggle-map-and-wizardry.html
+(define-prefix-command 'endless/toggle-map)
+(define-key ctl-x-map "t" 'endless/toggle-map)
+(define-key endless/toggle-map "f" #'auto-fill-mode)
+(define-key endless/toggle-map "l" #'toggle-truncate-lines)
+(define-key endless/toggle-map "o" #'overwrite-mode)
+;; (define-key endless/toggle-map "t" #'endless/toggle-theme)
+;;; Generalized version of `read-only-mode'.
+;; (define-key endless/toggle-map "r" #'dired-toggle-read-only)
+;; (autoload 'dired-toggle-read-only "dired" nil t)
+(define-key endless/toggle-map "v" #'visual-line-mode)
+(define-key endless/toggle-map "w" #'whitespace-mode)
+
 ;; Cursor movement
 (defun sm/next-line-fast ()
   "Faster `C-n'"
