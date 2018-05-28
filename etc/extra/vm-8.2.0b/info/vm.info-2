@@ -1,0 +1,1722 @@
+This is vm.info, produced by makeinfo version 4.8 from vm.texinfo.
+
+INFO-DIR-SECTION Emacs
+START-INFO-DIR-ENTRY
+* VM: (vm).                             A mail reader.
+END-INFO-DIR-ENTRY
+
+   This file documents the VM mail reader.
+Copyright (C) 1989, 1991, 1999 Kyle E. Jones
+
+Copyright (C) 2003 - 2008 Robert Widhopf-Fenk
+
+Copyright (C) 2008 - 2012 Uday S. Reddy
+
+   Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+
+File: vm.info,  Node: MIME Display,  Next: MIME Composition,  Prev: Virtual Folder Internals,  Up: Internals
+
+27.9 MIME Display
+=================
+
+The MIME layout of a message is stored in the `mime-layout' field of
+the Soft data vector of the message.  (*Note MIME layout::.)  The MIME
+layout is in general a tree structure of "MIME parts".  The function
+`vm-decode-mime-layout' is responsible for traversing the tree
+structure at each MIME part and displaying it appropriately.
+
+   The function `vm-decode-mime-layout' goes through the following
+sequence of decisions:
+
+  1. If the MIME part is a `multipart' type, then the subparts are
+     displayed as needed.  If it is a single part, it proceeds as
+     follows.
+
+  2. If the MIME part should not be displayed automatically, it is
+     displayed as a button.  (An automatically displayed MIME type is
+     one listed in `vm-mime-auto-displayed-content-types' but not
+     listed in the corresponding exceptions.)
+
+  3. If the MIME part should be displayed internally and VM is able to
+     do so, then it is displayed internally.  (An internally displayed
+     MIME type is one listed in `vm-mime-internal-content-types' but not
+     listed in the corresponding exceptions.)
+
+  4. Otherwise, the MIME part is displayed externally.  An external
+     viewer is found from `vm-mime-external-content-types-alist' and it
+     is invoked to display the MIME part.
+
+   MIME parts of type `message/external-body' need special treatment.
+If they are not asked to be auto-displayed, then they are displayed as
+buttons, but the button caption may use information from the child part
+(the actual object that is in the external-body) such as its type and
+description.  If a `message/external-body' part is asked to be
+auto-displayed, then the child part is fetched from the external source
+and stored in an internal buffer.  It may be auto-displayed if it is
+appropriate to do so, or shown in turn as a button.
+
+   MIME buttons are displayed as regions of text displaying button
+labels.  In addition, they have an overlay/extent placed on them, which
+has a number of properties associated with it:
+
+   * `vm-button'.  Always `t'.
+
+   * `vm-mime-layout'.  Gives the layout of the MIME part.
+
+   * `vm-mime-function'.  The function that carries out the action
+     represented by pressing the button.
+
+   * `vm-mime-disposable'.  Set to true if the button should be removed
+     when it is replaced by the MIME object.  
+
+   * `face'.  Set to the value of `vm-mime-button-face'.
+
+   * `local-map' (FSF Emacs) or `keymap' (XEmacs).  Set to a keymap
+     that includes `vm-mime-reader-map', binding the `$' keys.
+
+
+File: vm.info,  Node: MIME Composition,  Next: Extents and Overlays,  Prev: MIME Display,  Up: Internals
+
+27.10 MIME Composition
+======================
+
+A MIME message is composed just like a normal message.  When objects
+are attached using commands like `vm-attach-file', attachment buttons
+are created in the message composition buffer.  An attachment button is
+a region of text that looks like:
+
+     [Attachment mary.jpeg, image/jpeg]
+
+Various text properties are associated with an attachment button,
+allowing it to be turned into an actual attachment when the message is
+sent.
+
+   The representation of the attachment buttons differs in GNU Emacs and
+XEmacs.  In GNU Emacs, the region of text is given text properties that
+represent the metadata about the object.  In XEmacs, the region of text
+is given an extent, which is then given properties representing the
+metadata.  The reason for the  different representations is that in GNU
+Emacs, only text properties are preserved under killing and yanking.
+
+   The following properties are defined for attachment buttons:
+
+   * `vm-mime-object'.  The object denoting the MIME attachment.  It is
+     either
+
+        * a string denoting a file name,
+
+        * a buffer containing the file to be attached,
+
+        * a list of the form (buffer, start, end, filename) indicating
+          a region in a buffer, typically the Folder buffer, or
+
+        * `t' indicating that the attachment is another MIME object in
+          a VM folder.
+
+     In the last case, the `vm-mime-layout' property describes the rest
+     of the metadata.
+
+   * `vm-mime-type'.  A string denoting the MIME type of the object.
+     (Note that it is a single string, unlike the `type' component of a
+     MIME layout.)
+
+   * `vm-mime-parameters'.  A list of strings denoting the parameters
+     of the MIME type.
+
+   * `vm-mime-description'.  A string for the MIME description of the
+     object.
+
+   * `vm-mime-disposition'.  A list describing the MIME disposition.
+
+   * `vm-mime-encoded'.  A boolean indicating whether the object has
+     MIME headers.
+
+   * `vm-mime-encoding'.  The MIME encoding used, if it is already
+     encoded.
+
+   * `vm-mime-forward-local-refs'.  Whether or not references to local
+     external-body objects should be forwarded as is.
+
+   * `fontified'.  Standard text property.
+
+   * `duplicable'.  Set to `t' in XEmacs allowing the extent to be
+     preserved under killing and yanking.
+
+   * `front-nonsticky' and `rear-nonsticky'.  Standard stickiness of
+     text properties in GNU Emacs.
+
+   When a composed message is sent, the attachment buttons are replaced
+by actual attachment objects.  In FSF Emacs, the attachment buttons are
+first converted into "fake" overlays before MIME encoding, in a
+function called `vm-mime-fake-attachment-overlays'.  This allows the
+next stage to treat both FSF Emacs and XEmacs using the same logic.
+
+   The function `vm-mime-encode-composition' then encodes the
+composition buffer, by selecting each attachment button and replacing
+it with the corresponding object.  The bodies of `external-body'
+objects are also retrieved at this stage.  Unless the objects were
+already MIME-encoded, they are MIME-encoded and made into MIME parts by
+adding suitable headers.  The message itself is given MIME headers
+describing its content and then handed to Emacs message-sending
+functions.
+
+Yanking or Forwarding MIME Messages
+-----------------------------------
+
+When another message is yanked or "included" in a message composition,
+the handling of attachments depends on the variable
+`vm-include-mime-attachments'.  If the variable is `nil', then the
+attachments are displayed as token buttons in plain text that appear
+similar to:
+
+     [DELETED ATTACHMENT mary.jpg, image/jpeg]
+
+The function `vm-decode-mime-layout' is employed to generate the yanked
+text along with such token buttons.
+
+   If `vm-include-mime-attachments' is `t', then first the
+`vm-decode-mime-layout' function is employed to generate proper MIME
+buttons for all the attachments.  In a second step, the MIME buttons
+are replaced by attachment buttons using a function called
+`vm-mime-convert-to-attachment-buttons'.  These attachment buttons are
+then handled as described above.
+
+
+File: vm.info,  Node: Extents and Overlays,  Next: Timers and Concurrency,  Prev: MIME Composition,  Up: Internals
+
+27.11 Extents and Overlays
+==========================
+
+XEmacs and GNU Emacs differ in how they represent non-textual
+properties in buffers.  The web page on "XEmacs vs GNU Emacs" describes
+the situation as follows:
+
+     XEmacs uses "extents" to represent all non-textual aspects of
+     buffers; GNU Emacs 19 uses two distinct objects, "text properties"
+     and "overlays", which divide up the functionality between them.
+     Extents are a superset of the union of the functionality of the
+     two GNU Emacs data types. The full GNU Emacs 19 interface to text
+     properties and overlays is supported in XEmacs (with extents being
+     the underlying representation).
+
+     Extents can be made to be copied into strings, and then restored,
+     by kill and yank. Thus, one can specify this behavior on either
+     "extents" or "text properties", whereas in GNU Emacs 19 text
+     properties always have this behavior and overlays never do.
+
+   While extents and overlays look similar on the surface, they differ
+fundamentally in that extents are attached to text and, so, can be
+killed and yanked, whereas overlays are not attached to text.  XEmacs
+has implemented GNU-like text properties on top of extents.  So, text
+properties may work more uniformly in both the Emacsen, but VM was
+developed in the early days of the forking and does not use these
+common features.
+
+   The file `vm-misc.el' contains definitions whereby both extents and
+overlays can be treated as a single type of "VM extents".  Wherever
+such VM extents can be used, there is some uniformity in the code but,
+in other places, there is not.  (Independently, the XEmacs team has
+developed the `fsf-compat' package by which FSF-style overlays are
+implemented on top of extents.  This package is not compatible with the
+way VM deals with the two types.)
+
+   Another major differences between extents and overlays is that the
+beginning and ending of overlays are markers.  This has some
+advantages.  However, if a buffer has many overlays, normal editing
+operations must update all the overlay markers, which can be
+time-consuming.
+
+   The major applications of extents and overlays in VM are the
+following:
+
+  1. Summary buffers use extents/overlays for each summary line.  These
+     are implemented uniformly but, to avoid the performance problem in
+     GNU Emacs, all the markers are reset to nil before a summary is
+     regenerated and then set to their correct positions afterwards.
+     Not doing this correctly can seriously degrade the performance of
+     summary generation.
+
+  2. Presentation buffers use extents/overlays for MIME buttons.  These
+     are implemented uniformly.
+
+  3. The message composition buffers have attachment buttons.  These are
+     implemented using text properties in GNU Emacs and extents in
+     overlays.  The difference is necessary because VM allows the
+     attachment buttons to be killed and yanked.  It is not possible to
+     implement this functionality using overlays.
+
+
+File: vm.info,  Node: Timers and Concurrency,  Prev: Extents and Overlays,  Up: Internals
+
+27.12 Timers and Concurrency
+============================
+
+VM has been designed as mainly a sequential program.  However, there
+three timer tasks that get scheduled to occur at regular intervals:
+
+`vm-flush-itimer-function'
+     Stores message attributes in the folder so that they will be saved
+     when an auto-save is done.  This is controlled by the variable
+     `vm-flush-interval'.  
+
+`vm-get-mail-itimer-function'
+     Moves new mail from maildrops into the folder.  This is controlled
+     by the variable `vm-auto-get-new-mail'.  
+
+`vm-check-mail-itimer-function'
+     Checks the maildrops for any new mail.  This is controlled by the
+     variable `vm-mail-check-interval'.
+
+These timer tasks are scheduled using the `itimer' package in XEmacs
+and the `timer' package in Gnu Emacs.
+
+
+File: vm.info,  Node: Concept Index,  Next: Key Index,  Prev: Internals,  Up: Top
+
+Concept Index
+*************
+
+ [index ]
+* Menu:
+
+* .vm:                                   Starting Up.         (line   6)
+* .vm.preferences:                       Starting Up.         (line  16)
+* .vm.windows:                           Window Configuration.
+                                                              (line  52)
+* address book:                          Preface.             (line  24)
+* archiving:                             Preface.             (line  24)
+* attachment button:                     Replying.            (line  86)
+* attachments <1>:                       Viewing MIME.        (line  40)
+* attachments:                           Attachments.         (line   6)
+* auth-source library:                   POP and IMAP Folders.
+                                                              (line 120)
+* authinfo:                              POP and IMAP Folders.
+                                                              (line 120)
+* auto-save <1>:                         Crash Recovery.      (line   6)
+* auto-save:                             Message Attributes.  (line  73)
+* Babyl:                                 Local Folders.       (line   6)
+* Babyl format:                          Folder Internals.    (line  32)
+* BBDB <1>:                              Defined Folders.     (line  72)
+* BBDB <2>:                              Highlights.          (line   8)
+* BBDB <3>:                              Defined Folders.     (line 108)
+* BBDB:                                  Preface.             (line  24)
+* BellFrom_ folder type:                 Folder Internals.    (line  23)
+* browse-url:                            Using the Mouse.     (line  40)
+* bug reports:                           Bugs.                (line   6)
+* cache folders:                         POP and IMAP Folders.
+                                                              (line  19)
+* cached data:                           Message Internals.   (line 175)
+* character sets:                        Character sets.      (line  12)
+* Content-Disposition <1>:               Viewing MIME.        (line  40)
+* Content-Disposition:                   MIME attachments.    (line  22)
+* CP1252:                                Character sets.      (line  12)
+* CRAM-MD5:                              POP and IMAP Folders.
+                                                              (line  96)
+* crash box:                             Local Folders.       (line  36)
+* crash reovery:                         Crash Recovery.      (line   6)
+* defined virtual folders:               Virtual Folders.     (line  21)
+* delivery date:                         Sorting Messages.    (line  30)
+* drag and drop <1>:                     MIME attachments.    (line  57)
+* drag and drop:                         Sending Messages.    (line  36)
+* EasyPG:                                POP and IMAP Folders.
+                                                              (line 120)
+* Emacs:                                 Preface.             (line   6)
+* encryption:                            Preface.             (line  24)
+* epa-file library:                      POP and IMAP Folders.
+                                                              (line 120)
+* expunging, IMAP messages:              IMAP Spool Files.    (line  23)
+* faces:                                 Summary Faces.       (line   6)
+* FCC:                                   Saving copies.       (line   6)
+* file CC:                               Saving copies.       (line   6)
+* file locking <1>:                      Saving Messages.     (line   6)
+* file locking:                          Local Folders.       (line  16)
+* filling paragraphs:                    Paging.              (line  35)
+* folder types:                          Folder types.        (line   6)
+* From_ folder type:                     Folder Internals.    (line  23)
+* From_with-Content-Length folder type:  Folder Internals.    (line  23)
+* GB2312:                                Character sets.      (line  12)
+* Gnu Emacs:                             Preface.             (line   6)
+* Gnus:                                  Preface.             (line   6)
+* GPG:                                   Preface.             (line  24)
+* graphics toolkit:                      Menus.               (line  26)
+* header: In-Reply-To:                   Threading.           (line  16)
+* header: References:                    Threading.           (line  16)
+* header: Subject:                       Threading.           (line  16)
+* headers, shrunken:                     Customizations.      (line  14)
+* hiding summary lines:                  Summary Faces.       (line  52)
+* HTML <1>:                              Using the Mouse.     (line  30)
+* HTML <2>:                              Highlights.          (line   8)
+* HTML:                                  Internal display.    (line  51)
+* iconv:                                 Character sets.      (line  68)
+* ImageMagick:                           Displaying images.   (line  27)
+* images:                                Displaying images.   (line   6)
+* IMAP <1>:                              IMAP Folders.        (line   6)
+* IMAP <2>:                              Highlights.          (line   8)
+* IMAP <3>:                              Preface.             (line  33)
+* IMAP:                                  Saving Messages.     (line  34)
+* IMAP spool files:                      IMAP Spool Files.    (line   6)
+* IMAP-FCC:                              Saving copies.       (line  14)
+* index file:                            Index Files.         (line   6)
+* interactive virtual folders:           Virtual Folders.     (line  13)
+* ISO-2022-JP:                           Character sets.      (line  39)
+* ISO-8859-1:                            Character sets.      (line  12)
+* Kyle Jones:                            History and Administration.
+                                                              (line   6)
+* Launchpad:                             History and Administration.
+                                                              (line  40)
+* longlines.el:                          Paging.              (line  35)
+* lynx:                                  Internal display.    (line  54)
+* mail servers:                          Preface.             (line  33)
+* maildir:                               Preface.             (line  44)
+* maildrop specification <1>:            IMAP Spool Files.    (line   6)
+* maildrop specification:                POP and IMAP Folders.
+                                                              (line   6)
+* marking:                               Marking Messages.    (line   6)
+* mbox <1>:                              Preface.             (line  33)
+* mbox <2>:                              Folder Internals.    (line   6)
+* mbox:                                  Local Folders.       (line   6)
+* menu bar:                              Menus.               (line   6)
+* menus, pop-up:                         Menus.               (line   6)
+* message attributes <1>:                Message Attributes.  (line   6)
+* message attributes <2>:                POP Folders.         (line   6)
+* message attributes <3>:                Crash Recovery.      (line   6)
+* message attributes:                    IMAP Folders.        (line   6)
+* message labels <1>:                    Message Attributes.  (line  61)
+* message labels <2>:                    IMAP Folders.        (line   6)
+* message labels:                        Crash Recovery.      (line   6)
+* MIME <1>:                              Highlights.          (line   8)
+* MIME <2>:                              Preface.             (line  24)
+* MIME:                                  MIME Messages.       (line   6)
+* MIME alternative, best <1>:            Customizations.      (line  41)
+* MIME alternative, best:                multipart/alternative.
+                                                              (line  18)
+* MIME alternative, best-internal <1>:   multipart/alternative.
+                                                              (line  18)
+* MIME alternative, best-internal:       Customizations.      (line  41)
+* MIME alternative, favorite:            multipart/alternative.
+                                                              (line  29)
+* MIME alternative, favorite-internal:   multipart/alternative.
+                                                              (line  29)
+* MIME alternatives <1>:                 multipart/alternative.
+                                                              (line   6)
+* MIME alternatives <2>:                 Replying.            (line 100)
+* MIME alternatives:                     Customizations.      (line  33)
+* MIME button:                           Viewing MIME.        (line  21)
+* MMDF format:                           Folder Internals.    (line  32)
+* multipart types:                       Internal display.    (line  43)
+* newsgroups:                            Preface.             (line  44)
+* Org mode:                              Preface.             (line  24)
+* passwords, storing:                    POP and IMAP Folders.
+                                                              (line 120)
+* point-to-point attachment operations:  MIME attachments.    (line  49)
+* POP <1>:                               POP Folders.         (line   6)
+* POP:                                   Preface.             (line  33)
+* POP spool files:                       POP Spool Files.     (line   6)
+* port, TCP:                             POP and IMAP Folders.
+                                                              (line  72)
+* postponing message composition:        Add-ons.             (line   9)
+* predefined summary faces:              Summary Faces.       (line  63)
+* prefix argument:                       Selecting Messages.  (line  18)
+* primary inbox <1>:                     POP and IMAP Folders.
+                                                              (line   6)
+* primary inbox:                         Starting Up.         (line  31)
+* resending messages:                    Forwarding Messages. (line  86)
+* Resent-To header:                      Forwarding Messages. (line  86)
+* Rmail <1>:                             Preface.             (line   6)
+* Rmail:                                 Local Folders.       (line   6)
+* Robert Widhopf-Fenk:                   History and Administration.
+                                                              (line  20)
+* RSS feeds:                             Preface.             (line  44)
+* S/MIME:                                Preface.             (line  44)
+* Savannah:                              History and Administration.
+                                                              (line  28)
+* search folders:                        Virtual Folders.     (line  13)
+* searching <1>:                         Virtual Folders.     (line   6)
+* searching <2>:                         Selecting Messages.  (line  59)
+* searching <3>:                         Defined Folders.     (line  35)
+* searching <4>:                         Search Folders.      (line  52)
+* searching:                             Marking Messages.    (line   6)
+* sorting:                               Sorting Messages.    (line   6)
+* spam:                                  Sorting Messages.    (line  19)
+* spool file:                            Local Folders.       (line  16)
+* SSH:                                   POP and IMAP Folders.
+                                                              (line  58)
+* SSL:                                   POP and IMAP Folders.
+                                                              (line  45)
+* stunnel:                               POP and IMAP Folders.
+                                                              (line  51)
+* summary faces:                         Summary Faces.       (line   6)
+* System V:                              Folder Internals.    (line  23)
+* threading:                             Threading.           (line   6)
+* Thunderbird <1>:                       Thunderbird Folders. (line   6)
+* Thunderbird:                           Preface.             (line  33)
+* TLS:                                   POP and IMAP Folders.
+                                                              (line  45)
+* Uday S Reddy:                          History and Administration.
+                                                              (line  34)
+* UIDVALIDITY:                           IMAP Server Folders. (line  40)
+* Ulrich Müller:                         History and Administration.
+                                                              (line  34)
+* undo:                                  Message Attributes.  (line  52)
+* URL <1>:                               Using the Mouse.     (line  10)
+* URL:                                   Faces.               (line  21)
+* US-ASCII:                              Character sets.      (line  12)
+* UTF-8:                                 Character sets.      (line  39)
+* virtual folders <1>:                   Preface.             (line  24)
+* virtual folders <2>:                   Virtual Folders.     (line   6)
+* virtual folders <3>:                   Marking Messages.    (line   6)
+* virtual folders:                       Highlights.          (line   8)
+* visual line mode:                      Paging.              (line  35)
+* vm-avirtual:                           vm-avirtual.         (line   6)
+* vm-create-imap-folder:                 IMAP Server Folders. (line  69)
+* vm-delete-imap-folder:                 IMAP Server Folders. (line  69)
+* vm-list-imap-folders:                  IMAP Server Folders. (line  64)
+* vm-pine:                               Add-ons.             (line   9)
+* vm-quit-no-expunge:                    Deleting Messages.   (line  62)
+* vm-rename-imap-folder:                 IMAP Server Folders. (line  69)
+* vm-save-folder-no-expunge:             Deleting Messages.   (line  62)
+* vm-summary-faces-hide:                 Summary Faces.       (line  52)
+* w3:                                    Internal display.    (line  54)
+* w3m <1>:                               Internal display.    (line  54)
+* w3m:                                   Using the Mouse.     (line  30)
+* web browser:                           Using the Mouse.     (line  40)
+* Windows-1252:                          Character sets.      (line  12)
+* Wonderworks:                           History and Administration.
+                                                              (line  10)
+* word wrapping:                         Paging.              (line  35)
+* X-VM-IMAP-Retrieved header:            IMAP Spool Files.    (line  89)
+* XEmacs:                                Preface.             (line   6)
+
+
+File: vm.info,  Node: Key Index,  Next: Command Index,  Prev: Concept Index,  Up: Top
+
+Key Index
+*********
+
+ [index ]
+* Menu:
+
+* !:                                     Paging.              (line  28)
+* ###:                                   Deleting Messages.   (line  36)
+* $ a:                                   MIME attachments.    (line  60)
+* $ d:                                   Attachments.         (line   6)
+* $ e:                                   Attachments.         (line   6)
+* $ p:                                   Attachments.         (line   6)
+* $ RET:                                 Attachments.         (line   6)
+* $ s:                                   Attachments.         (line   6)
+* $ w:                                   Attachments.         (line   6)
+* $ |:                                   Attachments.         (line   6)
+* .:                                     Paging.              (line  23)
+* <:                                     Threaded Summaries.  (line  36)
+* >:                                     Threaded Summaries.  (line  44)
+* @:                                     Forwarding Messages. (line  65)
+* [:                                     Viewing MIME.        (line  56)
+* ]:                                     Viewing MIME.        (line  56)
+* A:                                     Saving Messages.     (line 121)
+* B:                                     Forwarding Messages. (line  86)
+* C:                                     Thread Folding.      (line  42)
+* C-_:                                   Message Attributes.  (line  52)
+* C-c C-]:                               Editing Messages.    (line  11)
+* C-c C-a <1>:                           Sending Messages.    (line  36)
+* C-c C-a:                               MIME attachments.    (line   6)
+* C-c C-b <1>:                           MIME attachments.    (line  33)
+* C-c C-b:                               Sending Messages.    (line  68)
+* C-c C-c <1>:                           Sending Messages.    (line  73)
+* C-c C-c:                               MIME preview.        (line  13)
+* C-c C-d:                               Add-ons.             (line  13)
+* C-c C-e <1>:                           Sending Messages.    (line  73)
+* C-c C-e <2>:                           Editing Messages.    (line   6)
+* C-c C-e:                               MIME preview.        (line  13)
+* C-c C-m <1>:                           Sending Messages.    (line  61)
+* C-c C-m:                               MIME attachments.    (line  37)
+* C-c C-p <1>:                           Sending Messages.    (line  80)
+* C-c C-p:                               MIME preview.        (line   6)
+* C-c C-v:                               Sending Messages.    (line  34)
+* C-c C-y:                               Sending Messages.    (line  16)
+* C-c ESC:                               Editing Messages.    (line  11)
+* C-x u:                                 Message Attributes.  (line  52)
+* d:                                     Deleting Messages.   (line  10)
+* D:                                     Viewing MIME.        (line  12)
+* DEL <1>:                               Introduction.        (line  28)
+* DEL:                                   Paging.              (line   6)
+* E:                                     Thread Folding.      (line  42)
+* F:                                     Replying.            (line  36)
+* f:                                     Replying.            (line  33)
+* G:                                     Sorting Messages.    (line   6)
+* g <1>:                                 Introduction.        (line 112)
+* g:                                     Getting New Mail.    (line   6)
+* h:                                     Summaries.           (line   6)
+* K:                                     Deleting Messages.   (line  24)
+* k:                                     Deleting Messages.   (line  20)
+* l a:                                   Message Attributes.  (line  61)
+* l d:                                   Message Attributes.  (line  61)
+* m:                                     Sending Messages.    (line  88)
+* M a:                                   Marking Messages.    (line  49)
+* M A:                                   Marking Messages.    (line  46)
+* M C:                                   Marking Messages.    (line  28)
+* M c:                                   Marking Messages.    (line  30)
+* M M:                                   Marking Messages.    (line  14)
+* M m:                                   Marking Messages.    (line  23)
+* M R:                                   Marking Messages.    (line  58)
+* M r:                                   Marking Messages.    (line  59)
+* M s:                                   Marking Messages.    (line  43)
+* M S:                                   Marking Messages.    (line  40)
+* M t:                                   Marking Messages.    (line  37)
+* M T:                                   Marking Messages.    (line  33)
+* M U:                                   Marking Messages.    (line  20)
+* M u:                                   Marking Messages.    (line  23)
+* M-n:                                   Selecting Messages.  (line  71)
+* M-p:                                   Selecting Messages.  (line  71)
+* M-s:                                   Selecting Messages.  (line  75)
+* N:                                     Selecting Messages.  (line  66)
+* n:                                     Selecting Messages.  (line   6)
+* o:                                     External Messages.   (line  37)
+* O:                                     External Messages.   (line  37)
+* P:                                     Selecting Messages.  (line  66)
+* p:                                     Selecting Messages.  (line   6)
+* q:                                     Introduction.        (line  86)
+* R:                                     Replying.            (line  29)
+* r:                                     Replying.            (line  28)
+* RET:                                   Selecting Messages.  (line  61)
+* s:                                     Saving Messages.     (line  14)
+* S:                                     Introduction.        (line  66)
+* SPC <1>:                               Paging.              (line   6)
+* SPC:                                   Introduction.        (line  28)
+* T:                                     Thread Folding.      (line  11)
+* t:                                     Previewing.          (line  59)
+* TAB:                                   Selecting Messages.  (line  63)
+* U:                                     Paging.              (line  23)
+* u:                                     Deleting Messages.   (line  14)
+* v:                                     Starting Up.         (line  46)
+* V !:                                   Search Folders.      (line  34)
+* V A:                                   Search Folders.      (line  27)
+* V a:                                   Search Folders.      (line  34)
+* V C:                                   Search Folders.      (line   6)
+* V d:                                   Search Folders.      (line  34)
+* V l:                                   Search Folders.      (line  34)
+* V M:                                   Working with Virtual Folders.
+                                                              (line  38)
+* V n:                                   Search Folders.      (line  34)
+* V O:                                   vm-avirtual.         (line  10)
+* V r:                                   Search Folders.      (line  34)
+* V S:                                   Search Folders.      (line  27)
+* V s:                                   Search Folders.      (line  34)
+* V T:                                   Search Folders.      (line  14)
+* V t:                                   Search Folders.      (line  34)
+* V u:                                   Search Folders.      (line  34)
+* V U:                                   vm-avirtual.         (line  10)
+* V V <1>:                               Virtual Folders.     (line  21)
+* V V:                                   Defined Folders.     (line   6)
+* V X:                                   Search Folders.      (line  22)
+* W D:                                   Window Configuration.
+                                                              (line  45)
+* W S:                                   Window Configuration.
+                                                              (line   6)
+* W W:                                   Window Configuration.
+                                                              (line  49)
+* x:                                     Introduction.        (line  86)
+* Z:                                     Forwarding Messages. (line  27)
+* z:                                     Forwarding Messages. (line  13)
+* |d:                                    Saving Messages.     (line 143)
+* |n:                                    Saving Messages.     (line 155)
+* |s:                                    Saving Messages.     (line 147)
+* ||:                                    Saving Messages.     (line 128)
+
+
+File: vm.info,  Node: Command Index,  Next: Variable Index,  Prev: Key Index,  Up: Top
+
+Command Index
+*************
+
+ [index ]
+* Menu:
+
+* browse-url:                            Using the Mouse.     (line  40)
+* recover-file:                          Crash Recovery.      (line  39)
+* revert-file:                           Crash Recovery.      (line 125)
+* vm:                                    Starting Up.         (line  31)
+* vm-add-message-labels:                 Message Attributes.  (line  61)
+* vm-apply-virtual-folder:               Search Folders.      (line  22)
+* vm-apply-window-configuration:         Window Configuration.
+                                                              (line  49)
+* vm-attach-buffer:                      MIME attachments.    (line  33)
+* vm-attach-file:                        MIME attachments.    (line   6)
+* vm-attach-message:                     MIME attachments.    (line  37)
+* vm-attach-message-to-composition:      MIME attachments.    (line  60)
+* vm-auto-archive-messages:              Saving Messages.     (line 121)
+* vm-burst-digest:                       Digests.             (line  13)
+* vm-change-folder-type:                 Folder types.        (line  16)
+* vm-collapse-all-threads:               Thread Folding.      (line  11)
+* vm-collapse-thread:                    Thread Folding.      (line  11)
+* vm-continue-postponed-message:         Add-ons.             (line  21)
+* vm-create-author-or-recipient-virtual-folder: Search Folders.
+                                                              (line  34)
+* vm-create-author-virtual-folder:       Search Folders.      (line  34)
+* vm-create-date-virtual-folder:         Search Folders.      (line  34)
+* vm-create-flagged-virtual-folder:      Search Folders.      (line  34)
+* vm-create-label-virtual-folder:        Search Folders.      (line  34)
+* vm-create-new-virtual-folder:          Search Folders.      (line  34)
+* vm-create-search-folder:               Search Folders.      (line   6)
+* vm-create-search-folder-of-threads:    Search Folders.      (line  14)
+* vm-create-subject-virtual-folder:      Search Folders.      (line  34)
+* vm-create-text-virtual-folder:         Search Folders.      (line  34)
+* vm-create-unseen-virtual-folder:       Search Folders.      (line  34)
+* vm-create-virtual-folder:              Search Folders.      (line   6)
+* vm-create-virtual-folder-of-threads:   Search Folders.      (line  14)
+* vm-create-virtual-folder-same-author:  Search Folders.      (line  27)
+* vm-create-virtual-folder-same-subject: Search Folders.      (line  27)
+* vm-delete-all-attachments:             Attachments.         (line  47)
+* vm-delete-duplicate-messages:          Deleting Messages.   (line  28)
+* vm-delete-duplicate-messages-by-body:  Deleting Messages.   (line  32)
+* vm-delete-message:                     Deleting Messages.   (line  10)
+* vm-delete-message-labels:              Message Attributes.  (line  61)
+* vm-delete-mime-object:                 Attachments.         (line   6)
+* vm-delete-window-configuration:        Window Configuration.
+                                                              (line  45)
+* vm-demote-subthread:                   Threaded Summaries.  (line  44)
+* vm-dired-attach-file:                  MIME attachments.    (line  52)
+* vm-dired-do-attach-files:              MIME attachments.    (line  52)
+* vm-dnd-attach-file:                    MIME attachments.    (line  57)
+* vm-edit-message:                       Editing Messages.    (line   6)
+* vm-edit-message-abort:                 Editing Messages.    (line  11)
+* vm-edit-message-end:                   Editing Messages.    (line  11)
+* vm-expand-all-threads:                 Thread Folding.      (line  11)
+* vm-expand-thread:                      Thread Folding.      (line  11)
+* vm-expose-hidden-headers:              Previewing.          (line  59)
+* vm-expunge-folder:                     Deleting Messages.   (line  36)
+* vm-expunge-imap-messages:              IMAP Spool Files.    (line  23)
+* vm-expunge-pop-messages:               POP Spool Files.     (line  32)
+* vm-fix-my-summary:                     Summary Format.      (line 154)
+* vm-followup:                           Replying.            (line  33)
+* vm-followup-include-text:              Replying.            (line  36)
+* vm-forward-message:                    Forwarding Messages. (line  13)
+* vm-forward-message-all-headers:        Forwarding Messages. (line  54)
+* vm-forward-message-plain:              Forwarding Messages. (line  27)
+* vm-get-new-mail <1>:                   POP Spool Files.     (line  14)
+* vm-get-new-mail <2>:                   Hooks.               (line  53)
+* vm-get-new-mail <3>:                   Getting New Mail.    (line   6)
+* vm-get-new-mail <4>:                   Introduction.        (line 112)
+* vm-get-new-mail:                       Working with Virtual Folders.
+                                                              (line   6)
+* vm-goto-message:                       Selecting Messages.  (line  61)
+* vm-goto-message-last-seen:             Selecting Messages.  (line  63)
+* vm-imap-save-composition:              Saving copies.       (line   6)
+* vm-imap-start-bug-report:              Bugs.                (line  17)
+* vm-imap-submit-bug-report:             Bugs.                (line  17)
+* vm-imap-synchronize <1>:               IMAP Folders.        (line  90)
+* vm-imap-synchronize:                   IMAP Server Folders. (line  11)
+* vm-isearch-backward <1>:               Defined Folders.     (line  35)
+* vm-isearch-backward:                   Selecting Messages.  (line  75)
+* vm-isearch-forward <1>:                Selecting Messages.  (line  75)
+* vm-isearch-forward:                    Defined Folders.     (line  35)
+* vm-kill-subject:                       Deleting Messages.   (line  20)
+* vm-kill-thread-subtree:                Deleting Messages.   (line  24)
+* vm-load-init-file:                     Starting Up.         (line   6)
+* vm-load-message:                       External Messages.   (line  37)
+* vm-mail:                               Sending Messages.    (line  88)
+* vm-mark-matching-messages:             Marking Messages.    (line  28)
+* vm-mark-message-read:                  Paging.              (line  23)
+* vm-mark-message-unread:                Paging.              (line  23)
+* vm-mark-messages-same-author:          Marking Messages.    (line  46)
+* vm-mark-messages-same-subject:         Marking Messages.    (line  40)
+* vm-mark-summary-region:                Marking Messages.    (line  58)
+* vm-mark-thread-subtree:                Marking Messages.    (line  33)
+* vm-mime-auto-save-all-attachments:     Customizations.      (line  59)
+* vm-mime-encode-composition:            Sending Messages.    (line  73)
+* vm-mime-reader-map-attach-to-composition <1>: Attachments.  (line   6)
+* vm-mime-reader-map-attach-to-composition: MIME attachments. (line  60)
+* vm-mime-reader-map-display-object-as-type: Attachments.     (line   6)
+* vm-mime-reader-map-display-using-default: Attachments.      (line   6)
+* vm-mime-reader-map-display-using-external-viewer: Attachments.
+                                                              (line   6)
+* vm-mime-reader-map-pipe-to-command:    Attachments.         (line   6)
+* vm-mime-reader-map-pipe-to-printer:    Attachments.         (line   6)
+* vm-mime-reader-map-save-file:          Attachments.         (line   6)
+* vm-mime-reader-map-save-message:       Attachments.         (line   6)
+* vm-mode:                               Starting Up.         (line  57)
+* vm-mouse-send-url-to-netscape:         Using the Mouse.     (line  40)
+* vm-mouse-send-url-to-xxx:              Using the Mouse.     (line  40)
+* vm-mouse-send-url-to-xxx-new-window:   Using the Mouse.     (line  40)
+* vm-next-button:                        Viewing MIME.        (line  56)
+* vm-next-message:                       Selecting Messages.  (line   6)
+* vm-next-message-no-skip:               Selecting Messages.  (line  66)
+* vm-next-unread-message:                Selecting Messages.  (line  71)
+* vm-nuke-alternative-text/html:         multipart/alternative.
+                                                              (line  41)
+* vm-pipe-message-to-command:            Saving Messages.     (line 128)
+* vm-pipe-message-to-command-discard-output: Saving Messages. (line 143)
+* vm-pipe-messages-to-command:           Saving Messages.     (line 147)
+* vm-pipe-messages-to-command-discard-output: Saving Messages.
+                                                              (line 155)
+* vm-pop-start-bug-report:               Bugs.                (line  17)
+* vm-pop-submit-bug-report:              Bugs.                (line  17)
+* vm-postpone-composition:               Add-ons.             (line  13)
+* vm-postpone-message:                   Crash Recovery.      (line  86)
+* vm-preview-composition:                Sending Messages.    (line  80)
+* vm-previous-button:                    Viewing MIME.        (line  56)
+* vm-previous-message:                   Selecting Messages.  (line   6)
+* vm-previous-message-no-skip:           Selecting Messages.  (line  66)
+* vm-previous-unread-message:            Selecting Messages.  (line  71)
+* vm-promote-subthread:                  Threaded Summaries.  (line  36)
+* vm-prune-imap-retrieved-list:          IMAP Spool Files.    (line  99)
+* vm-quit:                               Introduction.        (line  86)
+* vm-quit-just-bury:                     Introduction.        (line 100)
+* vm-quit-just-iconify:                  Introduction.        (line 108)
+* vm-quit-no-change:                     Introduction.        (line  86)
+* vm-recover-folder:                     Crash Recovery.      (line  39)
+* vm-refresh-message:                    External Messages.   (line  37)
+* vm-reply:                              Replying.            (line  28)
+* vm-reply-include-text:                 Replying.            (line  29)
+* vm-resend-message:                     Forwarding Messages. (line  86)
+* vm-revert-folder:                      Crash Recovery.      (line 125)
+* vm-save-all-attachments:               Attachments.         (line  47)
+* vm-save-folder <1>:                    IMAP Folders.        (line  13)
+* vm-save-folder <2>:                    Introduction.        (line  66)
+* vm-save-folder <3>:                    Working with Virtual Folders.
+                                                              (line   6)
+* vm-save-folder <4>:                    POP Folders.         (line   6)
+* vm-save-folder:                        IMAP Folders.        (line  81)
+* vm-save-message:                       Saving Messages.     (line  14)
+* vm-save-message-sans-headers:          Saving Messages.     (line 118)
+* vm-save-message-to-imap-folder:        Saving Messages.     (line  41)
+* vm-save-message-to-local-folder:       Saving Messages.     (line  41)
+* vm-save-window-configuration:          Window Configuration.
+                                                              (line   6)
+* vm-scroll-backward:                    Introduction.        (line  28)
+* vm-scroll-forward:                     Introduction.        (line  28)
+* vm-send-digest:                        Forwarding Messages. (line  65)
+* vm-set-message-attributes:             Message Attributes.  (line  43)
+* vm-sort-messages:                      Sorting Messages.    (line   6)
+* vm-submit-bug-report:                  Bugs.                (line  12)
+* vm-summarize:                          Summaries.           (line   6)
+* vm-summary-faces-mode:                 Summary Faces.       (line  13)
+* vm-switch-to-folder:                   Introduction.        (line 100)
+* vm-toggle-best-mime:                   Customizations.      (line  41)
+* vm-toggle-flag-message:                Paging.              (line  28)
+* vm-toggle-thread:                      Thread Folding.      (line  11)
+* vm-toggle-thread-operations:           Thread Operations.   (line   6)
+* vm-toggle-threads-display <1>:         Threading.           (line  11)
+* vm-toggle-threads-display:             Threaded Summaries.  (line   6)
+* vm-toggle-virtual-mirror:              Working with Virtual Folders.
+                                                              (line  38)
+* vm-undelete-message:                   Deleting Messages.   (line  14)
+* vm-undo:                               Message Attributes.  (line  52)
+* vm-unload-message:                     External Messages.   (line  37)
+* vm-unmark-matching-messages:           Marking Messages.    (line  30)
+* vm-unmark-messages-same-author:        Marking Messages.    (line  49)
+* vm-unmark-messages-same-subject:       Marking Messages.    (line  43)
+* vm-unmark-summary-region:              Marking Messages.    (line  59)
+* vm-unmark-thread-subtree:              Marking Messages.    (line  37)
+* vm-unread-message:                     Paging.              (line  23)
+* vm-virtual-auto-archive-messages:      vm-avirtual.         (line  51)
+* vm-virtual-auto-delete-message:        vm-avirtual.         (line  32)
+* vm-virtual-auto-delete-messages:       vm-avirtual.         (line  43)
+* vm-virtual-check-selector-interactive: vm-avirtual.         (line  17)
+* vm-virtual-omit-message:               vm-avirtual.         (line  10)
+* vm-virtual-save-message:               vm-avirtual.         (line  51)
+* vm-virtual-update-folders:             vm-avirtual.         (line  10)
+* vm-visit-folder:                       Starting Up.         (line  46)
+* vm-visit-imap-folder <1>:              Starting Up.         (line  46)
+* vm-visit-imap-folder:                  IMAP Folders.        (line   6)
+* vm-visit-pop-folder <1>:               POP Folders.         (line   6)
+* vm-visit-pop-folder:                   Starting Up.         (line  46)
+* vm-visit-thunderbird-folder:           Thunderbird Folders. (line  47)
+* vm-visit-virtual-folder <1>:           Defined Folders.     (line   6)
+* vm-visit-virtual-folder:               Virtual Folders.     (line  21)
+* vm-yank-message:                       Sending Messages.    (line  16)
+* vm-yank-message-other-folder:          Sending Messages.    (line  16)
+
+
+File: vm.info,  Node: Variable Index,  Next: Internals Index,  Prev: Command Index,  Up: Top
+
+Variable Index
+**************
+
+ [index ]
+* Menu:
+
+* mail-citation-hook:                    Hooks.               (line 230)
+* mail-yank-hooks:                       Hooks.               (line 215)
+* vm-arrived-message-hook:               Hooks.               (line  40)
+* vm-arrived-messages-hook <1>:          vm-avirtual.         (line  43)
+* vm-arrived-messages-hook:              Hooks.               (line  53)
+* vm-auto-center-summary:                Summaries.           (line   6)
+* vm-auto-decode-mime-messages:          Viewing MIME.        (line  12)
+* vm-auto-folder-alist:                  Saving Messages.     (line  28)
+* vm-auto-folder-case-fold-search:       Saving Messages.     (line 108)
+* vm-auto-get-new-mail <1>:              Getting New Mail.    (line  11)
+* vm-auto-get-new-mail <2>:              Starting Up.         (line  31)
+* vm-auto-get-new-mail:                  POP Spool Files.     (line  14)
+* vm-auto-next-message:                  Paging.              (line   6)
+* vm-berkeley-mail-compatibility:        Saving Messages.     (line 161)
+* vm-circular-folders:                   Selecting Messages.  (line  23)
+* vm-confirm-new-folders:                Saving Messages.     (line  45)
+* vm-confirm-quit:                       Introduction.        (line  93)
+* vm-crash-box:                          Local Folders.       (line  36)
+* vm-crash-box-suffix:                   Spool Files.         (line  54)
+* vm-default-folder-type <1>:            Folder types.        (line   6)
+* vm-default-folder-type:                Local Folders.       (line   6)
+* vm-delete-after-archiving:             Saving Messages.     (line  64)
+* vm-delete-after-saving:                Saving Messages.     (line  64)
+* vm-delete-empty-folders:               Introduction.        (line  82)
+* vm-digest-center-preamble:             Forwarding Messages. (line  76)
+* vm-digest-preamble-format:             Forwarding Messages. (line  76)
+* vm-digest-send-type:                   Forwarding Messages. (line  65)
+* vm-display-buffer-hook:                Hooks.               (line 171)
+* vm-display-using-mime:                 MIME Messages.       (line   6)
+* vm-do-fcc-before-mime-encode:          Saving copies.       (line  24)
+* vm-edit-message-hook:                  Hooks.               (line 120)
+* vm-enable-addons:                      Customizations.      (line  14)
+* vm-enable-external-messages:           External Messages.   (line  17)
+* vm-enable-thread-operations:           Thread Operations.   (line   6)
+* vm-expunge-before-quit:                Deleting Messages.   (line  51)
+* vm-expunge-before-save:                Deleting Messages.   (line  51)
+* vm-fetched-message-limit:              External Messages.   (line  30)
+* vm-fill-long-lines-in-reply-column:    Replying.            (line 106)
+* vm-fill-paragraphs-containing-long-lines: Paging.           (line  35)
+* vm-fill-paragraphs-containing-long-lines-in-reply: Replying.
+                                                              (line 106)
+* vm-flush-interval:                     Message Attributes.  (line  73)
+* vm-folder-directory <1>:               IMAP Folders.        (line  13)
+* vm-folder-directory <2>:               Local Folders.       (line  12)
+* vm-folder-directory <3>:               POP Folders.         (line   6)
+* vm-folder-directory:                   Saving Messages.     (line  20)
+* vm-folder-file-precious-flag:          Introduction.        (line  74)
+* vm-folder-type:                        Folder Internals.    (line  23)
+* vm-follow-summary-cursor <1>:          Summaries.           (line  24)
+* vm-follow-summary-cursor:              Selecting Messages.  (line  40)
+* vm-forward-message-hook:               Hooks.               (line  68)
+* vm-forwarded-headers:                  Forwarding Messages. (line  31)
+* vm-forwarded-headers-plain:            Forwarding Messages. (line  31)
+* vm-forwarding-digest-type:             Forwarding Messages. (line  17)
+* vm-forwarding-subject-format:          Forwarding Messages. (line  57)
+* vm-frame-parameter-alist:              Frame Configuration. (line  49)
+* vm-frame-per-completion:               Frame Configuration. (line  32)
+* vm-frame-per-composition:              Frame Configuration. (line  19)
+* vm-frame-per-edit:                     Frame Configuration. (line  25)
+* vm-frame-per-folder:                   Frame Configuration. (line   9)
+* vm-frame-per-help:                     Frame Configuration. (line  29)
+* vm-frame-per-summary:                  Frame Configuration. (line  13)
+* vm-gargle-uucp:                        Summaries.           (line  31)
+* vm-get-new-mail:                       IMAP Folders.        (line  70)
+* vm-highlight-url-face:                 Faces.               (line  21)
+* vm-highlighted-header-face <1>:        Faces.               (line  13)
+* vm-highlighted-header-face:            Previewing.          (line  47)
+* vm-highlighted-header-regexp <1>:      Previewing.          (line  47)
+* vm-highlighted-header-regexp:          Faces.               (line  13)
+* vm-iconify-frame-hook:                 Hooks.               (line 191)
+* vm-imagemagick-convert-program:        Displaying images.   (line  27)
+* vm-imagemagick-identify-program:       Displaying images.   (line  27)
+* vm-imap-account-alist:                 IMAP Folders.        (line  26)
+* vm-imap-auto-expunge-alist:            IMAP Spool Files.    (line  29)
+* vm-imap-bytes-per-session:             IMAP Spool Files.    (line  15)
+* vm-imap-connection-mode:               IMAP Server Folders. (line  16)
+* vm-imap-default-account:               Saving copies.       (line  14)
+* vm-imap-expunge-after-retrieving:      IMAP Spool Files.    (line  29)
+* vm-imap-folder-cache-directory:        IMAP Folders.        (line  13)
+* vm-imap-keep-trace-buffer:             POP and IMAP Folders.
+                                                              (line 158)
+* vm-imap-max-message-size:              External Messages.   (line  21)
+* vm-imap-messages-per-session:          IMAP Spool Files.    (line  15)
+* vm-imap-refer-to-inbox-by-account-name: IMAP Folders.       (line  52)
+* vm-imap-save-to-server:                Saving Messages.     (line  34)
+* vm-imap-server-list:                   IMAP Folders.        (line  63)
+* vm-imap-session-preauth-hook:          POP and IMAP Folders.
+                                                              (line  96)
+* vm-imap-sync-on-get:                   IMAP Folders.        (line  76)
+* vm-in-reply-to-format:                 Replying.            (line  58)
+* vm-include-text-basic:                 Replying.            (line 126)
+* vm-include-text-from-presentation:     Replying.            (line 134)
+* vm-included-mime-types-list:           Replying.            (line 126)
+* vm-included-text-attribution-format:   Replying.            (line 143)
+* vm-included-text-discard-header-regexp: Replying.           (line 151)
+* vm-included-text-headers:              Replying.            (line 151)
+* vm-included-text-prefix:               Replying.            (line  18)
+* vm-index-file-suffix:                  Index Files.         (line  11)
+* vm-infer-mime-types:                   Inferring MIME types.
+                                                              (line  13)
+* vm-infer-mime-types-for-text:          Inferring MIME types.
+                                                              (line  18)
+* vm-init-file:                          Starting Up.         (line   6)
+* vm-invisible-header-regexp:            Previewing.          (line  30)
+* vm-jump-to-new-messages:               Selecting Messages.  (line  51)
+* vm-jump-to-unread-messages:            Selecting Messages.  (line  51)
+* vm-mail-auto-save-directory <1>:       Sending Options.     (line  11)
+* vm-mail-auto-save-directory:           Crash Recovery.      (line  86)
+* vm-mail-check-always:                  Getting New Mail.    (line  17)
+* vm-mail-check-interval:                Getting New Mail.    (line  17)
+* vm-mail-header-from:                   Sending Options.     (line  16)
+* vm-mail-header-insert-date:            Sending Options.     (line  34)
+* vm-mail-header-insert-message-id:      Sending Options.     (line  34)
+* vm-mail-header-order:                  Sending Options.     (line  34)
+* vm-mail-hook:                          Hooks.               (line  92)
+* vm-mail-mode-hidden-headers:           Sending Options.     (line  16)
+* vm-mail-mode-hook:                     Hooks.               (line 125)
+* vm-mail-reorder-message-headers:       Sending Options.     (line  34)
+* vm-mail-send-hook:                     Hooks.               (line 209)
+* vm-mail-use-sender-address:            Sending Options.     (line  22)
+* vm-make-crash-box-name:                Spool Files.         (line  78)
+* vm-make-spool-file-name:               Spool Files.         (line  78)
+* vm-menu-setup-hook:                    Hooks.               (line 194)
+* vm-mime-7bit-composition-charset:      MIME characters.     (line   6)
+* vm-mime-8bit-composition-charset:      MIME characters.     (line  14)
+* vm-mime-8bit-text-transfer-encoding:   MIME characters.     (line  29)
+* vm-mime-alternative-show-method:       multipart/alternative.
+                                                              (line  18)
+* vm-mime-alternative-yank-method:       Replying.            (line 100)
+* vm-mime-attachment-auto-suffix-alist:  External display.    (line  95)
+* vm-mime-attachment-save-directory:     Attachments.         (line  27)
+* vm-mime-auto-displayed-content-type-exceptions <1>: Internal display.
+                                                              (line  20)
+* vm-mime-auto-displayed-content-type-exceptions: Viewing MIME.
+                                                              (line  31)
+* vm-mime-auto-displayed-content-types <1>: Viewing MIME.     (line  31)
+* vm-mime-auto-displayed-content-types <2>: Internal display. (line   6)
+* vm-mime-auto-displayed-content-types:  Displaying images.   (line  17)
+* vm-mime-auto-save-all-attachments-subdir: Customizations.   (line  59)
+* vm-mime-base64-decoder-program:        MIME Messages.       (line  14)
+* vm-mime-base64-decoder-switches:       MIME Messages.       (line  14)
+* vm-mime-base64-encoder-program:        MIME Messages.       (line  14)
+* vm-mime-base64-encoder-switches:       MIME Messages.       (line  14)
+* vm-mime-button-face:                   Faces.               (line  32)
+* vm-mime-button-format-alist:           Viewing MIME.        (line  21)
+* vm-mime-charset-converter-alist:       Character sets.      (line  39)
+* vm-mime-charset-font-alist:            Character sets.      (line  80)
+* vm-mime-confirm-delete:                Attachments.         (line  27)
+* vm-mime-decode-for-preview:            Viewing MIME.        (line  12)
+* vm-mime-default-face-charsets:         Character sets.      (line  12)
+* vm-mime-deletable-type-exceptions:     Attachments.         (line  47)
+* vm-mime-deletable-types:               Attachments.         (line  47)
+* vm-mime-delete-after-saving:           Attachments.         (line  27)
+* vm-mime-display-function:              Hooks.               (line 198)
+* vm-mime-encode-headers-regexp:         MIME headers.        (line  12)
+* vm-mime-encode-headers-type:           MIME headers.        (line  12)
+* vm-mime-encode-headers-words-regexp:   MIME headers.        (line  19)
+* vm-mime-encode-words.regexp:           MIME headers.        (line  19)
+* vm-mime-external-content-type-exceptions: External display. (line  84)
+* vm-mime-external-content-types-alist:  External display.    (line   6)
+* vm-mime-honor-content-disposition:     Viewing MIME.        (line  40)
+* vm-mime-internal-content-type-exceptions: Internal display. (line  47)
+* vm-mime-internal-content-types <1>:    Internal display.    (line  32)
+* vm-mime-internal-content-types:        Displaying images.   (line  17)
+* vm-mime-qp-decoder-program:            MIME Messages.       (line  14)
+* vm-mime-qp-decoder-switches:           MIME Messages.       (line  14)
+* vm-mime-qp-encoder-program:            MIME Messages.       (line  14)
+* vm-mime-qp-encoder-switches:           MIME Messages.       (line  14)
+* vm-mime-savable-type-exceptions:       Attachments.         (line  47)
+* vm-mime-savable-types:                 Attachments.         (line  47)
+* vm-mime-text/html-handler:             Internal display.    (line  51)
+* vm-mime-type-converter-alist:          MIME type conversion.
+                                                              (line   6)
+* vm-mime-use-image-strips:              Displaying images.   (line  35)
+* vm-mime-uuencode-decoder-program:      MIME Messages.       (line  14)
+* vm-mime-uuencode-decoder-switches:     MIME Messages.       (line  14)
+* vm-mode-hook:                          Hooks.               (line 130)
+* vm-mode-hooks:                         Hooks.               (line 135)
+* vm-mouse-track-summary:                Summary Faces.       (line  45)
+* vm-move-after-deleting:                Deleting Messages.   (line  42)
+* vm-move-after-killing:                 Deleting Messages.   (line  42)
+* vm-move-after-undeleting:              Deleting Messages.   (line  42)
+* vm-move-messages-physically:           Sorting Messages.    (line   6)
+* vm-movemail-program:                   Local Folders.       (line  29)
+* vm-movemail-program-switches:          Local Folders.       (line  29)
+* vm-mutable-frame-configuration:        Frames and Windows.  (line  13)
+* vm-mutable-frames:                     Frames and Windows.  (line  13)
+* vm-mutable-window-configuration:       Frames and Windows.  (line  20)
+* vm-mutable-windows:                    Frames and Windows.  (line  20)
+* vm-paragraph-fill-column:              Paging.              (line  35)
+* vm-pipe-messages-to-command-end:       Saving Messages.     (line 147)
+* vm-pipe-messages-to-command-start:     Saving Messages.     (line 147)
+* vm-pop-auto-expunge-alist:             POP Spool Files.     (line  38)
+* vm-pop-bytes-per-session:              POP Spool Files.     (line  24)
+* vm-pop-expunge-after-retrieving:       POP Spool Files.     (line  38)
+* vm-pop-folder-alist:                   POP Folders.         (line  23)
+* vm-pop-folder-cache-directory:         POP Folders.         (line  11)
+* vm-pop-keep-trace-buffer:              POP and IMAP Folders.
+                                                              (line 158)
+* vm-pop-max-message-size:               POP Spool Files.     (line  14)
+* vm-pop-md5-program:                    POP and IMAP Folders.
+                                                              (line  84)
+* vm-pop-messages-per-session:           POP Spool Files.     (line  24)
+* vm-popup-menu-on-mouse-3:              Menus.               (line   6)
+* vm-postponed-folder:                   Add-ons.             (line  13)
+* vm-preferences-file:                   Starting Up.         (line  16)
+* vm-presentation-mode-hook:             Hooks.               (line 152)
+* vm-preview-lines:                      Previewing.          (line  17)
+* vm-preview-read-messages:              Previewing.          (line  55)
+* vm-primary-inbox <1>:                  Starting Up.         (line  31)
+* vm-primary-inbox:                      POP and IMAP Folders.
+                                                              (line   6)
+* vm-quit-hook:                          Hooks.               (line 159)
+* vm-reply-hook:                         Hooks.               (line  62)
+* vm-reply-ignored-addresses:            Replying.            (line  50)
+* vm-reply-subject-prefix:               Replying.            (line   6)
+* vm-resend-bounced-message-hook:        Hooks.               (line  74)
+* vm-resend-message-hook:                Hooks.               (line  80)
+* vm-restore-saved-summary-format:       Summary Format.      (line 158)
+* vm-retrieved-spooled-mail-hook:        Hooks.               (line 113)
+* vm-save-message-hook:                  Hooks.               (line  31)
+* vm-search-other-frames:                Frame Configuration. (line  41)
+* vm-search-using-regexps:               Selecting Messages.  (line  75)
+* vm-select-message-hook:                Hooks.               (line  25)
+* vm-select-new-message-hook:            Hooks.               (line  10)
+* vm-select-unread-message-hook:         Hooks.               (line  18)
+* vm-send-digest-hook:                   Hooks.               (line  86)
+* vm-send-using-mime <1>:                Sending MIME Messages.
+                                                              (line   6)
+* vm-send-using-mime:                    Sending Messages.    (line  36)
+* vm-skip-deleted-messages:              Selecting Messages.  (line   6)
+* vm-skip-read-messages:                 Selecting Messages.  (line   6)
+* vm-sort-messages-by-delivery-date:     Sorting Messages.    (line  30)
+* vm-sort-subthreads:                    Threading.           (line  33)
+* vm-spam-score-headers:                 Sorting Messages.    (line  66)
+* vm-spool-file-suffixes:                Spool Files.         (line  54)
+* vm-spool-files:                        Local Folders.       (line  16)
+* vm-spooled-mail-waiting-hook:          Hooks.               (line  48)
+* vm-ssh-program:                        POP and IMAP Folders.
+                                                              (line  58)
+* vm-ssh-remote-command:                 POP and IMAP Folders.
+                                                              (line  58)
+* vm-startup-with-summary:               Starting Up.         (line  65)
+* vm-strip-reply-headers:                Replying.            (line  67)
+* vm-stunnel-program:                    POP and IMAP Folders.
+                                                              (line  51)
+* vm-subject-ignored-prefix:             Sorting Messages.    (line  47)
+* vm-subject-ignored-suffix:             Sorting Messages.    (line  47)
+* vm-subject-significant-chars:          Sorting Messages.    (line  58)
+* vm-summary-arrow:                      Summaries.           (line   6)
+* vm-summary-attachment-indicator:       Summary Format.      (line  32)
+* vm-summary-enable-faces:               Summary Faces.       (line  13)
+* vm-summary-enable-thread-folding:      Thread Folding.      (line  11)
+* vm-summary-faces-alist:                Summary Faces.       (line  24)
+* vm-summary-format:                     Summary Format.      (line   6)
+* vm-summary-maximum-thread-indentation <1>: Threading.       (line  11)
+* vm-summary-maximum-thread-indentation: Threaded Summaries.  (line   6)
+* vm-summary-mode-hook:                  Hooks.               (line 139)
+* vm-summary-mode-hooks:                 Hooks.               (line 143)
+* vm-summary-pointer-update-hook:        Hooks.               (line 166)
+* vm-summary-postponed-indicator:        Summary Format.      (line  37)
+* vm-summary-redo-hook:                  Hooks.               (line 103)
+* vm-summary-show-thread-count:          Thread Folding.      (line  34)
+* vm-summary-show-threads:               Threaded Summaries.  (line  16)
+* vm-summary-thread-folding-on-motion:   Thread Folding.      (line  27)
+* vm-summary-thread-indent-level <1>:    Threading.           (line  11)
+* vm-summary-thread-indent-level:        Threaded Summaries.  (line   6)
+* vm-summary-uninteresting-senders <1>:  Defined Folders.     (line 104)
+* vm-summary-uninteresting-senders:      Summary Format.      (line 139)
+* vm-summary-uninteresting-senders-arrow: Summary Format.     (line 139)
+* vm-summary-update-hook:                Hooks.               (line  99)
+* vm-summary-visible:                    Thread Folding.      (line  20)
+* vm-sync-thunderbird-status:            Thunderbird Folders. (line  27)
+* vm-thread-using-subject:               Threading.           (line  16)
+* vm-thunderbird-folder-directory <1>:   Thunderbird Folders. (line  47)
+* vm-thunderbird-folder-directory:       Saving Messages.     (line  20)
+* vm-toolbar-orientation:                Toolbar.             (line 119)
+* vm-toolbar-pixmap-directory:           Toolbar.             (line 128)
+* vm-undisplay-buffer-hook:              Hooks.               (line 180)
+* vm-unforwarded-header-regexp:          Forwarding Messages. (line  31)
+* vm-unforwarded-header-regexp-plain:    Forwarding Messages. (line  31)
+* vm-url-search-limit:                   Faces.               (line  21)
+* vm-use-menus:                          Menus.               (line  12)
+* vm-use-toolbar:                        Toolbar.             (line  11)
+* vm-virtual-auto-delete-message-selector: vm-avirtual.       (line  32)
+* vm-virtual-auto-folder-alist:          vm-avirtual.         (line  51)
+* vm-virtual-folder-alist <1>:           Defined Folders.     (line   6)
+* vm-virtual-folder-alist:               Virtual Folders.     (line  21)
+* vm-virtual-mode-hook:                  Hooks.               (line 147)
+* vm-visible-headers:                    Previewing.          (line  25)
+* vm-visit-folder-hook:                  Hooks.               (line 107)
+* vm-visit-when-saving:                  Saving Messages.     (line  49)
+* vm-vs-attachment-regexp:               Defined Folders.     (line 244)
+* vm-window-configuration-file:          Window Configuration.
+                                                              (line  52)
+* vm-word-wrap-paragraphs:               Paging.              (line  35)
+
+
+File: vm.info,  Node: Internals Index,  Next: License,  Prev: Variable Index,  Up: Top
+
+Internals Index
+***************
+
+ [index ]
+* Menu:
+
+* attachment button:                     MIME Composition.    (line   6)
+* attribute-modflag:                     Message Internals.   (line 272)
+* Babyl format:                          Folder Internals.    (line  32)
+* babyl-frob-flag:                       Message Internals.   (line 121)
+* base 64:                               Coding Systems.      (line  33)
+* BellFrom_ folder type:                 Folder Internals.    (line  23)
+* body-to-be-discarded:                  Message Internals.   (line 237)
+* body-to-be-retrieved:                  Message Internals.   (line 241)
+* buffer:                                Message Internals.   (line 108)
+* byte-count:                            Message Internals.   (line 188)
+* cache:                                 Message Internals.   (line 315)
+* charset:                               Coding Systems.      (line  15)
+* coding system:                         Coding Systems.      (line   6)
+* coding-system-get:                     Coding Systems.      (line  15)
+* Content-Description:                   Message Internals.   (line 297)
+* Content-Disposition:                   Message Internals.   (line 300)
+* Content-ID:                            Message Internals.   (line 295)
+* Content-Transfer-Encoding:             Message Internals.   (line 292)
+* Content-Type <1>:                      Coding Systems.      (line  26)
+* Content-Type:                          Message Internals.   (line 285)
+* decode-coding-region:                  Coding Systems.      (line  26)
+* decode-coding-string:                  Coding Systems.      (line  33)
+* deleted-flag:                          Message Internals.   (line 154)
+* description:                           Message Internals.   (line 297)
+* display-error:                         Message Internals.   (line 339)
+* disposition:                           Message Internals.   (line 300)
+* edit-buffer:                           Message Internals.   (line 260)
+* edited-flag:                           Message Internals.   (line 165)
+* editing:                               Folder Internals.    (line 180)
+* encode-coding-region:                  Coding Systems.      (line  26)
+* encode-coding-string:                  Coding Systems.      (line  33)
+* encoding:                              Message Internals.   (line 292)
+* end:                                   Message Internals.   (line  54)
+* extents:                               Extents and Overlays.
+                                                              (line   6)
+* filed-flag:                            Message Internals.   (line 156)
+* forwarded-flag:                        Message Internals.   (line 162)
+* forwarding:                            Folder Internals.    (line 184)
+* from:                                  Message Internals.   (line 194)
+* From_ folder type:                     Folder Internals.    (line  23)
+* From_with-Content-Length folder type:  Folder Internals.    (line  23)
+* full-name:                             Message Internals.   (line 191)
+* header-start:                          Message Internals.   (line 308)
+* headers:                               Message Internals.   (line  40)
+* id:                                    Message Internals.   (line 295)
+* imap-uid:                              Message Internals.   (line 246)
+* imap-uid-validity:                     Message Internals.   (line 248)
+* In-Reply-To header:                    Threading Internals. (line   6)
+* include:                               MIME Composition.    (line  89)
+* label-string:                          Message Internals.   (line 270)
+* labels:                                Message Internals.   (line 268)
+* layout-is-converted:                   Message Internals.   (line 342)
+* line-count:                            Message Internals.   (line 199)
+* mark:                                  Message Internals.   (line  74)
+* mbox:                                  Folder Internals.    (line   6)
+* message-access-method:                 Message Internals.   (line 140)
+* message-id:                            Message Internals.   (line 197)
+* message-id-number:                     Message Internals.   (line 105)
+* message-symbol:                        Message Internals.   (line 335)
+* message-type:                          Message Internals.   (line 101)
+* message/external-body:                 MIME Display.        (line  33)
+* MIME:                                  Folder Internals.    (line 165)
+* MIME button:                           MIME Display.        (line  42)
+* mime-charset:                          Coding Systems.      (line  15)
+* mime-encoded-header-flag:              Message Internals.   (line 134)
+* mime-layout:                           Message Internals.   (line 131)
+* mirrored-message-sym:                  Message Internals.   (line  93)
+* MMDF format:                           Folder Internals.    (line  32)
+* month-number:                          Message Internals.   (line 217)
+* new-flag:                              Message Internals.   (line 152)
+* number:                                Message Internals.   (line  72)
+* overlays:                              Extents and Overlays.
+                                                              (line   6)
+* padded-number:                         Message Internals.   (line  72)
+* parent:                                Message Internals.   (line 232)
+* parts:                                 Message Internals.   (line 312)
+* pop-uidl:                              Message Internals.   (line 244)
+* previewing:                            Folder Internals.    (line 174)
+* qdisposition:                          Message Internals.   (line 305)
+* qtype:                                 Message Internals.   (line 290)
+* quoted printable:                      Coding Systems.      (line  33)
+* reading:                               Folder Internals.    (line 178)
+* real-message-sym:                      Message Internals.   (line  83)
+* redistributed-flag:                    Message Internals.   (line 167)
+* redistributing:                        Folder Internals.    (line 188)
+* references:                            Message Internals.   (line 234)
+* References header:                     Threading Internals. (line   6)
+* replied-flag:                          Message Internals.   (line 158)
+* replying:                              Folder Internals.    (line 186)
+* reverse-link-sym:                      Message Internals.   (line  97)
+* saved-virtual-attributes:              Message Internals.   (line 123)
+* saved-virtual-mirror-data:             Message Internals.   (line 126)
+* showing:                               Folder Internals.    (line 176)
+* sortable-datestring:                   Message Internals.   (line 219)
+* sortable-subject:                      Message Internals.   (line 223)
+* spam-score:                            Message Internals.   (line 251)
+* start:                                 Message Internals.   (line  39)
+* stuff-flag:                            Message Internals.   (line 265)
+* su-end:                                Message Internals.   (line  80)
+* su-start:                              Message Internals.   (line  77)
+* su-summary-mouse-track-overlay:        Message Internals.   (line 137)
+* subject:                               Message Internals.   (line 201)
+* summary:                               Message Internals.   (line 227)
+* summary line, tokenized:               Summary Internals.   (line   6)
+* System V:                              Folder Internals.    (line  23)
+* text:                                  Message Internals.   (line  48)
+* text-end:                              Message Internals.   (line  51)
+* thread-indentation <1>:                Message Internals.   (line 112)
+* thread-indentation:                    Threading Internals. (line  99)
+* thread-list <1>:                       Message Internals.   (line 115)
+* thread-list:                           Threading Internals. (line  99)
+* thread-subtree <1>:                    Message Internals.   (line 118)
+* thread-subtree:                        Threading Internals. (line  99)
+* threads, building:                     Threading Internals. (line  94)
+* to:                                    Message Internals.   (line 209)
+* to-names:                              Message Internals.   (line 213)
+* tokenized summary line:                Summary Internals.   (line   6)
+* type:                                  Message Internals.   (line 285)
+* unconverted-layout:                    Message Internals.   (line 345)
+* unread-flag:                           Message Internals.   (line 152)
+* unthread:                              Threading Internals. (line 111)
+* vheaders:                              Message Internals.   (line  43)
+* vheaders-regexp:                       Message Internals.   (line 204)
+* virtual-folder-definition:             Virtual Folder Internals.
+                                                              (line   6)
+* virtual-messages-sym:                  Message Internals.   (line 261)
+* virtual-summary:                       Message Internals.   (line 129)
+* vm-check-mail-itimer-function:         Timers and Concurrency.
+                                                              (line  16)
+* vm-component-buffers:                  Folder Internals.    (line 123)
+* vm-decode-mime-layout:                 MIME Display.        (line   6)
+* vm-fetched-message-count:              Folder Internals.    (line 161)
+* vm-fetched-messages:                   Folder Internals.    (line 158)
+* vm-flush-itimer-function:              Timers and Concurrency.
+                                                              (line   9)
+* vm-folder-access-data:                 Folder Internals.    (line 100)
+* vm-folder-access-method:               Folder Internals.    (line  96)
+* vm-folder-read-only:                   Folder Internals.    (line 108)
+* vm-folder-type:                        Folder Internals.    (line  92)
+* vm-get-mail-itimer-function:           Timers and Concurrency.
+                                                              (line  12)
+* vm-image-modified:                     Message Internals.   (line 326)
+* vm-include-mime-attachments:           MIME Composition.    (line  89)
+* vm-key-functions:                      Sorting Internals.   (line   6)
+* vm-last-message-pointer:               Folder Internals.    (line 151)
+* vm-mail-buffer:                        User Interaction.    (line  14)
+* vm-menu-toggle-menubar:                User Interaction.    (line  52)
+* vm-message:                            Summary Internals.   (line  71)
+* vm-message-garbage:                    Message Internals.   (line 332)
+* vm-message-list <1>:                   Message Internals.   (line 354)
+* vm-message-list <2>:                   Folder Internals.    (line  89)
+* vm-message-list:                       Summary Internals.   (line  60)
+* vm-message-pointer <1>:                Folder Internals.    (line 147)
+* vm-message-pointer:                    Message Internals.   (line 354)
+* vm-messages-needing-summary-update:    Summary Internals.   (line  56)
+* vm-mime-button-face:                   MIME Display.        (line  54)
+* vm-mime-decoded:                       Folder Internals.    (line 165)
+* vm-mime-display-external-generic:      Message Internals.   (line 319)
+* vm-mime-display-internal-audio/basic:  Message Internals.   (line 329)
+* vm-mime-display-internal-image-xxxx:   Message Internals.   (line 321)
+* vm-mime-fake-attachment-overlays:      MIME Composition.    (line  71)
+* vm-mime-mule-charset-to-coding-alist:  Coding Systems.      (line  15)
+* vm-mime-mule-coding-to-charset-alist:  Coding Systems.      (line  15)
+* vm-mode-menu-map:                      User Interaction.    (line  30)
+* vm-numbering-redo-end-point:           Summary Internals.   (line  62)
+* vm-numbering-redo-start-point:         Summary Internals.   (line  60)
+* vm-presentation-buffer <1>:            User Interaction.    (line  14)
+* vm-presentation-buffer:                Folder Internals.    (line 141)
+* vm-presentation-buffer-handle:         Folder Internals.    (line 138)
+* vm-real-buffers:                       Folder Internals.    (line 116)
+* vm-select-folder-buffer-and-validate:  User Interaction.    (line  20)
+* vm-sort-compare-thread:                Sorting Internals.   (line  24)
+* vm-sort-compare-xxxxxx:                Sorting Internals.   (line  14)
+* vm-spooled-mail-waiting:               Folder Internals.    (line 190)
+* vm-summary-buffer <1>:                 Folder Internals.    (line 130)
+* vm-summary-buffer:                     User Interaction.    (line  14)
+* vm-summary-line-format:                Summary Internals.   (line   6)
+* vm-summary-pointer <1>:                Folder Internals.    (line 155)
+* vm-summary-pointer:                    Summary Internals.   (line  45)
+* vm-summary-redo-start-point:           Summary Internals.   (line  48)
+* vm-supported-interactive-virtual-selectors: Virtual Folder Internals.
+                                                              (line  42)
+* vm-system-state:                       Folder Internals.    (line 171)
+* vm-thread-obarray:                     Threading Internals. (line   6)
+* vm-thread-subject-obarray:             Threading Internals. (line   6)
+* vm-thread-using-subject:               Threading Internals. (line  27)
+* vm-undo-record-list:                   Folder Internals.    (line 194)
+* vm-undo-record-pointer:                Folder Internals.    (line 199)
+* vm-use-menus:                          User Interaction.    (line  42)
+* vm-user-interaction-buffer:            User Interaction.    (line  20)
+* vm-virtual-buffers:                    Folder Internals.    (line 120)
+* vm-virtual-folder-alist:               Virtual Folder Internals.
+                                                              (line   6)
+* vm-virtual-folder-definition:          Folder Internals.    (line 113)
+* vm-virtual-selector-arg-type:          Virtual Folder Internals.
+                                                              (line  36)
+* vm-virtual-selector-clause:            Virtual Folder Internals.
+                                                              (line  48)
+* vm-virtual-selector-function-alist:    Virtual Folder Internals.
+                                                              (line  32)
+* written-flag:                          Message Internals.   (line 160)
+* X-VM-Bookmark:                         Folder Internals.    (line  43)
+* X-VM-IMAP-Retrieved:                   Folder Internals.    (line  70)
+* X-VM-Labels:                           Folder Internals.    (line  54)
+* X-VM-Last-Modified:                    Folder Internals.    (line  48)
+* X-VM-Message-order:                    Folder Internals.    (line  51)
+* X-VM-POP-Retrieved:                    Folder Internals.    (line  65)
+* X-VM-Summary-Format:                   Folder Internals.    (line  62)
+* X-VM-v5-Data:                          Message Internals.   (line  26)
+* X-VM-v5-Data header <1>:               Message Internals.   (line 175)
+* X-VM-v5-Data header:                   Folder Internals.    (line  36)
+* X-VM-VHeader:                          Folder Internals.    (line  57)
+* yank:                                  MIME Composition.    (line  89)
+
+
+File: vm.info,  Node: License,  Prev: Internals Index,  Up: Top
+
+GNU GENERAL PUBLIC LICENSE
+**************************
+
+                         Version 2, June 1991
+
+     Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+     675 Mass Ave, Cambridge, MA 02139, USA
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+Preamble
+========
+
+The licenses for most software are designed to take away your freedom
+to share and change it.  By contrast, the GNU General Public License is
+intended to guarantee your freedom to share and change free
+software--to make sure the software is free for all its users.  This
+General Public License applies to most of the Free Software
+Foundation's software and to any other program whose authors commit to
+using it.  (Some other Free Software Foundation software is covered by
+the GNU Library General Public License instead.)  You can apply it to
+your programs, too.
+
+   When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+this service if you wish), that you receive source code or can get it
+if you want it, that you can change the software or use pieces of it in
+new free programs; and that you know you can do these things.
+
+   To protect your rights, we need to make restrictions that forbid
+anyone to deny you these rights or to ask you to surrender the rights.
+These restrictions translate to certain responsibilities for you if you
+distribute copies of the software, or if you modify it.
+
+   For example, if you distribute copies of such a program, whether
+gratis or for a fee, you must give the recipients all the rights that
+you have.  You must make sure that they, too, receive or can get the
+source code.  And you must show them these terms so they know their
+rights.
+
+   We protect your rights with two steps: (1) copyright the software,
+and (2) offer you this license which gives you legal permission to copy,
+distribute and/or modify the software.
+
+   Also, for each author's protection and ours, we want to make certain
+that everyone understands that there is no warranty for this free
+software.  If the software is modified by someone else and passed on, we
+want its recipients to know that what they have is not the original, so
+that any problems introduced by others will not reflect on the original
+authors' reputations.
+
+   Finally, any free program is threatened constantly by software
+patents.  We wish to avoid the danger that redistributors of a free
+program will individually obtain patent licenses, in effect making the
+program proprietary.  To prevent this, we have made it clear that any
+patent must be licensed for everyone's free use or not licensed at all.
+
+   The precise terms and conditions for copying, distribution and
+modification follow.
+
+    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+  0. This License applies to any program or other work which contains a
+     notice placed by the copyright holder saying it may be distributed
+     under the terms of this General Public License.  The "Program",
+     below, refers to any such program or work, and a "work based on
+     the Program" means either the Program or any derivative work under
+     copyright law: that is to say, a work containing the Program or a
+     portion of it, either verbatim or with modifications and/or
+     translated into another language.  (Hereinafter, translation is
+     included without limitation in the term "modification".)  Each
+     licensee is addressed as "you".
+
+     Activities other than copying, distribution and modification are
+     not covered by this License; they are outside its scope.  The act
+     of running the Program is not restricted, and the output from the
+     Program is covered only if its contents constitute a work based on
+     the Program (independent of having been made by running the
+     Program).  Whether that is true depends on what the Program does.
+
+  1. You may copy and distribute verbatim copies of the Program's
+     source code as you receive it, in any medium, provided that you
+     conspicuously and appropriately publish on each copy an appropriate
+     copyright notice and disclaimer of warranty; keep intact all the
+     notices that refer to this License and to the absence of any
+     warranty; and give any other recipients of the Program a copy of
+     this License along with the Program.
+
+     You may charge a fee for the physical act of transferring a copy,
+     and you may at your option offer warranty protection in exchange
+     for a fee.
+
+  2. You may modify your copy or copies of the Program or any portion
+     of it, thus forming a work based on the Program, and copy and
+     distribute such modifications or work under the terms of Section 1
+     above, provided that you also meet all of these conditions:
+
+       a. You must cause the modified files to carry prominent notices
+          stating that you changed the files and the date of any change.
+
+       b. You must cause any work that you distribute or publish, that
+          in whole or in part contains or is derived from the Program
+          or any part thereof, to be licensed as a whole at no charge
+          to all third parties under the terms of this License.
+
+       c. If the modified program normally reads commands interactively
+          when run, you must cause it, when started running for such
+          interactive use in the most ordinary way, to print or display
+          an announcement including an appropriate copyright notice and
+          a notice that there is no warranty (or else, saying that you
+          provide a warranty) and that users may redistribute the
+          program under these conditions, and telling the user how to
+          view a copy of this License.  (Exception: if the Program
+          itself is interactive but does not normally print such an
+          announcement, your work based on the Program is not required
+          to print an announcement.)
+
+     These requirements apply to the modified work as a whole.  If
+     identifiable sections of that work are not derived from the
+     Program, and can be reasonably considered independent and separate
+     works in themselves, then this License, and its terms, do not
+     apply to those sections when you distribute them as separate
+     works.  But when you distribute the same sections as part of a
+     whole which is a work based on the Program, the distribution of
+     the whole must be on the terms of this License, whose permissions
+     for other licensees extend to the entire whole, and thus to each
+     and every part regardless of who wrote it.
+
+     Thus, it is not the intent of this section to claim rights or
+     contest your rights to work written entirely by you; rather, the
+     intent is to exercise the right to control the distribution of
+     derivative or collective works based on the Program.
+
+     In addition, mere aggregation of another work not based on the
+     Program with the Program (or with a work based on the Program) on
+     a volume of a storage or distribution medium does not bring the
+     other work under the scope of this License.
+
+  3. You may copy and distribute the Program (or a work based on it,
+     under Section 2) in object code or executable form under the terms
+     of Sections 1 and 2 above provided that you also do one of the
+     following:
+
+       a. Accompany it with the complete corresponding machine-readable
+          source code, which must be distributed under the terms of
+          Sections 1 and 2 above on a medium customarily used for
+          software interchange; or,
+
+       b. Accompany it with a written offer, valid for at least three
+          years, to give any third party, for a charge no more than your
+          cost of physically performing source distribution, a complete
+          machine-readable copy of the corresponding source code, to be
+          distributed under the terms of Sections 1 and 2 above on a
+          medium customarily used for software interchange; or,
+
+       c. Accompany it with the information you received as to the offer
+          to distribute corresponding source code.  (This alternative is
+          allowed only for noncommercial distribution and only if you
+          received the program in object code or executable form with
+          such an offer, in accord with Subsection b above.)
+
+     The source code for a work means the preferred form of the work for
+     making modifications to it.  For an executable work, complete
+     source code means all the source code for all modules it contains,
+     plus any associated interface definition files, plus the scripts
+     used to control compilation and installation of the executable.
+     However, as a special exception, the source code distributed need
+     not include anything that is normally distributed (in either
+     source or binary form) with the major components (compiler,
+     kernel, and so on) of the operating system on which the executable
+     runs, unless that component itself accompanies the executable.
+
+     If distribution of executable or object code is made by offering
+     access to copy from a designated place, then offering equivalent
+     access to copy the source code from the same place counts as
+     distribution of the source code, even though third parties are not
+     compelled to copy the source along with the object code.
+
+  4. You may not copy, modify, sublicense, or distribute the Program
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense or distribute the Program is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses
+     terminated so long as such parties remain in full compliance.
+
+  5. You are not required to accept this License, since you have not
+     signed it.  However, nothing else grants you permission to modify
+     or distribute the Program or its derivative works.  These actions
+     are prohibited by law if you do not accept this License.
+     Therefore, by modifying or distributing the Program (or any work
+     based on the Program), you indicate your acceptance of this
+     License to do so, and all its terms and conditions for copying,
+     distributing or modifying the Program or works based on it.
+
+  6. Each time you redistribute the Program (or any work based on the
+     Program), the recipient automatically receives a license from the
+     original licensor to copy, distribute or modify the Program
+     subject to these terms and conditions.  You may not impose any
+     further restrictions on the recipients' exercise of the rights
+     granted herein.  You are not responsible for enforcing compliance
+     by third parties to this License.
+
+  7. If, as a consequence of a court judgment or allegation of patent
+     infringement or for any other reason (not limited to patent
+     issues), conditions are imposed on you (whether by court order,
+     agreement or otherwise) that contradict the conditions of this
+     License, they do not excuse you from the conditions of this
+     License.  If you cannot distribute so as to satisfy simultaneously
+     your obligations under this License and any other pertinent
+     obligations, then as a consequence you may not distribute the
+     Program at all.  For example, if a patent license would not permit
+     royalty-free redistribution of the Program by all those who
+     receive copies directly or indirectly through you, then the only
+     way you could satisfy both it and this License would be to refrain
+     entirely from distribution of the Program.
+
+     If any portion of this section is held invalid or unenforceable
+     under any particular circumstance, the balance of the section is
+     intended to apply and the section as a whole is intended to apply
+     in other circumstances.
+
+     It is not the purpose of this section to induce you to infringe any
+     patents or other property right claims or to contest validity of
+     any such claims; this section has the sole purpose of protecting
+     the integrity of the free software distribution system, which is
+     implemented by public license practices.  Many people have made
+     generous contributions to the wide range of software distributed
+     through that system in reliance on consistent application of that
+     system; it is up to the author/donor to decide if he or she is
+     willing to distribute software through any other system and a
+     licensee cannot impose that choice.
+
+     This section is intended to make thoroughly clear what is believed
+     to be a consequence of the rest of this License.
+
+  8. If the distribution and/or use of the Program is restricted in
+     certain countries either by patents or by copyrighted interfaces,
+     the original copyright holder who places the Program under this
+     License may add an explicit geographical distribution limitation
+     excluding those countries, so that distribution is permitted only
+     in or among countries not thus excluded.  In such case, this
+     License incorporates the limitation as if written in the body of
+     this License.
+
+  9. The Free Software Foundation may publish revised and/or new
+     versions of the General Public License from time to time.  Such
+     new versions will be similar in spirit to the present version, but
+     may differ in detail to address new problems or concerns.
+
+     Each version is given a distinguishing version number.  If the
+     Program specifies a version number of this License which applies
+     to it and "any later version", you have the option of following
+     the terms and conditions either of that version or of any later
+     version published by the Free Software Foundation.  If the Program
+     does not specify a version number of this License, you may choose
+     any version ever published by the Free Software Foundation.
+
+ 10. If you wish to incorporate parts of the Program into other free
+     programs whose distribution conditions are different, write to the
+     author to ask for permission.  For software which is copyrighted
+     by the Free Software Foundation, write to the Free Software
+     Foundation; we sometimes make exceptions for this.  Our decision
+     will be guided by the two goals of preserving the free status of
+     all derivatives of our free software and of promoting the sharing
+     and reuse of software generally.
+
+                                NO WARRANTY
+ 11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO
+     WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE
+     LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+     HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT
+     WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT
+     NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+     FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS TO THE
+     QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
+     PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY
+     SERVICING, REPAIR OR CORRECTION.
+
+ 12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
+     WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY
+     MODIFY AND/OR REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE
+     LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
+     INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR
+     INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF
+     DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU
+     OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY
+     OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN
+     ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+                      END OF TERMS AND CONDITIONS
+How to Apply These Terms to Your New Programs
+=============================================
+
+If you develop a new program, and you want it to be of the greatest
+possible use to the public, the best way to achieve this is to make it
+free software which everyone can redistribute and change under these
+terms.
+
+   To do so, attach the following notices to the program.  It is safest
+to attach them to the start of each source file to most effectively
+convey the exclusion of warranty; and each file should have at least
+the "copyright" line and a pointer to where the full notice is found.
+
+     ONE LINE TO GIVE THE PROGRAM'S NAME AND AN IDEA OF WHAT IT DOES.
+     Copyright (C) 19YY  NAME OF AUTHOR
+
+     This program is free software; you can redistribute it and/or
+     modify it under the terms of the GNU General Public License
+     as published by the Free Software Foundation; either version 2
+     of the License, or (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with this program; if not, write to the Free Software
+     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+   Also add information on how to contact you by electronic and paper
+mail.
+
+   If the program is interactive, make it output a short notice like
+this when it starts in an interactive mode:
+
+     Gnomovision version 69, Copyright (C) 19YY NAME OF AUTHOR
+     Gnomovision comes with ABSOLUTELY NO WARRANTY; for details
+     type `show w'.  This is free software, and you are welcome
+     to redistribute it under certain conditions; type `show c'
+     for details.
+
+   The hypothetical commands `show w' and `show c' should show the
+appropriate parts of the General Public License.  Of course, the
+commands you use may be called something other than `show w' and `show
+c'; they could even be mouse-clicks or menu items--whatever suits your
+program.
+
+   You should also get your employer (if you work as a programmer) or
+your school, if any, to sign a "copyright disclaimer" for the program,
+if necessary.  Here is a sample; alter the names:
+
+     Yoyodyne, Inc., hereby disclaims all copyright
+     interest in the program `Gnomovision'
+     (which makes passes at compilers) written
+     by James Hacker.
+
+     SIGNATURE OF TY COON, 1 April 1989
+     Ty Coon, President of Vice
+
+   This General Public License does not permit incorporating your
+program into proprietary programs.  If your program is a subroutine
+library, you may consider it more useful to permit linking proprietary
+applications with the library.  If this is what you want to do, use the
+GNU Library General Public License instead of this License.
+
+
