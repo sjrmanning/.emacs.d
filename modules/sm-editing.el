@@ -98,10 +98,22 @@
                  :background (face-attribute 'cursor :background)
                  :foreground (face-attribute 'cursor :background)
                  :height 0.2)
-                (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))))
-  :bind (("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C->" . mc/mark-all-like-this)))
+                (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))
+                (define-prefix-command 'endless/mc-map)))
+  :bind (()                             ; encourage emacs to indent pretty...
+         :map ctl-x-map
+         ("m" . endless/mc-map)
+         :map endless/mc-map
+         ("\C-a" . mc/edit-beginnings-of-lines)
+         ("\C-e" . mc/edit-ends-of-lines)
+         ("<" . mc/mark-previous-like-this)
+         ("<" . mc/mark-previous-like-this)
+         (">" . mc/mark-next-like-this)
+         ("a" . mc/mark-all-like-this)
+         ("h" . mc/hide-unmatched-lines-mode)
+         ("i" . mc/insert-numbers)
+         ("l" . mc/edit-lines)
+         ))
 
 ;; expand-region
 (use-package expand-region
