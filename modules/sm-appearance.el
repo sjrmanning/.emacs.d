@@ -29,12 +29,11 @@
              :family sm/fixed-font-name
              :height sm/font-height
              :weight sm/fixed-font-weight)
-            ;; this is part of the native line numbers in v26
-            ;; (set-face-attribute
-            ;;  'line-number nil
-            ;;  :family sm/fixed-font-name
-            ;;  :height (- sm/font-height 10)
-            ;;  :weight sm/fixed-font-weight)
+            (set-face-attribute
+             'line-number nil
+             :family sm/fixed-font-name
+             :height (- sm/font-height 10)
+             :weight sm/fixed-font-weight)
             (set-face-attribute
              'variable-pitch nil
              :family sm/var-font-name)))
