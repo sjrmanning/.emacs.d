@@ -105,7 +105,7 @@ FLAGS = -batch -q -no-site-file -no-init-file -l $(srcdir)/vm-build.el
 
 EMACS_COMP = lispdir="$(lispdir)" srcdir="$(srcdir)" "$(EMACS_PROG)" $(FLAGS)
 
-export OTHERDIRS = ("/Users/hartzell/.emacs.d/personal/bbdb")
+export OTHERDIRS = ("/Users/hartzell/.emacs.d/etc/extra/bbdb")
 
 SYMLINKS = no
 LINKPATH = 
@@ -135,7 +135,7 @@ vm-autoloads.el: $(SOURCES:%=./%)
 	echo > $@
 	(build_dir="`pwd`"; cd "."; \
 	 "$(EMACS_PROG)" $(FLAGS) -l autoload \
-		-f vm-built-autoloads "/Users/hartzell/.emacs.d/personal/vm-8.2.0b/lisp/$@" "`pwd`")
+		-f vm-built-autoloads "/Users/hartzell/.emacs.d/etc/extra/vm-8.2.0b/lisp/$@" "`pwd`")
 	echo "(custom-add-load 'vm 'vm-cus-load)" | tr -d '\015' >> $@
 	echo "(setq vm-configure-datadir \"${datadir}/vm\")" | tr -d '\015' >> $@
 	echo "(setq vm-configure-pixmapdir \"${pixmapdir}\")" | tr -d '\015' >> $@
@@ -146,7 +146,7 @@ vm-autoloads.el: $(SOURCES:%=./%)
 
 vm-cus-load.el: $(SOURCES:%=./%)
 	"$(EMACS_PROG)" $(FLAGS) -f vm-custom-make-dependencies .
-ifeq (24,21)
+ifeq (26,21)
 	sed -e "s/provide 'cus-load/provide 'vm-cus-load/" cus-load.el > $@
 	$(RM) cus-load.el
 endif
@@ -157,7 +157,7 @@ auto-autoloads.el: $(SOURCES:%=./%)
 	-$(RM) -f $@
 #	(build_dir=`pwd`; cd "."; \
 #	 $(EMACS_PROG) $(FLAGS) -l autoload \
-#		-f vm-built-autoloads "/Users/hartzell/.emacs.d/personal/vm-8.2.0b/lisp/$@" "`pwd`")
+#		-f vm-built-autoloads "/Users/hartzell/.emacs.d/etc/extra/vm-8.2.0b/lisp/$@" "`pwd`")
 	"$(EMACS_PROG)" $(FLAGS) \
                 -eval "$(AUTOLOAD_PACKAGE_NAME)" \
                 -eval "$(AUTOLOAD_FILE)" \

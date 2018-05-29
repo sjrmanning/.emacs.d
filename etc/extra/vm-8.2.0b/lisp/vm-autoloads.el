@@ -2,8 +2,7 @@
 ;;
 ;;; Code:
 
-;;;### (autoloads nil "u-vm-color" "u-vm-color.el" (21534 5007 0
-;;;;;;  0))
+;;;### (autoloads nil "u-vm-color" "u-vm-color.el" (0 0 0 0))
 ;;; Generated autoloads from u-vm-color.el
 
 (autoload 'u-vm-color-summary-mode "u-vm-color" "\
@@ -22,9 +21,11 @@ Temporarily widen buffer and call `u-vm-color-fontify-buffer'.
 
 \(fn)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "u-vm-color" '("u-vm-color-")))
+
 ;;;***
 
-;;;### (autoloads nil "vcard" "vcard.el" (21534 5007 0 0))
+;;;### (autoloads nil "vcard" "vcard.el" (0 0 0 0))
 ;;; Generated autoloads from vcard.el
 
 (defvar vcard-pretty-print-function 'vcard-format-sample-box "\
@@ -92,9 +93,11 @@ Note: this function modifies the buffer!
 
 \(fn BEG END &optional FILTER)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vcard" '("vcard-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm" "vm.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm" "vm.el" (0 0 0 0))
 ;;; Generated autoloads from vm.el
 
 (autoload 'vm "vm" "\
@@ -341,10 +344,11 @@ draft messages.
 
 (if (fboundp 'define-mail-user-agent) (define-mail-user-agent 'vm-user-agent #'vm-compose-mail #'vm-mail-send-and-exit nil nil))
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-avirtual" "vm-avirtual.el" (21534 5007
-;;;;;;  0 0))
+;;;### (autoloads nil "vm-avirtual" "vm-avirtual.el" (0 0 0 0))
 ;;; Generated autoloads from vm-avirtual.el
 
 (autoload 'vm-avirtual-check-for-missing-selectors "vm-avirtual" "\
@@ -490,9 +494,11 @@ with the same name.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-avirtual" '("vmpc-current-state" "vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-biff" "vm-biff.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-biff" "vm-biff.el" (0 0 0 0))
 ;;; Generated autoloads from vm-biff.el
 
 (autoload 'vm-biff-select-message "vm-biff" "\
@@ -538,9 +544,18 @@ Scan the current VM folder for new messages and popup a summary frame.
 
 \(fn &optional FORCE)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-biff" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-crypto" "vm-crypto.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-build" "vm-build.el" (0 0 0 0))
+;;; Generated autoloads from vm-build.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-build" '("vm-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-crypto" "vm-crypto.el" (0 0 0 0))
 ;;; Generated autoloads from vm-crypto.el
 
 (autoload 'vm-md5-region "vm-crypto" "\
@@ -583,9 +598,11 @@ Scan the current VM folder for new messages and popup a summary frame.
 
 \(fn HOST PORT)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-crypto" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-delete" "vm-delete.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-delete" "vm-delete.el" (0 0 0 0))
 ;;; Generated autoloads from vm-delete.el
 
 (autoload 'vm-delete-message "vm-delete" "\
@@ -719,7 +736,7 @@ ignored.
 
 ;;;***
 
-;;;### (autoloads nil "vm-digest" "vm-digest.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-digest" "vm-digest.el" (0 0 0 0))
 ;;; Generated autoloads from vm-digest.el
 
 (autoload 'vm-no-frills-encapsulate-message "vm-digest" "\
@@ -850,9 +867,11 @@ burst.
 
 \(fn &optional DIGEST-TYPE)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-digest" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-dired" "vm-dired.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-dired" "vm-dired.el" (0 0 0 0))
 ;;; Generated autoloads from vm-dired.el
 
 (autoload 'vm-dired-attach-file "vm-dired" "\
@@ -891,7 +910,7 @@ COMPOSITION's name will be read from the minibuffer.
 
 ;;;***
 
-;;;### (autoloads nil "vm-edit" "vm-edit.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-edit" "vm-edit.el" (0 0 0 0))
 ;;; Generated autoloads from vm-edit.el
 
 (autoload 'vm-edit-message "vm-edit" "\
@@ -941,9 +960,11 @@ End the edit of a message and copy the result to its folder.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-edit" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-folder" "vm-folder.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-folder" "vm-folder.el" (0 0 0 0))
 ;;; Generated autoloads from vm-folder.el
 
 (autoload 'vm-reorder-message-headers "vm-folder" "\
@@ -1210,10 +1231,11 @@ the folder is saved.
 
 \(fn &optional COUNT PHYSICAL)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-folder" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-grepmail" "vm-grepmail.el" (21534 5007
-;;;;;;  0 0))
+;;;### (autoloads nil "vm-grepmail" "vm-grepmail.el" (0 0 0 0))
 ;;; Generated autoloads from vm-grepmail.el
 
 (defvar vm-grepmail-command "grepmail" "\
@@ -1237,9 +1259,11 @@ FOLDERS should be a list of files/directories to search in.
 
 \(fn ARGUMENTS FOLDERS)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-grepmail" '("vm-grepmail-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-imap" "vm-imap.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-imap" "vm-imap.el" (0 0 0 0))
 ;;; Generated autoloads from vm-imap.el
 
 (autoload 'vm-imap-move-mail "vm-imap" "\
@@ -1396,10 +1420,11 @@ folder.
 
 \(fn)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-imap" '("vm-" "delete-common-elements")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-license" "vm-license.el" (21534 5007 0
-;;;;;;  0))
+;;;### (autoloads nil "vm-license" "vm-license.el" (0 0 0 0))
 ;;; Generated autoloads from vm-license.el
 
 (autoload 'vm-show-copying-restrictions "vm-license" "\
@@ -1414,7 +1439,14 @@ Display \"NO WARRANTY\" section of the GNU General Public License.
 
 ;;;***
 
-;;;### (autoloads nil "vm-mark" "vm-mark.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-macro" "vm-macro.el" (0 0 0 0))
+;;; Generated autoloads from vm-macro.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-macro" '("vm-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-mark" "vm-mark.el" (0 0 0 0))
 ;;; Generated autoloads from vm-mark.el
 
 (autoload 'vm-clear-all-marks "vm-mark" "\
@@ -1534,10 +1566,26 @@ not work.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-mark" '("vm-mark-or-unmark-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-menu" "vm-menu.el" (0 0 0 0))
+;;; Generated autoloads from vm-menu.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-menu" '("vm-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-message" "vm-message.el" (0 0 0 0))
+;;; Generated autoloads from vm-message.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-message" '("vm-")))
+
 ;;;***
 
 ;;;### (autoloads nil "vm-message-history" "vm-message-history.el"
-;;;;;;  (21534 5007 0 0))
+;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from vm-message-history.el
 
 (autoload 'vm-message-history-add "vm-message-history" "\
@@ -1564,9 +1612,11 @@ Select a message from a popup menu of the current folder's history.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-message-history" '("vm-message-history")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-mime" "vm-mime.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-mime" "vm-mime.el" (0 0 0 0))
 ;;; Generated autoloads from vm-mime.el
 
 (autoload 'vm-decode-mime-message "vm-mime" "\
@@ -1939,9 +1989,18 @@ Replace all mime buttons in the current buffer by attachment buttons.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-mime" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-misc" "vm-misc.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-minibuf" "vm-minibuf.el" (0 0 0 0))
+;;; Generated autoloads from vm-minibuf.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-minibuf" '("vm-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-misc" "vm-misc.el" (0 0 0 0))
 ;;; Generated autoloads from vm-misc.el
 
 (autoload 'vm-check-for-killed-folder "vm-misc" "\
@@ -1950,9 +2009,11 @@ vm-mail-buffer variable.
 
 \(fn)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-misc" '("vm-" "gc-fields")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-motion" "vm-motion.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-motion" "vm-motion.el" (0 0 0 0))
 ;;; Generated autoloads from vm-motion.el
 
 (autoload 'vm-goto-message "vm-motion" "\
@@ -2041,9 +2102,11 @@ If a new message is selected then return t, otherwise nil. USR, 2010-03-08
 
 \(fn)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-motion" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-mouse" "vm-mouse.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-mouse" "vm-mouse.el" (0 0 0 0))
 ;;; Generated autoloads from vm-mouse.el
 
 (autoload 'vm-mouse-button-2 "vm-mouse" "\
@@ -2084,9 +2147,11 @@ Mouse'.
 
 \(fn &optional NORMAL-EXIT)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-mouse" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-page" "vm-page.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-page" "vm-page.el" (0 0 0 0))
 ;;; Generated autoloads from vm-page.el
 
 (autoload 'vm-scroll-forward "vm-page" "\
@@ -2177,10 +2242,11 @@ exposed and marked as read.
 
 \(fn COUNT)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-page" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-pcrisis" "vm-pcrisis.el" (21534 5007 0
-;;;;;;  0))
+;;;### (autoloads nil "vm-pcrisis" "vm-pcrisis.el" (0 0 0 0))
 ;;; Generated autoloads from vm-pcrisis.el
 
 (autoload 'vmpc-run-action "vm-pcrisis" "\
@@ -2206,9 +2272,18 @@ Call `vmpc-no-automorph' to disable it for the current buffer.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-pcrisis" '("vmpc-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-pine" "vm-pine.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-pgg" "vm-pgg.el" (0 0 0 0))
+;;; Generated autoloads from vm-pgg.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-pgg" '("vm-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-pine" "vm-pine.el" (0 0 0 0))
 ;;; Generated autoloads from vm-pine.el
 
 (autoload 'vm-summary-function-f "vm-pine" "\
@@ -2411,9 +2486,11 @@ If optional argument RETURN-ONLY is t just returns FCC.
 
 \(fn &optional ARG RETURN-ONLY)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-pine" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-pop" "vm-pop.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-pop" "vm-pop.el" (0 0 0 0))
 ;;; Generated autoloads from vm-pop.el
 
 (autoload 'vm-pop-move-mail "vm-pop" "\
@@ -2463,10 +2540,11 @@ specification SPEC.
 
 \(fn SPEC &optional SCRUB-PASSWORD SCRUB-SPEC)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-pop" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-ps-print" "vm-ps-print.el" (21534 5007
-;;;;;;  0 0))
+;;;### (autoloads nil "vm-ps-print" "vm-ps-print.el" (0 0 0 0))
 ;;; Generated autoloads from vm-ps-print.el
 
 (defvar vm-ps-print-message-function 'ps-print-buffer-with-faces "\
@@ -2632,9 +2710,11 @@ filename and formats 1 page per sheet. (JJK)
 
 \(fn &optional FILENAME SEPERATE NUP COLOR)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-ps-print" '("vm-ps-print-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-reply" "vm-reply.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-reply" "vm-reply.el" (0 0 0 0))
 ;;; Generated autoloads from vm-reply.el
 
 (autoload 'vm-fill-long-lines-in-reply "vm-reply" "\
@@ -2976,10 +3056,11 @@ that is needed for Mac and NextStep.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-reply" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-rfaddons" "vm-rfaddons.el" (21534 5007
-;;;;;;  0 0))
+;;;### (autoloads nil "vm-rfaddons" "vm-rfaddons.el" (0 0 0 0))
 ;;; Generated autoloads from vm-rfaddons.el
 
 (autoload 'vm-rfaddons-infect-vm "vm-rfaddons" "\
@@ -3194,9 +3275,11 @@ Call it with a prefix ARG to change the action.
 
 \(fn &optional ARG)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-rfaddons" '("vm-" "bbdb/vm-" "rf-vm-su-labels")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-save" "vm-save.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-save" "vm-save.el" (0 0 0 0))
 ;;; Generated autoloads from vm-save.el
 
 (autoload 'vm-auto-select-folder "vm-save" "\
@@ -3367,9 +3450,11 @@ The saved messages are flagged as `filed'.
 
 \(fn FOLDER &optional COUNT MLIST QUIET)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-save" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-search" "vm-search.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-search" "vm-search.el" (0 0 0 0))
 ;;; Generated autoloads from vm-search.el
 
 (autoload 'vm-isearch-forward "vm-search" "\
@@ -3406,9 +3491,18 @@ vm-search-using-regexps for this search.
 
 \(fn)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-search" '("vm-isearch")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-sort" "vm-sort.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-serial" "vm-serial.el" (0 0 0 0))
+;;; Generated autoloads from vm-serial.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-serial" '("vm-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-sort" "vm-sort.el" (0 0 0 0))
 ;;; Generated autoloads from vm-sort.el
 
 (autoload 'vm-move-message-forward "vm-sort" "\
@@ -3505,10 +3599,11 @@ folder in the order in which the messages arrived.
 
 \(fn M1 M2)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-sort" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-summary" "vm-summary.el" (21534 5007 0
-;;;;;;  0))
+;;;### (autoloads nil "vm-summary" "vm-summary.el" (0 0 0 0))
 ;;; Generated autoloads from vm-summary.el
 
 (autoload 'vm-summarize "vm-summary" "\
@@ -3553,10 +3648,12 @@ Call this function if you made changes to `vm-summary-format'.
 
 \(fn &optional KILL-LOCAL-SUMMARY)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-summary" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-summary-faces" "vm-summary-faces.el" (21534
-;;;;;;  5007 0 0))
+;;;### (autoloads nil "vm-summary-faces" "vm-summary-faces.el" (0
+;;;;;;  0 0 0))
 ;;; Generated autoloads from vm-summary-faces.el
 
 (autoload 'vm-summary-faces-hide "vm-summary-faces" "\
@@ -3586,9 +3683,11 @@ fonts and colors, for easy recogniton of the message status.
 
 \(fn &optional ARG)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-summary-faces" '("vm-summary-faces-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-thread" "vm-thread.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-thread" "vm-thread.el" (0 0 0 0))
 ;;; Generated autoloads from vm-thread.el
 
 (autoload 'vm-thread-symbol "vm-thread" "\
@@ -3749,10 +3848,11 @@ to the thread.  Used for testing purposes.
 
 \(fn &optional ML)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-thread" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-toolbar" "vm-toolbar.el" (21534 5007 0
-;;;;;;  0))
+;;;### (autoloads nil "vm-toolbar" "vm-toolbar.el" (0 0 0 0))
 ;;; Generated autoloads from vm-toolbar.el
 
 (autoload 'vm-toolbar-helper-command "vm-toolbar" "\
@@ -3775,9 +3875,11 @@ to the thread.  Used for testing purposes.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-toolbar" '("vm-toolbar-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-undo" "vm-undo.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-undo" "vm-undo.el" (0 0 0 0))
 ;;; Generated autoloads from vm-undo.el
 
 (autoload 'vm-undo "vm-undo" "\
@@ -3859,9 +3961,25 @@ COUNT-1 messages to be altered.  COUNT defaults to one.
 
 \(fn STRING COUNT)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-undo" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-vcard" "vm-vcard.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-user" "vm-user.el" (0 0 0 0))
+;;; Generated autoloads from vm-user.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-user" '("vm-user-composition-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-vars" "vm-vars.el" (0 0 0 0))
+;;; Generated autoloads from vm-vars.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-vars" '("vm-" "pop-up-frames" "highlight-headers-regexp" "mode-popup-menu")))
+
+;;;***
+
+;;;### (autoloads nil "vm-vcard" "vm-vcard.el" (0 0 0 0))
 ;;; Generated autoloads from vm-vcard.el
 
 (defvar vm-vcard-format-function nil "\
@@ -3885,10 +4003,18 @@ COUNT-1 messages to be altered.  COUNT defaults to one.
 
 \(fn LAYOUT)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-vcard" '("vm-vcard-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-virtual" "vm-virtual.el" (21534 5007 0
-;;;;;;  0))
+;;;### (autoloads nil "vm-version" "vm-version.el" (0 0 0 0))
+;;; Generated autoloads from vm-version.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-version" '("vm-")))
+
+;;;***
+
+;;;### (autoloads nil "vm-virtual" "vm-virtual.el" (0 0 0 0))
 ;;; Generated autoloads from vm-virtual.el
 
 (autoload 'vm-build-virtual-message-list "vm-virtual" "\
@@ -4064,9 +4190,11 @@ folder buffer (which should be the virtual folder in which M occurs).
 
 \(fn M)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-virtual" '("vm-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-w3" "vm-w3.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-w3" "vm-w3.el" (0 0 0 0))
 ;;; Generated autoloads from vm-w3.el
 
 (autoload 'vm-mime-display-internal-w3-text/html "vm-w3" "\
@@ -4074,9 +4202,11 @@ folder buffer (which should be the virtual folder in which M occurs).
 
 \(fn START END LAYOUT)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-w3" '("vm-w3-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-w3m" "vm-w3m.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-w3m" "vm-w3m.el" (0 0 0 0))
 ;;; Generated autoloads from vm-w3m.el
 
 (autoload 'vm-mime-display-internal-emacs-w3m-text/html "vm-w3m" "\
@@ -4084,9 +4214,11 @@ Use emacs-w3m to inline HTML mails in the VM presentation buffer.
 
 \(fn START END LAYOUT)" nil nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-w3m" '("vm-w3m-")))
+
 ;;;***
 
-;;;### (autoloads nil "vm-window" "vm-window.el" (21534 5007 0 0))
+;;;### (autoloads nil "vm-window" "vm-window.el" (0 0 0 0))
 ;;; Generated autoloads from vm-window.el
 
 (autoload 'vm-display "vm-window" "\
@@ -4129,16 +4261,16 @@ from the minibuffer.
 
 \(fn TAG)" t nil)
 
-;;;***
-
-;;;### (autoloads nil nil ("vm-autoload.el" "vm-build.el" "vm-cus-load.el"
-;;;;;;  "vm-macro.el" "vm-menu.el" "vm-message.el" "vm-minibuf.el"
-;;;;;;  "vm-pgg.el" "vm-serial.el" "vm-startup.el" "vm-user.el" "vm-vars.el"
-;;;;;;  "vm-version.el") (21847 47809 172535 0))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "vm-window" '("vm-")))
 
 ;;;***
 
-;;;### (autoloads nil "tapestry" "tapestry.el" (21534 5007 0 0))
+;;;### (autoloads nil nil ("vm-autoload.el" "vm-cus-load.el" "vm-startup.el")
+;;;;;;  (0 0 0 0))
+
+;;;***
+
+;;;### (autoloads nil "tapestry" "tapestry.el" (0 0 0 0))
 ;;; Generated autoloads from tapestry.el
 
 (autoload 'tapestry "tapestry" "\
@@ -4192,6 +4324,8 @@ ROOT-WINDOW-EDGES will be used.
 
 
 \(fn MAP WHAT FUNCTION)" nil nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "tapestry" '("tapestry-")))
 
 ;;;***
 (custom-add-load 'vm 'vm-cus-load)
