@@ -1214,7 +1214,7 @@ PROMPT argument and call this function interactively in the composition buffer."
 ;; Functions for vmpc-conditions:
 ;; -------------------------------------------------------------------
 
-(defun vmpc-none-true-yet (&optional &rest exceptions)
+(defun vmpc-none-true-yet (&rest exceptions)
   "True if none of the previous evaluated conditions was true.
 This is a condition that can appear in `vmpc-conditions'.  If EXCEPTIONS are
 specified, it means none were true except those.  For example, if you wanted
