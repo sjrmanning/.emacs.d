@@ -55,6 +55,4 @@
         lsp-ui-imenu-enable t
         lsp-ui-sideline-ignore-duplicate t))
 
-(use-package yaml-mode)
-
 (provide 'sm-coding-general)
