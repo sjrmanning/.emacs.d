@@ -67,11 +67,6 @@
   (key-chord-define-global "jl" 'avy-goto-line)
   (key-chord-define-global "jj" 'avy-goto-word-1))
 
-;; smooth-scrolling
-;; Avoids annoying behaviour when scrolling past the edges of a buffer.
-(use-package smooth-scrolling
-  :hook (after-init . smooth-scrolling-mode))
-
 ;; recentf
 ;; Open/view recent files.
 (use-package recentf
