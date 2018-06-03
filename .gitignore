@@ -13,7 +13,8 @@ tramp
 *.elc
 
 # Packages
-straight/
+straight/*
+!straight/versions/
 elpa/
 
 # DS_Store
