@@ -64,6 +64,7 @@
         sm-coding-perl
         sm-coding-sh
         sm-coding-stats
+        sm-coding-hcl
         sm-dired
         sm-mail
         sm-data
