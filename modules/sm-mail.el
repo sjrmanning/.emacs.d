@@ -3,7 +3,7 @@
 (use-package bbdb-autoloads
   :straight nil
   :load-path "etc/extra/bbdb"
-  :commands (bbdb bbdb-insinuate-vm)
+  ;; :commands (bbdb bbdb-insinuate-vm)
   :init
   (progn
     (add-hook 'bbdb-load-hook
