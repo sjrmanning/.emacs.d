@@ -4,12 +4,6 @@
 ;; Ignore customisation by putting it in the cache dir.
 (setq custom-file (sm/cache-for "custom.el"))
 
-;; Set default directory.
-(setq default-directory "~")
-
-;; Set home dir.
-(cd (expand-file-name "~/"))
-
 ;; Fix mac-port defaults.
 (when (equal system-type 'darwin)
   (setq mac-option-modifier 'meta)
