@@ -95,9 +95,9 @@
                              (substring date (match-beginning 6) (match-end 6))
                              "-"
                              (substring date (match-beginning 2) (match-end 2))
-			     )))
+                             )))
              ;;set other defaults
-	     (define-key mail-mode-map "\e\^i" 'bbdb-complete-name)
+             (define-key mail-mode-map "\e\^i" 'bbdb-complete-name)
              (setq mail-signature nil)
              (auto-fill-mode 1)))      ;turn on auto-fill
 

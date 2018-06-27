@@ -20,6 +20,7 @@
   :delight flyspell-mode
   :commands flyspell-mode
   :init
+  (setq flyspell-use-meta-tab nil)
   (add-hook 'text-mode-hook #'flyspell-mode)
   (add-hook 'prog-mode-hook #'flyspell-prog-mode)
   :config
