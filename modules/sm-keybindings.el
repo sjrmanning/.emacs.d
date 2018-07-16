@@ -1,11 +1,19 @@
 ;;; sm-keybindings.el --- Icky black magic for keybindins
 
-;; See https://emacs.stackexchange.com/questions/1020/problems-with-keybindings-when-using-terminal/13957#13957
 ;;
+;; So far I've set up:
+;; C-. to Esc [46;5u
+;; C-< to Esc [60;6u
+;; C-= to Esc [61;5u
+;; C-> to Esc [62;6u
+;;
+;; See https://emacs.stackexchange.com/questions/1020/problems-with-keybindings-when-using-terminal/13957#13957
 ;; There seem to be two competing standards for mapping key strokes in
 ;; dump terminals into escape sequences
 ;;
-;; One is LeoNerd's libtermkey with the syntax: `ESC [ codepoint ; modifier u`
+;; One is LeoNerd's libtermkey with the syntax: `ESC [ codepoint ;
+;; modifier u` [details
+;; here](http://www.leonerd.org.uk/hacks/fixterms/)
 ;; Another is Thomas Dickey's xterm with the syntax `ESC [ 2 7 ; modifier ; codepoint ~`
 ;;
 ;; I've chosen to follow LeoNerd's standard (it's shorter, for lack of a better reason).
