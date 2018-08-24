@@ -44,6 +44,7 @@
         sm-coding-cc
         ;; sm-coding-csharp
         sm-coding-elixir
+        sm-coding-go
         sm-coding-java
         sm-coding-js
         sm-coding-python
