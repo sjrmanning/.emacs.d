@@ -41,6 +41,7 @@
         sm-source-control
         ;; sm-org
         sm-coding-general
+        sm-coding-groovy
         sm-coding-cc
         ;; sm-coding-csharp
         sm-coding-elixir
