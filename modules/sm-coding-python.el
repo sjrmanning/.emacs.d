@@ -13,9 +13,9 @@
 ;;
 ;; #!/bin/sh
 ;; PYTHONPATH=$HOME/tmp/yapf python3 $HOME/tmp/yapf/yapf "$@"
-(use-package py-yapf
+(use-package yapfify
   :config
-  (add-hook 'python-mode-hook 'py-yapf-enable-on-save))
+  (add-hook 'python-mode-hook 'yapf-mode))
 
 
 (provide 'sm-coding-python)
