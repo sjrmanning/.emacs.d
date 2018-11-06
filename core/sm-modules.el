@@ -14,7 +14,7 @@
 
 ;; straight.el tuning
 (setq straight-cache-autoloads t)
-(setq straight-check-for-modifications 'live)
+(setq straight-check-for-modifications '(check-on-save))
 
 ;; Use `use-package' via straight.el
 (straight-use-package 'use-package)

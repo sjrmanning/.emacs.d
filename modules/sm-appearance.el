@@ -32,7 +32,9 @@
              'variable-pitch nil
              :family sm/var-font-name))
           (use-package darkokai-theme
-            :config (load-theme 'darkokai t)))
+            :config
+            (setq darkokai-blue-tint t)
+            (load-theme 'darkokai t)))
 
 (use-package rainbow-mode
   :straight (rainbow-mode :type git :host github :repo "emacsmirror/rainbow-mode")

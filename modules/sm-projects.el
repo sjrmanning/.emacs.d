@@ -19,14 +19,14 @@
           projectile-indexing-method     'alien)))
 
 ;; perspective
-;; (use-package perspective
-;;   :defer t
-;;   :init (add-hook 'after-init-hook 'persp-mode)
-;;   :config
-;;   (setq persp-initial-frame-name "notes")
-;;   (defun persp-next ()
-;;     (interactive)
-;;     (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
-;;       (persp-switch (nth (1+ (persp-curr-position)) (persp-all-names))))))
+(use-package perspective
+  :defer t
+  :init (add-hook 'after-init-hook 'persp-mode)
+  :config
+  (setq persp-initial-frame-name "notes")
+  (defun persp-next ()
+    (interactive)
+    (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
+      (persp-switch (nth (1+ (persp-curr-position)) (persp-all-names))))))
 
 (provide 'sm-projects)

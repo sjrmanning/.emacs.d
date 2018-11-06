@@ -2,13 +2,16 @@
 
 (setq sm/org-dir "~/Documents/org")
 
+;; Fix org version warning.
+(straight-override-recipe
+ '(org :type git :host github :repo "emacsmirror/org" :no-build t))
+
 ;; Pretty bullets.
 (use-package org-bullets
   :commands org-bullets-mode
   :init (add-hook 'org-mode-hook #'org-bullets-mode))
 
 (use-package org
-  :straight org-plus-contrib
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
