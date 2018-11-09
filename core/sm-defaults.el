@@ -123,4 +123,6 @@ This buffer is for text that is not saved.")
 (setq inhibit-startup-message t)
 (global-font-lock-mode t)
 
+(setq comment-empty-lines 'eol)
+
 (provide 'sm-defaults)
