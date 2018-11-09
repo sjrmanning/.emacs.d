@@ -209,4 +209,12 @@
 (add-to-list
  'safe-local-eval-forms
  '(markdown-hide-body))
+
+(use-package writegood-mode)
+
+(use-package boxquote)
+
+(use-package swiper
+  :bind (("C-x /" . swiper)))
+
 (provide 'sm-editing)
