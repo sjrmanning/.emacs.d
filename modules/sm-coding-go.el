@@ -1,11 +1,11 @@
 ;;; sm-coding-go.el --- Golang config.
 
 (use-package go-mode
-  :commands go-mode
   :config
   (setq gofmt-command "goimports")
-  :init
-  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'before-save-hook #'gofmt-before-save nil 'local)
   )
+
+(use-package go-guru)
 
 (provide 'sm-coding-go)

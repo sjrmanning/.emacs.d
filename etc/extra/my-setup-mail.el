@@ -1,6 +1,11 @@
 ;;
 ;; Vm mail reader stuff
 ;;
+
+;;; work around use of defun*, exposed by setting
+;;; `use-package-always-defer in core/sm-modules.el
+(require 'cl)
+
 (require 'vm-autoloads)
 (require 'vm-reply)
 
