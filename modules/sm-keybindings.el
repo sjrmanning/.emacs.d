@@ -1,4 +1,9 @@
-;;; sm-keybindings.el --- Icky black magic for keybindins
+;;; sm-keybindings.el --- keybindings, simple and/or icky black magic
+
+;;; Code:
+
+;; Global keychords, not associated with any particular package.
+(key-chord-define-global "xx" 'execute-extended-command)
 
 ;;
 ;; So far I've set up:
@@ -85,4 +90,5 @@ Return an event vector."
                 ("\e\[%d;8u" control meta shift)))
         (setq c (1+ c))))))
 (eval-after-load "xterm" '(my-eval-after-load-xterm))
+
 (provide 'sm-keybindings)

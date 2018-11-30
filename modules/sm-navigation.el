@@ -61,11 +61,11 @@
 ;; avy
 ;; A better jump to char and line.
 (use-package avy
+  :chords (("jk" . avy-goto-char)
+           ("jl" . avy-goto-line)
+           ("jj" . avy-goto-word-1)           )
   :config
-  (setq avy-style 'at)
-  (key-chord-define-global "jk" 'avy-goto-char)
-  (key-chord-define-global "jl" 'avy-goto-line)
-  (key-chord-define-global "jj" 'avy-goto-word-1))
+  (setq avy-style 'at))
 
 ;; recentf
 ;; Open/view recent files.

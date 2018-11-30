@@ -24,6 +24,12 @@
 (setq straight-use-package-by-default t)
 (setq use-package-always-defer t)
 
+;; Hook up use-package's support for chords (simultaneous pairs and/or
+;; rapid pairs of keystrokes).  This obviates explicitly loading the
+;; keychord package.
+(use-package use-package-chords
+  :demand
+  :config (key-chord-mode 1))
 
 ;; Install delight as required by `:delight' with use-package.
 (use-package delight)

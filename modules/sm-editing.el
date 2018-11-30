@@ -7,14 +7,6 @@
 ;; Require newline at end of file.
 (setq require-final-newline t)
 
-;; map pairs of simultaneously/rapidly pressed keys to commands
-;; other packages use key-chord-define*, so hook it up early
-(use-package key-chord
-  :init
-  (progn
-    (key-chord-define-global "xx" 'execute-extended-command)
-    (key-chord-mode +1)))
-
 ;; Revert buffers automatically when underlying files are changed externally.
 (use-package autorevert
   :hook (after-init . global-auto-revert-mode)
@@ -132,8 +124,7 @@
 
 ;; browse-kill-ring
 (use-package browse-kill-ring
-  :config
-  (key-chord-define-global "yy" 'browse-kill-ring))
+  :chords (("yy" . browse-kill-ring)))
 
 ;; whitespace
 (use-package whitespace
@@ -162,13 +153,13 @@
 ;; Treat undo history as a tree.
 (use-package undo-tree
   ;; :straight (undo-tree :type git :host github :repo "martinp26/undo-tree")
+  :commands (undo-tree-visualize)       ; this isn't otherwise autoloaded
+  :chords (("uu" . undo-tree-visualize))
   :delight undo-tree-mode
   :config
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t)
-  (unbind-key "C-x u" undo-tree-map)
-  (key-chord-define-global "uu" 'undo-tree-visualize))
+  (setq undo-tree-visualizer-diff t))
 
 ;; smart-comment
 ;; Better `comment-dwim' supporting uncommenting.
