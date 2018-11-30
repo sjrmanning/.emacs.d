@@ -207,6 +207,7 @@
         kmacro-end-or-call-macro
         mac-mwheel-scroll
         magit-status
+        markdown-outdent-or-delete
         mc/add-cursor-on-click
         mc/add-cursors-to-all-matches
         multiple-cursors-mode
