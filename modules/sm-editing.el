@@ -183,6 +183,7 @@
 (use-package crypt++
   :straight nil
   :load-path "etc/extra"
+  :demand t
   :config
   (progn
     (epa-file-disable)
