@@ -158,6 +158,7 @@
   :delight undo-tree-mode
   :config
   (global-undo-tree-mode)
+  (unbind-key "C-x u" undo-tree-map)    ; I still like old-skool undo too
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t))
 
