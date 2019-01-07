@@ -33,6 +33,7 @@
 (define-key ctl-x-map "t" 'endless/toggle-map)
 (define-key endless/toggle-map "f" #'auto-fill-mode)
 (define-key endless/toggle-map "l" #'toggle-truncate-lines)
+(define-key endless/toggle-map "n" #'display-line-numbers-mode)
 (define-key endless/toggle-map "o" #'overwrite-mode)
 ;; (define-key endless/toggle-map "t" #'endless/toggle-theme)
 ;;; Generalized version of `read-only-mode'.
