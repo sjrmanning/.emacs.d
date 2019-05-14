@@ -27,6 +27,8 @@
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous)
-  (setq company-backends (remove 'company-clang company-backends)))
+  (setq company-backends (remove 'company-clang company-backends))
+  (setq company-backends
+        (mapcar #'sm/backend-with-yas company-backends)))
 
 (provide 'sm-company)

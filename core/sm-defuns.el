@@ -29,4 +29,10 @@
              (not (string-match "^\\." path)))
         (load (file-name-sans-extension fullpath)))))))
 
+;; Add yasnippet support for company backends
+;; https://github.com/syl20bnr/spacemacs/pull/179
+(defun sm/backend-with-yas (backend)
+  (append (if (consp backend) backend (list backend))
+          '(:with company-yasnippet)))
+
 (provide 'sm-defuns)

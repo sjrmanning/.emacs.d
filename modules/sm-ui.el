@@ -23,7 +23,10 @@
   (setq enable-recursive-minibuffers t)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
-  :bind ("C-s" . swiper))
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("C-j" . ivy-immediate-done)
+         ("RET" . ivy-alt-done)))
 
 (use-package counsel
   :hook (after-init . counsel-mode)

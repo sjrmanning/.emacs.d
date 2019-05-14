@@ -30,6 +30,7 @@
         sm-ui
         sm-appearance
         sm-searching
+        sm-snippets
         sm-navigation
         sm-company
         sm-writing
