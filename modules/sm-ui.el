@@ -7,37 +7,29 @@
 ;; Overrides Emacs' default mechanism for making buffer names unique.
 (setq uniquify-buffer-name-style 'forward)
 
-;; ido
-(use-package ido
-  :straight (flx-ido ido-completing-read+ ido-vertical-mode)
-  :config
-  (add-to-list 'ido-ignore-files "\\.DS_Store")
-  (setq ido-enable-flex-matching t
-        ido-enable-prefix nil
-        ido-max-prospects 10
-        ido-use-faces nil
-        flx-ido-use-faces t
-        ido-vertical-define-keys 'C-n-and-C-p-only
-        ido-auto-merge-delay-time 99999999
-        ido-everywhere t
-        ido-virtual-buffers t)
-  (ido-mode)
-  (ido-vertical-mode)
-  (ido-ubiquitous-mode)
-  (flx-ido-mode))
-
-;; (use-package flx-ido :config (flx-ido-mode))
-;; (use-package ido-vertical-mode :config (ido-vertical-mode))
-
-;; smex
+;; smex support in counsel
 (use-package smex
-  :commands smex
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)
-         ("C-x C-m" . smex)
-         ("C-c C-m" . smex))
-  :init (setq smex-save-file (sm/cache-for "smex-items"))
-  :config (smex-initialize))
+  :hook (after-init . smex-initialize))
+
+;; flx fuzzy matching via ivy
+(use-package flx)
+
+;; ivy everywhere
+(use-package ivy
+  :requires flx
+  :hook (after-init . ivy-mode)
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy)))
+  :bind ("C-s" . swiper))
+
+(use-package counsel
+  :hook (after-init . counsel-mode)
+  :bind (("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c s" . counsel-ag)))
 
 ;; diminish some modes.
 (use-package simple

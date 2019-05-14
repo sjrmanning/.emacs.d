@@ -29,7 +29,6 @@
         sm-editing
         sm-ui
         sm-appearance
-        sm-snippets
         sm-searching
         sm-navigation
         sm-company

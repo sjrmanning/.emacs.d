@@ -1,8 +1,3 @@
-;; ag (silver surfer)
-(use-package ag
-  :bind ("C-c s" . ag)
-  :config (setq ag-highlight-search t))
-
 ;; anzu
 ;; Shows isearch results in mode-line and better query-replace.
 (use-package anzu
