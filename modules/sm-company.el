@@ -11,6 +11,12 @@
   (use-package company-quickhelp
     :if window-system
     :init (company-quickhelp-mode 1))
+
+  ;; Use company with LSP.
+  (use-package company-lsp
+    :init
+    (push 'company-lsp company-backends))
+
   ;; Company settings.
   (setq-default company-backends (remove 'company-eclim company-backends))
   (setq company-tooltip-limit 20)

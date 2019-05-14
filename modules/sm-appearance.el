@@ -3,14 +3,17 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "Office Code Pro D")
+(defvar sm/fixed-font-name "SF Mono")
 (defvar sm/fixed-font-weight 'light)
 (defvar sm/var-font-name "SF UI Text")
-(defvar sm/font-height 140)
+(defvar sm/font-height 160)
 
 ;; Native line numbers and fringe setup.
 (setq-default display-line-number-width 4)
 (set-fringe-style 0)
+
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 (add-hook 'emacs-startup-hook ;; 'window-setup-hook
           (lambda nil

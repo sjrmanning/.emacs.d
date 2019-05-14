@@ -77,6 +77,7 @@
         markdown-enter-key
         markdown-exdent-or-delete
         markdown-insert-link
+        markdown-outdent-or-delete
         move-line-down
         move-line-up
         move-text-down

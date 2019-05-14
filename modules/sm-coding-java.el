@@ -19,4 +19,7 @@
               (setq tab-width 2
                     c-basic-offset 2))))
 
+(use-package kotlin-mode
+  :commands kotlin-mode)
+
 (provide 'sm-coding-java)

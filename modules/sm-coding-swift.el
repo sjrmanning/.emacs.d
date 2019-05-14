@@ -7,13 +7,13 @@
   :config
   (use-package flycheck-swift
     :config
-    (flycheck-swift-setup))
-  ;; (ycmd-mode -1)
-  ;; (use-package company-sourcekit
-  ;;   :init (setq company-sourcekit-use-yasnippet t)
-  ;;   :config
-  ;;   (setq sourcekit-verbose t)
-  ;;   (add-to-list 'company-backends 'company-sourcekit))
-  )
+    (flycheck-swift-setup)))
+
+(use-package lsp-sourcekit
+  :straight (lsp-sourcekit :type git :host github :repo "emacs-lsp/lsp-sourcekit")
+  :init (add-hook 'swift-mode-hook #'lsp)
+  :config
+  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-latest.xctoolchain")
+  (setq lsp-sourcekit-executable (expand-file-name "~/Projects/sourcekit-lsp/.build/debug/sourcekit-lsp")))
 
 (provide 'sm-coding-swift)
