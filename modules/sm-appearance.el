@@ -3,9 +3,9 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "SF Mono")
-(defvar sm/fixed-font-weight 'light)
-(defvar sm/var-font-name "SF UI Text")
+(defvar sm/fixed-font-name "Office Code Pro D")
+(defvar sm/fixed-font-weight 'regular)
+(defvar sm/var-font-name "B612")
 (defvar sm/font-height 160)
 
 ;; Native line numbers and fringe setup.
