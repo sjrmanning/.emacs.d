@@ -11,18 +11,24 @@
 (use-package smex
   :hook (after-init . smex-initialize))
 
-;; flx fuzzy matching via ivy
-(use-package flx)
+;; fuzzy matching and better sorting for ivy.
+(use-package ivy-prescient
+  :hook (after-init . ivy-prescient-mode)
+  :config
+  (setq prescient-filter-method 'fuzzy))
 
 ;; ivy everywhere
 (use-package ivy
-  :requires flx
   :hook (after-init . ivy-mode)
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
+  (setq ivy-initial-inputs-alist nil)
   (setq ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy)))
+        '((swiper . ivy--regex-plus)
+          (counsel-ag . ivy--regex-plus)
+          (counsel-rg . ivy--regex-plus)
+          (t      . ivy-prescient-re-builder)))
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
          ("C-j" . ivy-immediate-done)
