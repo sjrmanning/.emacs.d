@@ -1,8 +1,14 @@
 ;;; sm-modules.el --- Configures available modules and the package manager.
 
+;; straight.el tuning
+(setq straight-cache-autoloads t)
+(setq straight-check-for-modifications '(check-on-save))
+
 ;; Bootstrap straight.
-(let ((bootstrap-file (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
-      (bootstrap-version 3))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -11,10 +17,6 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-
-;; straight.el tuning
-(setq straight-cache-autoloads t)
-(setq straight-check-for-modifications '(check-on-save))
 
 ;; Use `use-package' via straight.el
 (straight-use-package 'use-package)
