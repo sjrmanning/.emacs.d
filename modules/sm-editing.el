@@ -9,9 +9,8 @@
 
 ;; Revert buffers automatically when underlying files are changed externally.
 (use-package autorevert
-  :delight auto-revert-mode
-  :config
-  (global-auto-revert-mode t))
+  :hook (after-init . global-auto-revert-mode)
+  :delight auto-revert-mode)
 
 ;; Native line numbers.
 (add-hook 'prog-mode-hook (lambda () (setq display-line-numbers t)))

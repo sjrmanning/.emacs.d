@@ -44,6 +44,7 @@
   (setq-default lsp-enable-snippet 't))
 
 (use-package lsp-ui
+  :commands lsp-mode
   :config
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
