@@ -103,7 +103,7 @@
 
 ;; Dired defaults.
 ;; (setq-default insert-directory-program "gls")
-(setq-default dired-listing-switches "-lhva")
+(setq-default dired-listing-switches "-lha")
 (setq-default dired-clean-up-buffers-too t)
 (setq-default dired-recursive-copies 'always)
 (setq-default dired-recursive-deletes 'top)
