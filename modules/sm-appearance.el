@@ -10,13 +10,13 @@
 
 ;; Native line numbers and fringe setup.
 (setq-default display-line-number-width 4)
-(set-fringe-style 0)
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 
-(add-hook 'emacs-startup-hook ;; 'window-setup-hook
+(add-hook 'after-init-hook
           (lambda nil
+            (set-fringe-style 0)
             (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
             (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
             (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
