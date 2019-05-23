@@ -5,7 +5,7 @@
 
 (defvar sm/fixed-font-name "Office Code Pro D")
 (defvar sm/fixed-font-weight 'regular)
-(defvar sm/var-font-name "B612")
+(defvar sm/var-font-name "Source Code Pro")
 (defvar sm/font-height 160)
 
 ;; Native line numbers and fringe setup.
