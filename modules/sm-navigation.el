@@ -54,9 +54,9 @@
 ;; saveplace
 ;; Remebers your location in a file when saving files.
 (use-package saveplace
-  :init
-  (setq save-place-file (sm/cache-for "saveplace"))
-  (setq-default save-place t))
+  :hook (after-init . save-place-mode)
+  :config
+  (setq save-place-file (sm/cache-for "saveplace")))
 
 ;; avy
 ;; A better jump to char and line.
