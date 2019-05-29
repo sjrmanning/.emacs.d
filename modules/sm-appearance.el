@@ -3,7 +3,7 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "Office Code Pro D")
+(defvar sm/fixed-font-name "iA Writer Duospace")
 (defvar sm/fixed-font-weight 'regular)
 (defvar sm/var-font-name "Source Code Pro")
 (defvar sm/font-height 160)
@@ -17,6 +17,7 @@
 (add-hook 'after-init-hook
           (lambda nil
             (set-fringe-style 0)
+            (setq-default cursor-type 'bar)
             (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
             (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
             (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -36,7 +37,7 @@
              :family sm/var-font-name))
           (use-package darkokai-theme
             :config
-            (setq darkokai-blue-tint t)
+            (setq-default darkokai-blue-tint t)
             (load-theme 'darkokai t)))
 
 (use-package rainbow-mode
