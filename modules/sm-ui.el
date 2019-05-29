@@ -20,6 +20,7 @@
 ;; ivy everywhere
 (use-package ivy
   :hook (after-init . ivy-mode)
+  :delight ivy-mode
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
@@ -36,6 +37,7 @@
 
 (use-package counsel
   :hook (after-init . counsel-mode)
+  :delight counsel-mode
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("C-c s" . counsel-ag)))

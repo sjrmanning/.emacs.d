@@ -1,5 +1,6 @@
 ;; yasnippet configuration.
 (use-package yasnippet
+  :delight yas-minor-mode
   :defer 2
   :init
   ;; Ensure custom snippets dir exists.
