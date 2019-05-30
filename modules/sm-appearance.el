@@ -34,11 +34,11 @@
              :weight sm/fixed-font-weight)
             (set-face-attribute
              'variable-pitch nil
-             :family sm/var-font-name))
-          (use-package darkokai-theme
-            :config
-            (setq-default darkokai-blue-tint t)
-            (load-theme 'darkokai t)))
+             :family sm/var-font-name)
+            (use-package darkokai-theme
+              :config
+              (setq-default darkokai-blue-tint t)
+              (load-theme 'darkokai t))))
 
 (use-package rainbow-mode
   :straight (rainbow-mode :type git :host github :repo "emacsmirror/rainbow-mode")
