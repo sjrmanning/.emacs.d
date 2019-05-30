@@ -21,19 +21,23 @@
 (use-package ivy
   :hook (after-init . ivy-mode)
   :delight ivy-mode
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (setq ivy-initial-inputs-alist nil)
-  (setq ivy-re-builders-alist
-        '((swiper . ivy--regex-plus)
-          (counsel-ag . ivy--regex-plus)
-          (counsel-rg . ivy--regex-plus)
-          (t      . ivy-prescient-re-builder)))
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
          ("C-j" . ivy-immediate-done)
-         ("RET" . ivy-alt-done)))
+         ("RET" . ivy-alt-done))
+  :config
+  (setq ivy-use-virtual-buffers t
+        ivy-virtual-abbreviate 'full
+        ivy-on-del-error-function nil
+        ivy-use-selectable-prompt t
+        enable-recursive-minibuffers t
+        ivy-initial-inputs-alist nil
+        ivy-re-builders-alist
+        '((swiper . ivy--regex-plus)
+          (swiper-isearch . ivy--regex-plus)
+          (counsel-ag . ivy--regex-plus)
+          (counsel-rg . ivy--regex-plus)
+          (t      . ivy-prescient-re-builder))))
 
 (use-package counsel
   :hook (after-init . counsel-mode)
