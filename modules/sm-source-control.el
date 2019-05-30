@@ -42,7 +42,6 @@ git or hg repository is found in the buffer-local working dir."
 ;; git-gutter
 (use-package git-gutter
   :hook (after-init . global-git-gutter-mode)
-  :requires git-gutter-fringe
   :straight git-gutter-fringe
   :defer 2
   :delight git-gutter-mode)
@@ -50,6 +49,7 @@ git or hg repository is found in the buffer-local working dir."
 ;; smerge hydra for quicker confluct merging!
 (use-package hydra)
 (use-package smerge-mode
+  :commands smerge-mode
   :requires hydra
   :after hydra
   :config

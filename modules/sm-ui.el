@@ -19,6 +19,7 @@
 
 ;; ivy everywhere
 (use-package ivy
+  :commands ivy-mode
   :hook (after-init . ivy-mode)
   :delight ivy-mode
   :bind (("C-s" . swiper)

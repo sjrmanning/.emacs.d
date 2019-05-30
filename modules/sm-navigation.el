@@ -68,7 +68,7 @@
 ;; smooth-scrolling
 ;; Avoids annoying behaviour when scrolling past the edges of a buffer.
 (use-package smooth-scrolling
-  :init (smooth-scrolling-mode t))
+  :hook (after-init . smooth-scrolling-mode))
 
 ;; recentf
 ;; Open/view recent files.

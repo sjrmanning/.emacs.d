@@ -10,6 +10,7 @@
     (flycheck-swift-setup)))
 
 (use-package lsp-sourcekit
+  :commands lsp
   :straight (lsp-sourcekit :type git :host github :repo "emacs-lsp/lsp-sourcekit")
   :init (add-hook 'swift-mode-hook #'lsp)
   :config
