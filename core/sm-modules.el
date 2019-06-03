@@ -23,8 +23,7 @@
 (setq straight-use-package-by-default t)
 
 ;; Install delight as required by `:delight' with use-package.
-(use-package delight
-  :straight (delight :type git :host github :repo "emacsmirror/delight"))
+(use-package delight)
 
 (setq sm/modules
       '(sm-path

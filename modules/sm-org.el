@@ -15,8 +15,7 @@
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
-         ("C-c l" . org-store-link)
-         ("C-c o" . sm/ido-find-orgfile))
+         ("C-c l" . org-store-link))
   :init (add-hook 'org-mode-hook #'org-indent-mode)
   :config
   ;; Functions and custom vars.

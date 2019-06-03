@@ -37,7 +37,7 @@ git or hg repository is found in the buffer-local working dir."
   :bind ("C-x g" . magit-status)
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-  (add-hook 'git-commit-mode-hook '(lambda () (flyspell-mode t))))
+  (add-hook #'git-commit-mode-hook '(lambda () (flyspell-mode t))))
 
 ;; git-gutter
 (use-package git-gutter

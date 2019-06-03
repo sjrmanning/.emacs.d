@@ -5,7 +5,7 @@
 
 (defvar sm/fixed-font-name "iA Writer Mono S")
 (defvar sm/fixed-font-weight 'regular)
-(defvar sm/var-font-name "Source Code Pro")
+(defvar sm/var-font-name "iA Writer Quattro V")
 (defvar sm/font-height 160)
 
 ;; Native line numbers and fringe setup.

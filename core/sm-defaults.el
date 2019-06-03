@@ -110,6 +110,9 @@
 ### Scratch buffer
 This buffer is for text that is not saved.")
 
+;; Highlight lines.
+(global-hl-line-mode t)
+
 ;; Misc.
 (setq inhibit-startup-message t)
 (global-font-lock-mode t)
