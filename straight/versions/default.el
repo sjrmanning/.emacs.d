@@ -37,7 +37,7 @@
  ("exec-path-from-shell" . "9bc0f4a762f16d488376fb52409c58239a86d75d")
  ("expand-region.el" . "ed3292473035dc8f3d2f321e82974ef87327808f")
  ("flx" . "46040d0b096a0340d91235561f27a959a61d0fef")
- ("flycheck" . "ff306e3e69b7124b61d61dbe8b653fff67655cb0")
+ ("flycheck" . "47174a12fd84a685f36019632838c73b4813b66d")
  ("gh.el" . "f029fc11f345ef04ab62ee91c38657e29c462fea")
  ("ghub" . "f389fce41cd1bd1805bad18d12e237362af05283")
  ("go-mode.el" . "120fb911f1d8038f828da85eed8aaad977dabd8c")

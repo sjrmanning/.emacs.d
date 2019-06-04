@@ -27,6 +27,11 @@
   :straight nil
   :load-path "etc/extra"
   :config
+  :init
+  (progn
+    (add-hook 'cperl-mode-hook
+              (progn
+                (lambda () (add-hook 'before-save-hook #'tidyall-buffer nil 'local)))))
   :bind (:map cperl-mode-map
               ("\C-x t". tidyall-buffer)))
 
