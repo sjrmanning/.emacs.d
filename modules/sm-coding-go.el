@@ -6,7 +6,7 @@
 (use-package go-mode
   :config
   (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook #'gofmt-before-save nil 'local)
+  (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook (lambda ()
                             (local-set-key (kbd "M-.") 'godef-jump)
                             (local-set-key (kbd "M-*") 'pop-tag-mark))))
