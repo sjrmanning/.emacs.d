@@ -35,16 +35,16 @@
 (setq vm-use-toolbar nil)
 (setq vm-stunnel-program "/usr/local/bin/stunnel")
 ; use IMAP instead... (setq vm-primary-inbox "~/mail/inbox")
-(setq vm-primary-inbox "imap-ssl:griffon.alerce.com:23:inbox:login:hartzell:*")
+(setq vm-primary-inbox "imap-ssl:griffon.alerce.com:23:INBOX:login:hartzell:*")
 (setq vm-spool-files
       '(
         "/var/mail/hartzell"
         ;; special imap3s listener running on telnet port for access from genentech.
         ;; "imap-ssl:griffon.alerce.com:23:inbox:login:hartzell:*"
         ;; special pop3s listener running on telnet port for access from genentech.
-        ; "pop-ssl:griffon.alerce.com:23:pass:hartzell:*"
+        ;; "pop-ssl:griffon.alerce.com:23:pass:hartzell:*"
         ;; hit the pop3s server on the normal port
-        ; "pop-ssl:griffon.alerce.com:995:pass:hartzell:*"
+        ;; "pop-ssl:griffon.alerce.com:995:pass:hartzell:*"
         ))
 (setq vm-imap-account-alist
       ;; for other IMAP servers
@@ -52,6 +52,7 @@
         ;;("imap-ssl:imap.gmail.com:993:inbox:login:georgewh@gene.com:*" "gne")
         ("imap-ssl:griffon.alerce.com:993:inbox:login:hartzell:*" "hartzell@alerce.com")
         ("imap-ssl:griffon.alerce.com:993:inbox:login:hartzell@georgehartzell.com:*" "georgehartzell.com-imap")
+        ("imap-ssl:pkg-client.aws.alerce.com:993:inbox:login:hartzell@baulines.com:*" "baulines.com-imap")
         ))
 (setq vm-imap-auto-expunge-alist
       '(("imap-ssl:griffon.alerce.com:23:inbox:login:hartzell:*" . t)))
