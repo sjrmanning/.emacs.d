@@ -51,7 +51,13 @@
 ;; The variable `tidyall-autosave` indicates whether to save the buffer after a successful
 ;; tidy - defaults to t
 ;;
-(setq tidyall-autosave t)
+;; hartzell --- Wed Apr 10 16:42:06 PDT 2019
+
+;; I've set this to nil: for some reason I can't override it in my
+;; sm-coding-perl.el config bit and when it's true the save that it
+;; invokes prevents this function from being used on before-save-hook
+;; (infinite loop).
+(setq tidyall-autosave nil)
 
 (defun tidyall-buffer ()
   "Run tidyall on the current buffer."
