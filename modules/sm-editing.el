@@ -62,14 +62,15 @@
 
 ;; multiple-cursors
 (use-package multiple-cursors
-  :hook (after-init .
-                    (lambda ()
-                      (require 'multiple-cursors)
-                      (set-face-attribute 'mc/cursor-bar-face nil
-                                          :background "#f8fbfc"
-                                          :foreground "#f8fbfc"
-                                          :height 0.2)
-                      (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))))
+  :hook
+  (after-init .
+              (lambda ()
+                (require 'multiple-cursors)
+                (set-face-attribute 'mc/cursor-bar-face nil
+                                    :background "#f8fbfc"
+                                    :foreground "#f8fbfc"
+                                    :height 0.2)
+                (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))))
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C->" . mc/mark-all-like-this)))
@@ -80,24 +81,19 @@
 
 ;; smartparens
 (use-package smartparens
-  :defer 2
+  :hook
+  (after-init . (lambda ()
+                  (smartparens-global-mode t)
+                  (show-smartparens-global-mode t)))
   :delight " ()"
-  :config
-  (require 'smartparens-config)
-  (sp-local-pair 'swift-mode "\\(" nil :actions nil)
-  (sp-local-pair 'swift-mode "\\(" ")")
-  (sp-local-pair 'swift-mode "<" ">")
-  (smartparens-global-mode t)
-  (show-smartparens-global-mode t)
-
-  ;; sp keybindings.
-  (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
-  (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
-  (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
-  (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
-
-  (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
-  (define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp))
+  :bind
+  ((:map sp-keymap)
+   ("C-M-f" . sp-forward-sexp)
+   ("C-M-b" . sp-backward-sexp)
+   ("C-M-n" . sp-next-sexp)
+   ("C-M-p" . sp-previous-sexp)
+   ("C-M-k" . sp-kill-sexp)
+   ("C-M-w" . sp-copy-sexp)))
 
 ;; browse-kill-ring
 (use-package browse-kill-ring

@@ -39,13 +39,6 @@ git or hg repository is found in the buffer-local working dir."
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (add-hook #'git-commit-mode-hook '(lambda () (flyspell-mode t))))
 
-;; git-gutter
-(use-package git-gutter
-  :hook (after-init . global-git-gutter-mode)
-  :straight git-gutter-fringe
-  :defer 2
-  :delight git-gutter-mode)
-
 ;; smerge hydra for quicker confluct merging!
 (use-package hydra)
 (use-package smerge-mode
