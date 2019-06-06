@@ -8,11 +8,14 @@
 (defvar sm/var-font-name "iA Writer Quattro V")
 (defvar sm/font-height 160)
 
+;; Appearance style can be light or dark.
+;; Setting this here swaps between themes
+(defvar sm/appearance-style 'dark)
+
 ;; Native line numbers and fringe setup.
 (setq-default display-line-number-width 4)
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 (add-hook 'after-init-hook
           (lambda nil
@@ -28,20 +31,23 @@
              :height sm/font-height
              :weight sm/fixed-font-weight)
             (set-face-attribute
-             'line-number nil
-             :family sm/fixed-font-name
-             :height (- sm/font-height 10)
-             :weight sm/fixed-font-weight)
-            (set-face-attribute
              'variable-pitch nil
-             :family sm/var-font-name)
-            (use-package darkokai-theme
-              :config
-              (setq-default darkokai-blue-tint t)
-              (load-theme 'darkokai t))))
+             :family sm/var-font-name)))
+
+(cond ((eq sm/appearance-style 'light)
+       (add-to-list 'default-frame-alist '(ns-appearance . light))
+       (use-package kaolin-themes
+         :custom (kaolin-themes-modeline-border nil)
+         :custom-face (line-number-current-line ((t (:bold nil))))
+         :config (load-theme 'kaolin-light t)))
+      ((eq sm/appearance-style 'dark)
+       (add-to-list 'default-frame-alist '(ns-appearance . dark))
+       (use-package darkokai-theme
+         :config
+         (setq-default darkokai-blue-tint t)
+         (load-theme 'darkokai t))))
 
 (use-package rainbow-mode
-  :straight (rainbow-mode :type git :host github :repo "emacsmirror/rainbow-mode")
   :commands rainbow-mode)
 
 (provide 'sm-appearance)
