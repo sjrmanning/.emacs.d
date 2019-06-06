@@ -4,11 +4,13 @@
 (use-package swift-mode
   :commands swift-mode
   :hook (swift-mode . lsp)
-  :mode ("\\.swift\\'" . swift-mode)
+  :mode ("\\.swift\\'" . swift-mode))
+
+(use-package flycheck-swift
+  :hook (swift-mode . flycheck-swift-setup)
   :config
-  (use-package flycheck-swift
-    :config
-    (flycheck-swift-setup)))
+  (setq flycheck-swift-sdk-path "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk"
+        flycheck-swift-target "arm64-apple-ios12.2"))
 
 (use-package lsp-sourcekit
   :after lsp-mode
