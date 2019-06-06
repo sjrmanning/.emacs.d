@@ -47,6 +47,8 @@ Captured %<%Y-%m-%d %H:%M>
       (message "Aborting")))
 
   (setq org-directory sm/org-dir
+        org-catch-invisible-edits 'show-and-error
+        org-cycle-separator-lines 0
         org-use-speed-commands t
         org-completion-use-ido t
         org-ellipsis "⤵"
