@@ -41,7 +41,8 @@
 ;; Want to slowly replace ycmd with this where possible.
 (use-package lsp-mode
   :config
-  (setq-default lsp-enable-snippet 't))
+  (setq lsp-enable-snippet t
+        lsp-prefer-flymake nil))
 
 (use-package lsp-ui
   :commands lsp-mode
