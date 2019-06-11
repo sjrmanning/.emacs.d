@@ -3,7 +3,7 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "iA Writer Mono S")
+(defvar sm/fixed-font-name "iA Writer Mono V")
 (defvar sm/fixed-font-weight 'regular)
 (defvar sm/var-font-name "iA Writer Quattro V")
 (defvar sm/font-height 160)
@@ -13,7 +13,7 @@
 (defvar sm/appearance-style 'dark)
 
 ;; Native line numbers and fringe setup.
-(setq-default display-line-number-width 4)
+(setq-default display-line-numbers-width 4)
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
@@ -31,21 +31,40 @@
              :height sm/font-height
              :weight sm/fixed-font-weight)
             (set-face-attribute
+             'line-number nil
+             :family sm/fixed-font-name
+             :height (- sm/font-height 10)
+             :weight sm/fixed-font-weight)
+            (set-face-attribute
              'variable-pitch nil
              :family sm/var-font-name)))
 
-(cond ((eq sm/appearance-style 'light)
-       (add-to-list 'default-frame-alist '(ns-appearance . light))
-       (use-package kaolin-themes
-         :custom (kaolin-themes-modeline-border nil)
-         :custom-face (line-number-current-line ((t (:bold nil))))
-         :config (load-theme 'kaolin-light t)))
-      ((eq sm/appearance-style 'dark)
-       (add-to-list 'default-frame-alist '(ns-appearance . dark))
-       (use-package darkokai-theme
-         :config
-         (setq-default darkokai-blue-tint t)
-         (load-theme 'darkokai t))))
+(cond
+ ;; Light style
+ ((eq sm/appearance-style 'light)
+  (add-to-list 'default-frame-alist '(ns-appearance . light))
+  (use-package solarized-theme
+    :custom
+    (solarized-distinct-doc-face t)
+    :custom-face
+    (default ((t :foreground "#53676d")))
+    (minibuffer-prompt ((t :foreground "#3F4D91")))
+    (region ((t :background "#dacea5")))
+    (mode-line
+     ((t (:underline nil
+                     :box (:line-width 8 :color "#eee8d5")))))
+    (mode-line-inactive
+     ((t (:underline nil :overline nil
+                     :box (:line-width 8 :color "#fdf6e3")))))
+    :config (load-theme 'solarized-light t)))
+
+ ;; Dark style
+ ((eq sm/appearance-style 'dark)
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (use-package darkokai-theme
+    :config
+    (setq-default darkokai-blue-tint t)
+    (load-theme 'darkokai t))))
 
 (use-package rainbow-mode
   :commands rainbow-mode)
