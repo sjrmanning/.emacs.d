@@ -66,10 +66,11 @@
   (after-init .
               (lambda ()
                 (require 'multiple-cursors)
-                (set-face-attribute 'mc/cursor-bar-face nil
-                                    :background "#f8fbfc"
-                                    :foreground "#f8fbfc"
-                                    :height 0.2)
+                (set-face-attribute
+                 'mc/cursor-bar-face nil
+                 :background (face-attribute 'cursor :background)
+                 :foreground (face-attribute 'cursor :background)
+                 :height 0.2)
                 (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))))
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)

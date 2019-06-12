@@ -10,7 +10,7 @@
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes
-(defvar sm/appearance-style 'dark)
+(defvar sm/appearance-style 'light)
 
 ;; Native line numbers and fringe setup.
 (setq-default display-line-numbers-width 4)
@@ -48,8 +48,9 @@
     (solarized-distinct-doc-face t)
     :custom-face
     (default ((t :foreground "#53676d")))
+    (hl-line ((t :background "#F8F0D8")))
     (minibuffer-prompt ((t :foreground "#3F4D91")))
-    (region ((t :background "#dacea5")))
+    (region ((t :background "#EAE3CB")))
     (mode-line
      ((t (:underline nil
                      :box (:line-width 8 :color "#eee8d5")))))
