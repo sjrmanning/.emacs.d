@@ -45,7 +45,7 @@
   :delight counsel-mode
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ("C-c s" . counsel-ag)))
+         ("C-c s" . counsel-rg)))
 
 ;; diminish some modes.
 (use-package simple

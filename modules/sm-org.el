@@ -51,6 +51,7 @@ Captured %<%Y-%m-%d %H:%M>
         org-cycle-separator-lines 0
         org-use-speed-commands t
         org-completion-use-ido t
+        org-startup-indented t
         org-ellipsis "⤵"
         org-src-fontify-natively t
         org-src-tab-acts-natively t
