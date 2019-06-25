@@ -15,6 +15,7 @@
 
 ;; olivetti -- similar to writeroom but a simple minor mode
 (use-package olivetti
+  :if window-system
   :delight
   :hook (text-mode . olivetti-mode)
   :bind ("C-c o" . olivetti-mode)

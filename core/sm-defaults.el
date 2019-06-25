@@ -76,7 +76,7 @@
 (setq create-lockfiles nil)
 
 ;; Change bookmarks file location.
-(setq bookmark-file (sm/emacs.d "etc/bookmarks"))
+(setq bookmark-default-file (sm/emacs.d "etc/bookmarks"))
 
 ;; Change save-places file location.
 (setq save-place-file (sm/cache-for "places"))
