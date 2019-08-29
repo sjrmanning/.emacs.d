@@ -15,6 +15,7 @@
 (setq vm-berkeley-mail-compatibility t)
 (setq vm-circular-folders nil)
 (setq vm-delete-empty-folders t)
+(setq vm-digest-burst-type "mime")
 (setq vm-folder-directory "~/mail/")
 (setq vm-highlighted-header-regexp "^\From\\|^Subject")
 (setq vm-included-tex-prefix "   >")
@@ -34,8 +35,9 @@
 
 (setq vm-use-toolbar nil)
 (setq vm-stunnel-program "/usr/local/bin/stunnel")
-; use IMAP instead... (setq vm-primary-inbox "~/mail/inbox")
+                                        ; use IMAP instead... (setq vm-primary-inbox "~/mail/inbox")
 (setq vm-primary-inbox "imap-ssl:griffon.alerce.com:23:INBOX:login:hartzell:*")
+;; (setq vm-primary-inbox "imap-ssl:corvid.alerce.com:993:inbox:login:hartzell:*")
 (setq vm-spool-files
       '(
         "/var/mail/hartzell"
@@ -52,7 +54,8 @@
         ;;("imap-ssl:imap.gmail.com:993:inbox:login:georgewh@gene.com:*" "gne")
         ("imap-ssl:griffon.alerce.com:993:inbox:login:hartzell:*" "hartzell@alerce.com")
         ("imap-ssl:griffon.alerce.com:993:inbox:login:hartzell@georgehartzell.com:*" "georgehartzell.com-imap")
-        ("imap-ssl:pkg-client.aws.alerce.com:993:inbox:login:hartzell@baulines.com:*" "baulines.com-imap")
+        ("imap-ssl:corvid.alerce.com:993:inbox:login:hartzell:*" "hartzell@corvid.alerce.com")
+        ("imap-ssl:corvid.alerce.com:993:inbox:login:hartzell@baulines.com:*" "baulines.com-imap")
         ))
 (setq vm-imap-auto-expunge-alist
       '(("imap-ssl:griffon.alerce.com:23:inbox:login:hartzell:*" . t)))
