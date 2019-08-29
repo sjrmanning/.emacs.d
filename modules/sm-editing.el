@@ -211,4 +211,10 @@
 (use-package swiper
   :bind (("C-x /" . swiper)))
 
+(use-package volatile-highlights
+  :demand
+  :config
+  (volatile-highlights-mode t)
+  )
+
 (provide 'sm-editing)

@@ -4,6 +4,8 @@
 (use-package deadgrep
   :bind ("C-c S" . deadgrep))
 
+(use-package rg)
+
 ;; anzu
 ;; Shows isearch results in mode-line and better query-replace.
 (use-package anzu

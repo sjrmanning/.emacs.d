@@ -32,6 +32,8 @@ git or hg repository is found in the buffer-local working dir."
   :commands magit-status
   :bind ("C-x g" . magit-status)
   :config
+  ;; Remove git from backends that builtin VC mode handles
+  (setq vc-handled-backends (delq 'Git vc-handled-backends))
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
 
   (add-hook 'git-commit-mode-hook '(lambda ()
@@ -87,5 +89,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :hook (magit-diff-visit-file . (lambda ()
                                    (when smerge-mode
                                      (sm/smerge-hydra/body)))))
+(use-package git-commit)
+
+;; visit previous versions of files
+(use-package git-timemachine)
 
 (provide 'sm-source-control)
