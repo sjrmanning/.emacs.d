@@ -4,7 +4,18 @@
 (use-package deadgrep
   :bind ("C-c S" . deadgrep))
 
-(use-package rg)
+(use-package rg
+  :config
+  ;; C-c s d rg-dwim
+  ;; C-c s k rg-kill-saved-searches
+  ;; C-c s l rg-list-searches
+  ;; C-c s p rg-project
+  ;; C-c s r rg
+  ;; C-c s s rg-save-search
+  ;; C-c s S rg-save-search-as-name
+  ;; C-c s t rg-literal
+  (rg-enable-default-bindings)
+  )
 
 ;; anzu
 ;; Shows isearch results in mode-line and better query-replace.
