@@ -62,7 +62,7 @@
   :commands (lsp lsp-deferred)
   ;; (setq lsp-ui-sideline-show-code-actions nil)
   :custom
-  (lsp-auto-guess-root t)        ;; requires projectile/project?
+  ;; (lsp-auto-guess-root t)        ;; requires projectile/project?
   ;; sync methods: none, full, incremental, or nil (nil == use lsp suggestion)
   (lsp-document-sync-method nil)
   (lsp-prefer-flymake nil) ;; t(flymake), nil(lsp-ui/flycheck), or :none
