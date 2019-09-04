@@ -10,8 +10,9 @@
 ;;; goerrcheck
 
 (use-package go-mode
-  :hook
-  ((before-save . gofmt-before-save)   )
+  :hook ((before-save . gofmt-before-save)
+         (go-mode . (lambda ()
+                      (whitespace-toggle-options '(tabs)))))
   :bind (:map go-mode-map
               ("M-." . godef-jump)
               ("M-*" . pop-tag-mark))
