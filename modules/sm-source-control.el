@@ -26,8 +26,11 @@ git or hg repository is found in the buffer-local working dir."
     (call-interactively 'magit-status))
    (t (message "No hg or git repository found at %s" default-directory))))
 
-;; magit and monky
+;; magit and friends
 ;; Modes for git and mercurial.
+;;  Cleaning up magit-wip-mode after merge...
+;;    git update-ref -d refs/wip/index/refs/heads/smbus
+;;    git update-ref -d refs/wip/wtree/refs/heads/smbus
 (use-package magit
   :commands magit-status
   :bind ("C-x g" . magit-status)
