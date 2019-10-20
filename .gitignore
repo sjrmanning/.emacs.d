@@ -51,3 +51,6 @@ ensime/
 
 # Python compiled files
 *.pyc
+
+# Microsoft PyLS
+mspyls/
