@@ -58,6 +58,11 @@
 (sm/mkdir-p (sm/emacs.d "etc"))
 (sm/mkdir-p (sm/cache-for "backups"))
 
+;; Emoji font.
+(set-fontset-font t 'symbol
+                  (font-spec :family "Apple Color Emoji")
+                  nil 'prepend)
+
 ;; Keep backups in a separate directory.
 (defun make-backup-file-name (file)
   (concat (sm/cache-for "backups/") (file-name-nondirectory file) "~"))
