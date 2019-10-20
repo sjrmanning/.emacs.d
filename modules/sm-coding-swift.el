@@ -9,8 +9,8 @@
 (use-package flycheck-swift
   :hook (swift-mode . flycheck-swift-setup)
   :config
-  (setq flycheck-swift-sdk-path "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk"
-        flycheck-swift-target "arm64-apple-ios12.2"))
+  (setq flycheck-swift-sdk-path "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+        flycheck-swift-target "arm64-apple-ios13.0"))
 
 (use-package lsp-sourcekit
   :after lsp-mode
