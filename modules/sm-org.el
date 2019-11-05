@@ -52,6 +52,7 @@ Captured %<%Y-%m-%d %H:%M>
         org-use-speed-commands t
         org-completion-use-ido t
         org-startup-indented t
+        org-hide-leading-stars t
         org-ellipsis "⤵"
         org-src-fontify-natively t
         org-src-tab-acts-natively t
