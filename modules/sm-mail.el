@@ -132,7 +132,7 @@
             ;; ("imap-ssl:imap.gmail.com:993:inbox:login:georgewh@gene.com:*" "gne")
             ;; ("imap-ssl:corvid.alerce.com:993:inbox:login:hartzell:*" "hartzell@corvid.alerce.com")
             ("imap-ssl:corvid.alerce.com:993:inbox:login:hartzell:*" "hartzell@alerce.com")
-            ("imap-ssl:griffon.alerce.com:993:inbox:login:hartzell@georgehartzell.com:*" "georgehartzell.com-imap")
+            ("imap-ssl:corvid.alerce.com:993:inbox:login:hartzell@georgehartzell.com:*" "georgehartzell.com-imap")
             ("imap-ssl:corvid.alerce.com:993:inbox:login:hartzell@baulines.com:*" "baulines.com-imap")
             ))
     (setq vm-imap-auto-expunge-alist
