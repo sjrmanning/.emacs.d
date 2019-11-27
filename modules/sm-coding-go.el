@@ -20,6 +20,8 @@
   (setq gofmt-command "goimports")
   )
 
+(use-package go-dlv)
+
 ;; This works, but seems to overlap with lsp-ui, plus it's
 ;; confusing....
 ;; (use-package go-guru)
