@@ -59,6 +59,7 @@
         sm-coding-js
         sm-coding-python
         sm-coding-ruby
+        sm-coding-scad
         ;; sm-coding-swift
         sm-coding-web
         sm-coding-perl
