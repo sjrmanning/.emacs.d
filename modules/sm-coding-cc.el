@@ -22,4 +22,6 @@
   :load-path "etc/extra"
   :mode "\\.h$")
 
+(use-package arduino-mode)
+
 (provide 'sm-coding-cc)
