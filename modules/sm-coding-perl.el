@@ -11,15 +11,15 @@
                 ;; insert spaces instead of tabs
                 (setq-default indent-tabs-mode nil)
 
-                 ;; set line width to 78 columns
-                 (setq fill-column 78)
-                 (setq auto-fill-mode t)
+                ;; set line width to 78 columns
+                (setq fill-column 78)
+                (setq auto-fill-mode t)
 
-                 ;; something that's close to the perltidy defaults
-                 (cperl-set-style "BSD")
-                 (setq cperl-indent-parens-as-block t
-                       cperl-close-paren-offset -4)
-                 ))
+                ;; something that's close to the perltidy defaults
+                (cperl-set-style "BSD")
+                (setq cperl-indent-parens-as-block t
+                      cperl-close-paren-offset -4)
+                ))
     ))
 
 ;; tidyall support

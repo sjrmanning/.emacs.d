@@ -96,4 +96,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; visit previous versions of files
 (use-package git-timemachine)
 
+;; highlight file differences (fringe, dired)
+(use-package diff-hl
+  :init
+  (progn
+    (global-diff-hl-mode)
+    (unless (display-graphic-p)
+      (diff-hl-margin-mode))
+    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)))
+
 (provide 'sm-source-control)

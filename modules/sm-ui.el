@@ -61,4 +61,11 @@
   :config
   (mouse-avoidance-mode 'exile))
 
+;; Extends the functionality of hl-line, I'm particularly interested
+;; in only highlighting the line whilst I'm idle.
+;; (use-package hl-line-plus
+;;   :init
+;;   (hl-line-when-idle-interval 10)
+;;   (toggle-hl-line-when-idle 1))
+
 (provide 'sm-ui)

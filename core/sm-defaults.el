@@ -116,8 +116,8 @@
 ### Scratch buffer
 This buffer is for text that is not saved.")
 
-;; Highlight lines.
-(global-hl-line-mode t)
+;; See hi-line-plus in modules/sm-ui.el
+;; (global-hl-line-mode t)
 
 ;; Misc.
 (setq inhibit-startup-message t)

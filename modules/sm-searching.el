@@ -4,25 +4,34 @@
 (use-package deadgrep
   :bind ("C-c S" . deadgrep))
 
-(use-package rg
-  :config
-  ;; C-c s d rg-dwim
-  ;; C-c s k rg-kill-saved-searches
-  ;; C-c s l rg-list-searches
-  ;; C-c s p rg-project
-  ;; C-c s r rg
-  ;; C-c s s rg-save-search
-  ;; C-c s S rg-save-search-as-name
-  ;; C-c s t rg-literal
-  (rg-enable-default-bindings)
-  )
+;; (use-package ag
+;;   :config
+;;   (setq ag-highlight-search t)
+;;   (setq ag-reuse-buffers t))
+
+;; (use-package rg
+;;   :config
+;;   ;; C-c s d rg-dwim
+;;   ;; C-c s k rg-kill-saved-searches
+;;   ;; C-c s l rg-list-searches
+;;   ;; C-c s p rg-project
+;;   ;; C-c s r rg
+;;   ;; C-c s s rg-save-search
+;;   ;; C-c s S rg-save-search-as-name
+;;   ;; C-c s t rg-literal
+;;   (rg-enable-default-bindings)
+;;   )
 
 ;; anzu
 ;; Shows isearch results in mode-line and better query-replace.
 (use-package anzu
   :delight anzu-mode
-  :bind (("M-%" . anzu-query-replace)
-         ("C-M-%" . anzu-query-replace-regexp)))
+  :demand                               ; don't defer, want it globally
+  :config
+  (global-anzu-mode t)
+  ;; remap these commands to anzu's versions
+  :bind (( [remap query-replace] . anzu-query-replace)
+         ( [remap query-replace-regexp] . anzu-query-replace-regexp)))
 
 ;; engine
 ;; Search engines integrated into Emacs.

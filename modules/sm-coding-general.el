@@ -37,24 +37,6 @@
   :commands restclient-mode
   :mode ("\\.http$" . restclient-mode))
 
-;; lsp
-;; Want to slowly replace ycmd with this where possible.
-(use-package lsp-mode
-  :config
-  (setq lsp-enable-snippet t
-        lsp-prefer-flymake nil))
-
-(use-package lsp-ui
-  :commands lsp-mode
-  :config
-  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  (setq lsp-ui-sideline-enable nil
-        lsp-ui-doc-enable nil
-        lsp-ui-flycheck-enable t
-        lsp-ui-imenu-enable t
-        lsp-ui-sideline-ignore-duplicate t))
-
 ;; See
 ;;  https://utcc.utoronto.ca/~cks/space/blog/programming/GoEmacsWithLspMode
 ;;  https://ladicle.com/post/config/#lsp
@@ -91,6 +73,7 @@
     (lsp-ui-doc-use-childframe t)
     (lsp-ui-doc-use-webkit t)
     ;; lsp-ui-flycheck
+    ;; sjrmanning sets this to t in his....
     (lsp-ui-flycheck-enable nil)
     ;; lsp-ui-sideline
     (lsp-ui-sideline-enable nil)

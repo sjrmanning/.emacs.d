@@ -77,6 +77,8 @@
 
 ;; multiple-cursors
 (use-package multiple-cursors
+  :init
+  (define-prefix-command 'endless/mc-map)
   :hook
   (after-init .
               (lambda ()
@@ -87,7 +89,7 @@
                  :foreground (face-attribute 'cursor :background)
                  :height 0.2)
                 (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))
-                (define-prefix-command 'endless/mc-map)))
+                ))
   :bind (()                             ; encourage emacs to indent pretty...
          :map ctl-x-map
          ("m" . endless/mc-map)

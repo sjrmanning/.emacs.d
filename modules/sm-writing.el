@@ -10,7 +10,7 @@
 (use-package olivetti
   :if window-system
   :delight
-  :hook (text-mode . olivetti-mode)
+  ;; :hook (text-mode . olivetti-mode)
   :bind ("C-c o" . olivetti-mode)
   :config
   (setq olivetti-body-width 100))
@@ -43,8 +43,8 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :config
-  (setq markdown-command "pandoc"))
+  :config (add-hook 'markdown-mode-hook (lambda () (setq display-line-numbers t)))
+  )
 
 (use-package markdownfmt
   :config
