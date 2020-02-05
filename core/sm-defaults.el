@@ -58,9 +58,10 @@
 (sm/mkdir-p (sm/cache-for "backups"))
 
 ;; Emoji font.
-(set-fontset-font t 'symbol
-                  (font-spec :family "Apple Color Emoji")
-                  nil 'prepend)
+(when (fboundp 'set-fontset-font)
+  (set-fontset-font t 'symbol
+		    (font-spec :family "Apple Color Emoji")
+		    nil 'prepend))
 
 ;; Keep backups in a separate directory.
 (defun make-backup-file-name (file)
