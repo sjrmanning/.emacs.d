@@ -12,8 +12,8 @@
 
   ;; Objective-C
   (add-hook 'objc-mode-hook
-            '(lambda ()
-               (setq c-basic-offset 4))))
+            (lambda ()
+              (setq c-basic-offset 4))))
 
 ;; dummy-h-mode
 ;; Determines c/c++/objc mode based on contents of a .h file.

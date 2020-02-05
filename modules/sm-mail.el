@@ -142,55 +142,55 @@
             ))
 
     (add-hook 'vm-mode-hook
-              '(lambda ()
-                 (setq vm-visible-headers
-                       (append vm-visible-headers (list "X-Spam-Status:")))
-                 ;; (bbdb-insinuate-vm)
-                 (bbdb-initialize 'vm)
-                 (setq bbdb-use-pop-up nil)
-                 ;; (setq vm-auto-decode-mime-messages nil)
-                 (setq vm-save-killed-message nil)
-                 (setq vm-auto-displayed-mime-content-type-exceptions
-                       '("text/html"))
-                 (define-key vm-mode-map "$" 'vm-save-message-to-imap-folder)
-                 (define-key vm-mode-map "\C-c\C-o" 'vm-send-message-to-omnifocus)
-                 (vm-v7-key-bindings)
-                 ;; add pile of charsets to vm-mime-default-face-charsets
-                 (let ((charsets '("iso-8859-1" "iso8859-1" "iso-8859-5"
-                                   "iso-8859-6" "iso-8859-2" "iso-8859-7"
-                                   "iso-8859-9" "iso8859-15" "ISO-8859-15"
-                                   "windows-1250" "windows-1251" "Windows-1252"
-                                   "koi8-r" "KOI8-U" "utf-8" "big5" "tis-620"
-                                   "gb2312" "iso-2022-jp" "windows-1256"
-                                   "X-UNKNOWN" "euc-kr" "ISO8859-2")))
-                   (while charsets
-                     (add-to-list 'vm-mime-default-face-charsets (pop charsets))))
-                 (set-variable 'vm-mime-alternative-show-method
-                               '(favorite "text/plain"))
-                 (set-variable 'vm-mime-alternative-yank-method
-                               '(favorite "text/plain"))
-                 ))
+              (lambda ()
+                (setq vm-visible-headers
+                      (append vm-visible-headers (list "X-Spam-Status:")))
+                ;; (bbdb-insinuate-vm)
+                (bbdb-initialize 'vm)
+                (setq bbdb-use-pop-up nil)
+                ;; (setq vm-auto-decode-mime-messages nil)
+                (setq vm-save-killed-message nil)
+                (setq vm-auto-displayed-mime-content-type-exceptions
+                      '("text/html"))
+                (define-key vm-mode-map "$" 'vm-save-message-to-imap-folder)
+                (define-key vm-mode-map "\C-c\C-o" 'vm-send-message-to-omnifocus)
+                (vm-v7-key-bindings)
+                ;; add pile of charsets to vm-mime-default-face-charsets
+                (let ((charsets '("iso-8859-1" "iso8859-1" "iso-8859-5"
+                                  "iso-8859-6" "iso-8859-2" "iso-8859-7"
+                                  "iso-8859-9" "iso8859-15" "ISO-8859-15"
+                                  "windows-1250" "windows-1251" "Windows-1252"
+                                  "koi8-r" "KOI8-U" "utf-8" "big5" "tis-620"
+                                  "gb2312" "iso-2022-jp" "windows-1256"
+                                  "X-UNKNOWN" "euc-kr" "ISO8859-2")))
+                  (while charsets
+                    (add-to-list 'vm-mime-default-face-charsets (pop charsets))))
+                (set-variable 'vm-mime-alternative-show-method
+                              '(favorite "text/plain"))
+                (set-variable 'vm-mime-alternative-yank-method
+                              '(favorite "text/plain"))
+                ))
     (setq mail-default-reply-to "hartzell@alerce.com")
     (setq user-mail-address "hartzell@alerce.com")
 
     (add-hook 'mail-mode-hook
-              '(lambda ()
-                 ;;define mail-archive-file-name to ~/mail/archive/<year-month>
-                 (let ((date (current-time-string)))
-                   (string-match
-                    "^\\([A-Z][a-z][a-z]\\) \\([A-Z][a-z][a-z]\\) \\([0-9 ][0-9]\\) \\([0-9][0-9]:[0-9][0-9]\\)\\(:[0-9][0-9]\\) [0-9][0-9]\\([0-9][0-9]\\)"
-                    date)
-                   (setq mail-archive-file-name
-                         (concat vm-folder-directory
-                                 "Archive/"
-                                 (substring date (match-beginning 6) (match-end 6))
-                                 "-"
-                                 (substring date (match-beginning 2) (match-end 2))
-                                 )))
-                 ;;set other defaults
-                 (define-key mail-mode-map "\e\^i" 'bbdb-complete-name)
-                 (setq mail-signature nil)
-                 (auto-fill-mode 1)))      ;turn on auto-fill
+              (lambda ()
+                ;;define mail-archive-file-name to ~/mail/archive/<year-month>
+                (let ((date (current-time-string)))
+                  (string-match
+                   "^\\([A-Z][a-z][a-z]\\) \\([A-Z][a-z][a-z]\\) \\([0-9 ][0-9]\\) \\([0-9][0-9]:[0-9][0-9]\\)\\(:[0-9][0-9]\\) [0-9][0-9]\\([0-9][0-9]\\)"
+                   date)
+                  (setq mail-archive-file-name
+                        (concat vm-folder-directory
+                                "Archive/"
+                                (substring date (match-beginning 6) (match-end 6))
+                                "-"
+                                (substring date (match-beginning 2) (match-end 2))
+                                )))
+                ;;set other defaults
+                (define-key mail-mode-map "\e\^i" 'bbdb-complete-name)
+                (setq mail-signature nil)
+                (auto-fill-mode 1)))      ;turn on auto-fill
 
     (setq send-mail-function 'sendmail-send-it)
     (setq message-send-mail-function 'sendmail-send-it)

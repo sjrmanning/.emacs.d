@@ -38,12 +38,11 @@ git or hg repository is found in the buffer-local working dir."
   ;; Remove git from backends that builtin VC mode handles
   (setq vc-handled-backends (delq 'Git vc-handled-backends))
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-
-  (add-hook 'git-commit-mode-hook '(lambda ()
-                                     (progn
-                                       (git-commit-turn-on-flyspell)
-                                       (git-commit-turn-on-auto-fill)
-                                       (setq git-commit-summary-max-length 50)))))
+  (add-hook 'git-commit-mode-hook (lambda ()
+                                    (progn
+                                      (git-commit-turn-on-flyspell)
+                                      (git-commit-turn-on-auto-fill)
+                                      (setq git-commit-summary-max-length 50)))))
 
 ;; Git forge w/ magit.
 (use-package forge

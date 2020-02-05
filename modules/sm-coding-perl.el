@@ -7,9 +7,9 @@
   (progn
     (defalias 'perl-mode 'cperl-mode)
     (add-hook 'cperl-mode-hook
-              '(lambda ()
-                 ;; insert spaces instead of tabs
-                 (setq-default indent-tabs-mode nil)
+              (lambda ()
+                ;; insert spaces instead of tabs
+                (setq-default indent-tabs-mode nil)
 
                  ;; set line width to 78 columns
                  (setq fill-column 78)

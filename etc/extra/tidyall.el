@@ -38,9 +38,9 @@
 ;; Or to assign it locally in, e.g., perl-mode:
 ;;
 ;;   (setq perl-mode-hook
-;;        '(lambda ()
-;;           (local-set-key "\C-t" 'tidyall-buffer)
-;;           ))
+;;        (lambda ()
+;;          (local-set-key "\C-t" 'tidyall-buffer)
+;;          ))
 ;;
 ;; (This replaces the default binding to transpose-chars, which I never use but ymmv.)
 
