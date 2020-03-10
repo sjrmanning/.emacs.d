@@ -3,7 +3,7 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "iA Writer Mono V")
+(defvar sm/fixed-font-name "Iosevka Extended")
 (defvar sm/fixed-font-weight 'regular)
 (defvar sm/var-font-name "iA Writer Quattro V")
 (defvar sm/font-height 160)
@@ -21,10 +21,7 @@
           (lambda nil
             (set-fringe-style 0)
             (setq-default cursor-type 'bar)
-            (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-            (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-            (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-            (run-with-idle-timer 0.1 nil (lambda nil (toggle-frame-maximized)))
+            (run-with-idle-timer 0.05 nil (lambda nil (toggle-frame-maximized)))
             (set-face-attribute
              'default nil
              :family sm/fixed-font-name
