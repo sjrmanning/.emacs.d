@@ -15,7 +15,7 @@
 (use-package lsp-sourcekit
   :after lsp-mode
   :config
-  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-latest.xctoolchain")
-  (setq lsp-sourcekit-executable (expand-file-name "~/Projects/sourcekit-lsp/.build/debug/sourcekit-lsp")))
+  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-5.1.4-RELEASE.xctoolchain")
+  (setq lsp-sourcekit-executable "/Library/Developer/Toolchains/swift-5.1.4-RELEASE.xctoolchain/usr/bin/sourcekit-lsp"))
 
 (provide 'sm-coding-swift)
