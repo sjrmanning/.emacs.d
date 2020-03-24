@@ -126,4 +126,7 @@ This buffer is for text that is not saved.")
 
 (setq comment-empty-lines 'eol)
 
+;; don't warn about "large" files
+(setq large-file-warning-threshold nil)
+
 (provide 'sm-defaults)
