@@ -92,6 +92,7 @@
 
     (setq vm-berkeley-mail-compatibility t)
     (setq vm-circular-folders nil)
+    (setq vm-complete-mail-allow-cycling t)
     (setq vm-delete-empty-folders t)
     (setq vm-digest-burst-type "mime")
     ;; make mime first in the list, so I can just bang the return key
