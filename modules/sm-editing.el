@@ -149,7 +149,7 @@
 
 ;; subword
 (use-package subword
-  :hook (after-init . global-subword-mode)
+  :hook (prog-mode . subword-mode)
   :delight subword-mode)
 
 ;; undo-tree
