@@ -19,7 +19,19 @@
 (setq-default indent-tabs-mode nil)
 
 ;; george is weird.  swap backspace and del at very low level
-(keyboard-translate ?\C-h ?\C-?)
+;; Need to work extra hard to have this work in emacsclient "frames"
+;; too.  Otherwise, can just do the call to keyboard-translate...
+;; https://stackoverflow.com/questions/5064390/run-command-on-new-frame-with-daemon-client-in-emacs
+;; (keyboard-translate ?\C-h ?\C-?)
+(defun make-keyboard-translations ()
+  (keyboard-translate ?\C-? ?\C-h)
+  (keyboard-translate ?\C-h ?\C-?))
+(defun setup-frame-keyboard (frame)
+  (with-selected-frame frame
+    (make-keyboard-translations)))
+(make-keyboard-translations)
+(add-hook 'after-make-frame-functions #'setup-frame-keyboard)
+
 
 ;; General editing-related bindings.
 (bind-key "\e \C-g" 'goto-line)
