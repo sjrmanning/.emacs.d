@@ -1,12 +1,10 @@
 ;;; sm-coding-python.el --- Python setup.
 
 (use-package python
-  :ensure t
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
   :config
   (use-package lsp-python-ms
-    :ensure t
     :init (require 'lsp-python-ms)
     :hook (python-mode . lsp-deferred)))
 
