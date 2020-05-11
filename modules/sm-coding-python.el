@@ -1,6 +1,7 @@
 ;;; sm-coding-python.el --- Python setup.
 
 (use-package python
+  :ensure t
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
   :config
