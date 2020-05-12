@@ -1,21 +1,26 @@
 ;;; sm-coding-python.el --- Python setup.
 
+(defun py-isort-enable-on-save ()
+  "Hook isort up to before save hook."
+  (interactive)
+  (add-hook 'before-save-hook 'py-isort-before-save nil t))
+
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
   :config
   (use-package lsp-python-ms
-    :init (require 'lsp-python-ms)
-    :hook (python-mode . lsp-deferred)))
-
-;; Clone yapf somewhere and throw a script like this onto your bin
-;; (sigh...)
-;;
-;; #!/bin/sh
-;; PYTHONPATH=$HOME/tmp/yapf python3 $HOME/tmp/yapf/yapf "$@"
-;; (use-package yapfify
-;;   :config
-;;   (add-hook 'python-mode-hook 'yapf-mode))
+    :init (require 'lsp-python-ms))
+  (use-package py-isort)
+  (use-package python-black)
+  ;; (use-package py-yapf)
+  :hook (
+         (python-mode . lsp-deferred)
+         (python-mode . py-isort-enable-on-save)
+         ;; (python-mode . py-yapf-enable-on-save)
+         (python-mode . python-black-on-save-mode)
+         )
+  )
 
 ;; (use-package python-black
 ;;   :demand t
@@ -23,11 +28,6 @@
 ;;   :hook
 ;;   (
 ;;    (python-mode . python-black-on-save-mode)))
-
-(use-package py-yapf
-  :hook
-  ((python-mode . py-yapf-enable-on-save)))
-
 
 (setenv "PYTHONIOENCODING" "utf8")
 
