@@ -222,8 +222,9 @@
 
 (use-package boxquote)
 
-(use-package swiper
-  :bind (("C-x /" . swiper)))
+(use-package ctrlf
+  :init
+  (ctrlf-mode +1))
 
 (use-package volatile-highlights
   :demand

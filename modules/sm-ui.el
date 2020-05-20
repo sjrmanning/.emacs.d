@@ -22,8 +22,7 @@
   :commands ivy-mode
   :hook (after-init . ivy-mode)
   :delight ivy-mode
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
+  :bind (:map ivy-minibuffer-map
          ("C-j" . ivy-immediate-done)
          ("RET" . ivy-alt-done))
   :config
@@ -34,9 +33,7 @@
         enable-recursive-minibuffers t
         ivy-initial-inputs-alist nil
         ivy-re-builders-alist
-        '((swiper . ivy--regex-plus)
-          (swiper-isearch . ivy--regex-plus)
-          (counsel-ag . ivy--regex-plus)
+        '((counsel-ag . ivy--regex-plus)
           (counsel-rg . ivy--regex-plus)
           (t      . ivy-prescient-re-builder))))
 
