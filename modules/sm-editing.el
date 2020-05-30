@@ -123,6 +123,8 @@
 
 ;; smartparens
 (use-package smartparens
+  :config
+  (require 'smartparens-config)
   :hook
   (after-init . (lambda ()
                   (smartparens-global-mode t)
