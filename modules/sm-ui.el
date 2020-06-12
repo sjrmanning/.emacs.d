@@ -23,8 +23,8 @@
   :hook (after-init . ivy-mode)
   :delight ivy-mode
   :bind (:map ivy-minibuffer-map
-         ("C-j" . ivy-immediate-done)
-         ("RET" . ivy-alt-done))
+              ("C-j" . ivy-immediate-done)
+              ("RET" . ivy-alt-done))
   :config
   (setq ivy-use-virtual-buffers t
         ivy-virtual-abbreviate 'full
