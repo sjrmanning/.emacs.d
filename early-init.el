@@ -3,18 +3,20 @@
 ;; Emacs HEAD (27+) introduces early-init.el, which is run before init.el,
 ;; before package and UI initialization happens.
 
+;; GCC Emacs deferred compilation.
+(setq comp-deferred-compilation nil)
+(setq straight--wait-for-async-jobs t)
+
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
 
-;; In Emacs 27+, package initialization occurs before `user-init-file' is
-;; loaded, but after `early-init-file'. Doom handles package initialization, so
-;; we must prevent Emacs from doing it early!
+;; Using straight means we don't want to initialize package.el at all.
 (setq package-enable-at-startup nil)
 (advice-add #'package--ensure-init-file :override #'ignore)
 
 ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
-(setq tool-bar-mode nil
-      menu-bar-mode nil)
+(menu-bar-mode 0)
+(tool-bar-mode 0)
 (when (fboundp 'set-scroll-bar-mode)
   (set-scroll-bar-mode nil))
 
