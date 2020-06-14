@@ -3,10 +3,10 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "Iosevka Extended")
-(defvar sm/fixed-font-weight 'regular)
-(defvar sm/var-font-name "iA Writer Quattro V")
-(defvar sm/font-height 160)
+(defvar sm/fixed-font-name "Fira Code")
+(defvar sm/fixed-font-weight 'normal)
+(defvar sm/var-font-name "Fira Sans")
+(defvar sm/font-height 130)
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes
@@ -19,6 +19,9 @@
 
 (add-hook 'after-init-hook
           (lambda nil
+            ;; Enable macOS ligatures in fonts if running emacs-mac port.
+            (when (fboundp 'mac-auto-operator-composition-mode)
+              (mac-auto-operator-composition-mode))
             (set-fringe-style 0)
             (setq-default cursor-type 'bar)
             (run-with-idle-timer 0.05 nil (lambda nil (toggle-frame-maximized)))
