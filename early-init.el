@@ -4,7 +4,7 @@
 ;; before package and UI initialization happens.
 
 ;; GCC Emacs deferred compilation.
-(setq comp-deferred-compilation nil)
+(setq comp-deferred-compilation t)
 (setq straight--wait-for-async-jobs t)
 
 ;; Defer garbage collection further back in the startup process
