@@ -22,10 +22,9 @@
   :commands ivy-mode
   :hook (after-init . ivy-mode)
   :delight ivy-mode
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("C-j" . ivy-immediate-done)
-         ("RET" . ivy-alt-done))
+  :bind (:map ivy-minibuffer-map
+              ("C-j" . ivy-immediate-done)
+              ("RET" . ivy-alt-done))
   :config
   (setq ivy-use-virtual-buffers t
         ivy-virtual-abbreviate 'full
@@ -39,6 +38,13 @@
           (counsel-ag . ivy--regex-plus)
           (counsel-rg . ivy--regex-plus)
           (t      . ivy-prescient-re-builder))))
+
+(use-package swiper
+  :commands swiper
+  :bind (("C-s" . swiper-isearch)
+         ("C-r" . swiper-isearch-backward)
+         (:map swiper-map
+               ("C-r" . ivy-previous-line))))
 
 (use-package counsel
   :hook (after-init . counsel-mode)
