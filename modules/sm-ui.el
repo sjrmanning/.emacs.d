@@ -7,6 +7,10 @@
 ;; Overrides Emacs' default mechanism for making buffer names unique.
 (setq uniquify-buffer-name-style 'forward)
 
+;; Smooth scrolling.
+(setq hscroll-step 1
+      scroll-conservatively 1000)
+
 ;; smex support in counsel
 (use-package smex
   :hook (after-init . smex-initialize))
