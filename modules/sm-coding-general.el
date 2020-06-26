@@ -38,8 +38,10 @@
   :mode ("\\.http$" . restclient-mode))
 
 ;; lsp
-;; Want to slowly replace ycmd with this where possible.
+;; Doesn't fully compile with native-compilation right now.
 (use-package lsp-mode
+  :straight (lsp-mode :type git :host github :repo "emacs-lsp/lsp-mode"
+                      :no-native-compile t)
   :config
   (setq lsp-enable-snippet t
         lsp-prefer-flymake nil))

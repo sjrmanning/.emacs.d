@@ -11,10 +11,6 @@
 (setq hscroll-step 1
       scroll-conservatively 1000)
 
-;; smex support in counsel
-(use-package smex
-  :hook (after-init . smex-initialize))
-
 ;; fuzzy matching and better sorting for ivy.
 (use-package ivy-prescient
   :hook (after-init . ivy-prescient-mode)
@@ -50,7 +46,10 @@
          (:map swiper-map
                ("C-r" . ivy-previous-line))))
 
+(use-package amx)
+
 (use-package counsel
+  :after amx
   :hook (after-init . counsel-mode)
   :delight counsel-mode
   :bind (("M-x" . counsel-M-x)
