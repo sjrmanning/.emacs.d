@@ -4,6 +4,9 @@
 (setq straight-cache-autoloads t)
 (setq straight-check-for-modifications '(check-on-save))
 
+;; Temporarily using the develop branch which supports native-compilation.
+(setq straight-repository-branch "develop")
+
 ;; Bootstrap straight.
 (defvar bootstrap-version)
 (let ((bootstrap-file

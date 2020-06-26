@@ -65,10 +65,4 @@
   :straight nil
   :delight abbrev-mode)
 
-;; get rid of the mouse.
-(use-package avoid
-  :if window-system
-  :config
-  (mouse-avoidance-mode 'exile))
-
 (provide 'sm-ui)

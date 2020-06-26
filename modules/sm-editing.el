@@ -135,12 +135,4 @@
 (use-package embrace
   :bind ("C-," . embrace-commander))
 
-;; aggressive-indent
-;; Keeps code correctly indented during editing.
-(use-package aggressive-indent
-  :commands aggressive-indent-mode
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-hook 'lisp-mode-hook #'aggressive-indent-mode))
-
 (provide 'sm-editing)
