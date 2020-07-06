@@ -11,12 +11,6 @@
 (setq hscroll-step 1
       scroll-conservatively 1000)
 
-;; fuzzy matching and better sorting for ivy.
-(use-package ivy-prescient
-  :hook (after-init . ivy-prescient-mode)
-  :config
-  (setq prescient-filter-method 'fuzzy))
-
 ;; ivy everywhere
 (use-package ivy
   :commands ivy-mode
@@ -31,13 +25,12 @@
         ivy-on-del-error-function nil
         ivy-use-selectable-prompt t
         enable-recursive-minibuffers t
-        ivy-initial-inputs-alist nil
         ivy-re-builders-alist
         '((swiper . ivy--regex-plus)
           (swiper-isearch . ivy--regex-plus)
           (counsel-ag . ivy--regex-plus)
           (counsel-rg . ivy--regex-plus)
-          (t      . ivy-prescient-re-builder))))
+          (t      . ivy--regex-fuzzy))))
 
 (use-package swiper
   :commands swiper
@@ -49,12 +42,13 @@
 (use-package amx)
 
 (use-package counsel
-  :after amx
+	:after (amx ivy)
   :hook (after-init . counsel-mode)
   :delight counsel-mode
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ("C-c s" . counsel-rg)))
+         ("C-c s" . counsel-rg))
+  :config (setq ivy-initial-inputs-alist nil))
 
 ;; diminish some modes.
 (use-package simple
