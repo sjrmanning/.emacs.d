@@ -3,10 +3,10 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "Fira Code")
+(defvar sm/fixed-font-name "Offlig D")
 (defvar sm/fixed-font-weight 'normal)
-(defvar sm/var-font-name "Fira Sans")
-(defvar sm/font-height 130)
+(defvar sm/var-font-name "iA Writer Quattro V")
+(defvar sm/font-height 140)
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes
