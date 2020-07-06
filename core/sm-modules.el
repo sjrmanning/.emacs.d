@@ -41,6 +41,7 @@
         sm-projects
         sm-source-control
         sm-org
+        sm-utils
         sm-coding-general
         sm-coding-cc
         sm-coding-csharp
