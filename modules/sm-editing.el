@@ -49,7 +49,6 @@
          ("<S-return>" . crux-smart-open-line)
          ("C-c R" . crux-rename-buffer-and-file)
          ("C-c D" . crux-delete-buffer-and-file)
-         ("<f2>" . crux-visit-term-buffer)
          ("s-j" . crux-top-join-line))
   :config (recentf-mode t))
 
