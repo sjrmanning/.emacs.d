@@ -9,13 +9,13 @@
 (bind-key "C-c n" 'create-new-buffer)
 
 (defun sm/smart-find-file ()
-  "Find files using projectile if within a project, or fall-back to ido."
+  "Find files using projectile if within a project, or fall-back to `find-file'."
   (interactive)
   (if (projectile-project-p)
       (projectile-find-file)
-    (ido-find-file)))
+    (call-interactively 'find-file)))
 
-(bind-key "C-x f" 'sm/smart-find-file)
+(bind-key "C-x f" #'sm/smart-find-file)
 
 (defun sm/kill-default-buffer ()
   "Kill the currently active buffer."
@@ -25,7 +25,7 @@
 (bind-key "C-x k" 'sm/kill-default-buffer)
 
 (defun switch-to-irc nil
-  "Switch to IRC buffer using ido to select from candidates."
+  "Switch to IRC buffer."
   (interactive)
   (let ((final-list (list ))
         (irc-modes '(circe-channel-mode
@@ -36,7 +36,7 @@
       (if (member (with-current-buffer buf major-mode) irc-modes)
           (setq final-list (append (list (buffer-name buf)) final-list))))
     (when final-list
-      (switch-to-buffer (ido-completing-read "IRC Buffer: " final-list)))))
+      (switch-to-buffer (completing-read "IRC Buffer: " final-list)))))
 
 (defun sm/create-non-existent-directory ()
   "Prompt to automagically create parent directories."

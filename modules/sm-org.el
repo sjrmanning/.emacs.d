@@ -39,10 +39,10 @@ Captured %<%Y-%m-%d %H:%M>
     (org-todo 'done)
     (org-archive-subtree))
 
-  (defun sm/ido-find-orgfile ()
-    "Use `ido-completing-read' to \\[find-file] an org file."
+  (defun sm/find-orgfile ()
+    "Use `completing-read' to \\[find-file] an org file."
     (interactive)
-    (if (find-file (ido-completing-read "Open org file: " org-agenda-files))
+    (if (find-file (completing-read "Open org file: " org-agenda-files))
         (message "Opening file...")
       (message "Aborting")))
 
@@ -50,7 +50,6 @@ Captured %<%Y-%m-%d %H:%M>
         org-catch-invisible-edits 'show-and-error
         org-cycle-separator-lines 0
         org-use-speed-commands t
-        org-completion-use-ido t
         org-startup-indented t
         org-hide-leading-stars t
         org-ellipsis "⤵"

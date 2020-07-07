@@ -32,11 +32,9 @@
   (setq flyspell-issue-message-flag nil)
   (setq flyspell-issue-welcome-flag nil))
 
-(use-package flyspell-correct-ivy
+(use-package flyspell-correct
   :after flyspell
-  :commands flyspell-correct-word-generic
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-word-generic))
-  :custom (flyspell-correct-interface 'flyspell-correct-ivy))
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
 
 ;; markdown
 (use-package markdown-mode

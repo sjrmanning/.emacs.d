@@ -86,9 +86,6 @@
 ;; Change save-places file location.
 (setq save-place-file (sm/cache-for "places"))
 
-;; Ido history.
-(setq ido-save-directory-list-file (sm/cache-for "ido.last"))
-
 ;; Allow pasting selection outside of Emacs.
 (setq x-select-enable-clipboard t)
 

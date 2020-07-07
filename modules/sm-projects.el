@@ -3,12 +3,9 @@
 ;; projectile
 (use-package projectile
   :delight projectile-mode
-  :commands (projectile-mode projectile-global-mode)
-  :bind ("C-c p a" . projectile-ag)
-  :init
-  (add-hook 'after-init-hook 'projectile-global-mode)
-  (setq projectile-completion-system 'ivy)
+  :commands (projectile-mode projectile-global-mode projectile-find-file projectile-project-p)
   :config
+  (setq projectile-completion-system 'default)
   ;; Ensure projectile dir exists.
   (defvar my-projectile-dir (sm/cache-for "projectile"))
   (sm/mkdir-p my-projectile-dir)
