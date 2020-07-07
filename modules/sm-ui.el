@@ -20,6 +20,7 @@
               ("C-j" . ivy-immediate-done)
               ("RET" . ivy-alt-done))
   :config
+  (ivy-prescient-mode t)
   (setq ivy-use-virtual-buffers t
         ivy-virtual-abbreviate 'full
         ivy-on-del-error-function nil
@@ -30,7 +31,7 @@
           (swiper-isearch . ivy--regex-plus)
           (counsel-ag . ivy--regex-plus)
           (counsel-rg . ivy--regex-plus)
-          (t      . ivy--regex-fuzzy))))
+          (t . ivy-prescient-re-builder))))
 
 (use-package swiper
   :commands swiper
@@ -39,16 +40,24 @@
          (:map swiper-map
                ("C-r" . ivy-previous-line))))
 
-(use-package amx)
-
 (use-package counsel
-	:after (amx ivy)
-  :hook (after-init . counsel-mode)
+  :after ivy
+  :commands (counsel-M-x counsel-find-file counsel-rg)
   :delight counsel-mode
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("C-c s" . counsel-rg))
-  :config (setq ivy-initial-inputs-alist nil))
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("C-c s" . counsel-rg))
+  :config
+  (setq ivy-initial-inputs-alist nil))
+
+(use-package ivy-prescient
+  :commands ivy-prescient-mode
+  :custom
+  (prescient-filter-method '(literal regexp initialism fuzzy))
+  (ivy-prescient-retain-classic-highlighting t)
+  :config
+  (prescient-persist-mode t))
 
 ;; diminish some modes.
 (use-package simple
