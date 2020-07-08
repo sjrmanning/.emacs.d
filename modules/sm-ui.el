@@ -11,26 +11,53 @@
 (setq hscroll-step 1
       scroll-conservatively 1000)
 
-(use-package ctrlf
-  :config (ctrlf-mode t))
+;; ivy everywhere
+(use-package ivy
+  :commands ivy-mode
+  :hook (after-init . ivy-mode)
+  :delight ivy-mode
+  :bind (:map ivy-minibuffer-map
+              ("C-j" . ivy-immediate-done)
+              ("RET" . ivy-alt-done))
+  :config
+  (ivy-prescient-mode t)
+  (setq ivy-use-virtual-buffers t
+        ivy-virtual-abbreviate 'full
+        ivy-on-del-error-function nil
+        ivy-use-selectable-prompt t
+        enable-recursive-minibuffers t
+        ivy-re-builders-alist
+        '((swiper . ivy--regex-plus)
+          (swiper-isearch . ivy--regex-plus)
+          (counsel-ag . ivy--regex-plus)
+          (counsel-rg . ivy--regex-plus)
+          (t . ivy-prescient-re-builder))))
+
+(use-package swiper
+  :commands swiper
+  :bind (("C-s" . swiper-isearch)
+         ("C-r" . swiper-isearch-backward)
+         (:map swiper-map
+               ("C-r" . ivy-previous-line))))
 
 (use-package counsel
-  :commands (counsel-rg)
+  :after ivy
+  :commands (counsel-M-x counsel-find-file counsel-rg)
   :delight counsel-mode
   :bind
-  (("C-c s" . counsel-rg)))
-
-;; selectrum
-(use-package selectrum
-  :hook (after-init . selectrum-mode)
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("C-c s" . counsel-rg))
   :config
-  (use-package selectrum-prescient
-    :custom
-    (prescient-filter-method '(literal regexp initialism fuzzy))
+  (setq ivy-initial-inputs-alist nil))
 
-    :config
-    (selectrum-prescient-mode t)
-    (prescient-persist-mode t)))
+(use-package ivy-prescient
+  :commands ivy-prescient-mode
+  :custom
+  (prescient-filter-method '(literal regexp initialism fuzzy))
+  (ivy-prescient-retain-classic-highlighting t)
+  :config
+  (prescient-persist-mode t))
 
 ;; diminish some modes.
 (use-package simple
