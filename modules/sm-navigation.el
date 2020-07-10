@@ -1,13 +1,6 @@
 ;; Navigation related settings and binds.
 (bind-key "C-x C-b" 'ibuffer)
 
-(defun create-new-buffer ()
-  "Create a new buffer named *new*."
-  (interactive)
-  (switch-to-buffer (generate-new-buffer-name "*new*")))
-
-(bind-key "C-c n" 'create-new-buffer)
-
 (defun sm/smart-find-file ()
   "Find files using projectile if within a project, or fall-back to `find-file'."
   (interactive)

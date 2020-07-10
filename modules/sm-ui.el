@@ -8,8 +8,9 @@
 (setq uniquify-buffer-name-style 'forward)
 
 ;; Smooth scrolling.
-(setq hscroll-step 1
-      scroll-conservatively 1000)
+(use-package smooth-scrolling
+  :config
+  (smooth-scrolling-mode t))
 
 ;; ivy everywhere
 (use-package ivy

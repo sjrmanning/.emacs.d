@@ -63,10 +63,6 @@
                   (font-spec :family "Apple Color Emoji")
                   nil 'prepend)
 
-;; Keep backups in a separate directory.
-(defun make-backup-file-name (file)
-  (concat (sm/cache-for "backups/") (file-name-nondirectory file) "~"))
-
 ;; Keep autosave files in /tmp.
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
@@ -78,7 +74,10 @@
 (setq eshell-directory-name (sm/cache-for "eshell"))
 
 ;; Disable annoying lock files.
-(setq create-lockfiles nil)
+;; And for now, completely disable auto-saves and backups.
+(setq auto-save-default nil
+      create-lockfiles nil
+      make-backup-files nil)
 
 ;; Change bookmarks file location.
 (setq bookmark-default-file (sm/emacs.d "etc/bookmarks"))

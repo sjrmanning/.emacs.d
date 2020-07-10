@@ -6,6 +6,7 @@
   :init
   (add-hook 'prog-mode-hook #'company-mode)
   (add-hook 'comint-mode-hook #'company-mode)
+  (add-hook 'org-mode-hook #'company-mode)
   :config
   ;; Quick-help (popup documentation for suggestions).
   (use-package company-quickhelp
