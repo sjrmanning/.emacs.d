@@ -74,10 +74,7 @@
 (setq eshell-directory-name (sm/cache-for "eshell"))
 
 ;; Disable annoying lock files.
-;; And for now, completely disable auto-saves and backups.
-(setq auto-save-default nil
-      create-lockfiles nil
-      make-backup-files nil)
+(setq create-lockfiles nil)
 
 ;; Change bookmarks file location.
 (setq bookmark-default-file (sm/emacs.d "etc/bookmarks"))
@@ -107,9 +104,7 @@
 
 ;; Scratch buffer configuration.
 (setq initial-major-mode 'markdown-mode)
-(setq initial-scratch-message "\
-### Scratch buffer
-This buffer is for text that is not saved.")
+(setq initial-scratch-message "")
 
 ;; Highlight lines.
 (global-hl-line-mode t)

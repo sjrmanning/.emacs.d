@@ -61,19 +61,14 @@
 
 ;; multiple-cursors
 (use-package multiple-cursors
-  :hook
-  (after-init .
-              (lambda ()
-                (require 'multiple-cursors)
-                (set-face-attribute
-                 'mc/cursor-bar-face nil
-                 :background (face-attribute 'cursor :background)
-                 :foreground (face-attribute 'cursor :background)
-                 :height 0.2)
-                (setq mc/list-file (sm/emacs.d "etc/.mc-lists.el"))))
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
-         ("C-c C->" . mc/mark-all-like-this)))
+         ("C-c C->" . mc/mark-all-like-this))
+  :custom (mc/list-file (sm/emacs.d "etc/.mc-lists.el"))
+  :custom-face
+  (mc/cursor-bar-face
+   ((t (:height 0.2 :background "#657b83"
+                :foreground "#657b83")))))
 
 ;; expand-region
 (use-package expand-region
@@ -103,26 +98,12 @@
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
   :delight whitespace-cleanup-mode
-  :commands whitespace-cleanup-mode
-  :init
-  (add-hook 'text-mode-hook #'whitespace-cleanup-mode)
-  (add-hook 'prog-mode-hook #'whitespace-cleanup-mode))
+  :hook ((text-mode prog-mode) . whitespace-cleanup-mode))
 
 ;; subword
 (use-package subword
   :hook (after-init . global-subword-mode)
   :delight subword-mode)
-
-;; undo-tree
-;; Treat undo history as a tree.
-(use-package undo-tree
-  :straight (undo-tree :type git :host github :repo "martinp26/undo-tree")
-  :delight undo-tree-mode
-  :bind ("C-x u" . undo-tree-visualize)
-  :config
-  (global-undo-tree-mode)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t))
 
 ;; smart-comment
 ;; Better `comment-dwim' supporting uncommenting.

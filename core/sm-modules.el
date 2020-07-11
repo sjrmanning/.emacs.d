@@ -25,6 +25,11 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+;; Defer by default. Most packages should be configured with `:mode' or similar
+;; but this is a bit safer and sped up init-time.
+;; For cases where `:mode' etc. don't make sense, `:defer nil' explicitly.
+(setq use-package-always-defer t)
+
 ;; Install delight as required by `:delight' with use-package.
 (use-package delight)
 
@@ -43,8 +48,8 @@
         sm-org
         sm-utils
         sm-coding-general
+        sm-coding-go
         sm-coding-cc
-        sm-coding-csharp
         sm-coding-elixir
         sm-coding-java
         sm-coding-js

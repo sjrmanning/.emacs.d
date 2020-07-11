@@ -3,21 +3,8 @@
 (use-package company
   :delight " ©"
   :commands (company-mode global-company-mode)
-  :init
-  (add-hook 'prog-mode-hook #'company-mode)
-  (add-hook 'comint-mode-hook #'company-mode)
-  (add-hook 'org-mode-hook #'company-mode)
+  :hook ((prog-mode comint-mode org-mode) . company-mode)
   :config
-  ;; Quick-help (popup documentation for suggestions).
-  (use-package company-quickhelp
-    :if window-system
-    :init (company-quickhelp-mode 1))
-
-  ;; Use company with LSP.
-  (use-package company-lsp
-    :init
-    (push 'company-lsp company-backends))
-
   ;; Company settings.
   (setq-default company-backends (remove 'company-eclim company-backends))
   (setq company-tooltip-limit 20)
@@ -31,5 +18,17 @@
   (setq company-backends (remove 'company-clang company-backends))
   (setq company-backends
         (mapcar #'sm/backend-with-yas company-backends)))
+
+;; Quick-help (popup documentation for suggestions).
+(use-package company-quickhelp
+  :if window-system
+  :after company
+  :config (company-quickhelp-mode t))
+
+;; Use company with LSP.
+(use-package company-lsp
+  :after (lsp-mode company)
+  :config
+  (push 'company-lsp company-backends))
 
 (provide 'sm-company)

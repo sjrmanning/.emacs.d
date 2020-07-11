@@ -5,12 +5,4 @@
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
-;; Use $PATH from user's shell in Emacs.
-(use-package exec-path-from-shell
-  :if (memq window-system (quote (mac ns)))
-  :defer 0.5
-  :config
-  (setq exec-path-from-shell-arguments '("-l"))
-  (exec-path-from-shell-initialize))
-
 (provide 'sm-path)

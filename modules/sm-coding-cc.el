@@ -2,7 +2,6 @@
 
 ;; Parent mode to C/C++/ObjC/Java.
 (use-package cc-mode
-  :defer t
   :config
   (defun sm/cc-mode-hook ()
     (c-set-offset 'case-label '+)

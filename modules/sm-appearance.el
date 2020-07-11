@@ -44,6 +44,7 @@
  ((eq sm/appearance-style 'light)
   (add-to-list 'default-frame-alist '(ns-appearance . light))
   (use-package solarized-theme
+    :defer nil
     :custom
     (solarized-distinct-doc-face t)
     :custom-face
@@ -63,12 +64,13 @@
  ((eq sm/appearance-style 'dark)
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   (use-package darkokai-theme
+    :defer nil
     :config
     (setq-default darkokai-blue-tint t)
     (load-theme 'darkokai t))))
 
-(use-package rainbow-mode
-  :commands rainbow-mode)
+(use-package rainbow-mode)
+  ;; :commands rainbow-mode)
 
 ;; When using Fira Code, this enables ligatures without mac-port.
 (unless (fboundp 'mac-auto-operator-composition-mode)

@@ -60,6 +60,15 @@
   :config
   (prescient-persist-mode t))
 
+(use-package which-key
+  :delight which-key-mode
+  :hook (after-init . which-key-mode)
+  :config
+  (which-key-setup-side-window-bottom)
+  (setq which-key-sort-order 'which-key-key-order-alpha
+        which-key-side-window-max-width 0.33
+        which-key-idle-delay 0.5))
+
 ;; diminish some modes.
 (use-package simple
   :straight nil

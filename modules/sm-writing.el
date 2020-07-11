@@ -38,9 +38,8 @@
 
 ;; markdown
 (use-package markdown-mode
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
+  :mode (("\\.md\\'" . markdown-mode)
+         ("README\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
   :config
   (setq markdown-command "pandoc"))
