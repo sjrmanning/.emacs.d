@@ -5,4 +5,8 @@
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
+;; `exec-path-from-shell' is kind of slow, so set up a reasonable PATH env
+;; here. This may need some extension in the future to include rbenv support.
+(setenv "PATH" "/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")
+
 (provide 'sm-path)
