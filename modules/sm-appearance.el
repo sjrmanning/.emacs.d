@@ -24,7 +24,7 @@
               (mac-auto-operator-composition-mode))
             (set-fringe-style 0)
             (setq-default cursor-type 'bar)
-            (run-with-idle-timer 0.05 nil (lambda nil (toggle-frame-maximized)))
+            (toggle-frame-maximized)
             (set-face-attribute
              'default nil
              :family sm/fixed-font-name

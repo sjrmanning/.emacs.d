@@ -141,14 +141,7 @@
       :unnarrowed t)))
   (org-roam-completion-system 'ivy)
   :config
-  (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil)))
-  (add-hook 'find-file-hook
-            (defun sm/org-roam-open-buffer-maybe ()
-              (memq 'org-roam-buffer--update-maybe post-command-hook)
-              (not (window-parameter nil 'window-side)) ; don't proc for popups
-              (not (eq 'visible (org-roam-buffer--visibility)))
-              (with-current-buffer (window-buffer)
-                (org-roam-buffer--get-create)))))
+  (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
 
 (use-package company-org-roam
   :after (org-roam)

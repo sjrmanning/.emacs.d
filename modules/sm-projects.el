@@ -19,8 +19,7 @@
 
 ;; perspective
 (use-package perspective
-  :defer t
-  :init (add-hook 'after-init-hook 'persp-mode)
+  :hook (after-init . persp-mode)
   :config
   (setq persp-initial-frame-name "notes")
   (defun persp-next ()
