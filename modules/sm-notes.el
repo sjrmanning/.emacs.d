@@ -1,4 +1,4 @@
-;;; sm-org.el --- Org-mode and related config.
+;;; sm-notes.el --- Note-taking, org-mode, deft, et al.
 
 ;; Fix org version warning.
 (straight-override-recipe
@@ -170,4 +170,7 @@
     (interactive)
     (org-journal-new-entry t)))
 
-(provide 'sm-org)
+(use-package deft
+  :custom (deft-directory sm/org-roam-dir))
+
+(provide 'sm-notes)

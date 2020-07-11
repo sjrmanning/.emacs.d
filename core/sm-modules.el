@@ -34,29 +34,29 @@
 (use-package delight)
 
 (setq sm/modules
-      '(sm-path
-        sm-editing
-        sm-ui
-        sm-appearance
-        sm-searching
-        sm-snippets
-        sm-navigation
-        sm-company
-        sm-writing
-        sm-projects
-        sm-source-control
-        sm-org
-        sm-utils
-        sm-coding-general
-        sm-coding-go
+      '(sm-appearance
         sm-coding-cc
         sm-coding-elixir
+        sm-coding-general
+        sm-coding-go
         sm-coding-java
         sm-coding-js
         sm-coding-python
         sm-coding-ruby
         sm-coding-swift
-        sm-coding-web))
+        sm-coding-web
+        sm-company
+        sm-editing
+        sm-navigation
+        sm-notes
+        sm-projects
+        sm-searching
+        sm-snippets
+        sm-source-control
+        sm-ui
+        sm-utils
+        sm-writing
+        sm-path))
 
 (defun sm/load-modules ()
   (interactive)

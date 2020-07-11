@@ -104,7 +104,7 @@
 
 ;; Scratch buffer configuration.
 (setq initial-major-mode 'markdown-mode)
-(setq initial-scratch-message "")
+(setq initial-scratch-message "# ")
 
 ;; Highlight lines.
 (global-hl-line-mode t)
