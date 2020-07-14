@@ -13,7 +13,7 @@
  `(mode-line
    ((t (:underline nil :overline nil
                    :foreground "#435459" ; 35% from 46% brightness
-                   :box (:line-width 8 :color "#ededdf")))))
+                   :box (:line-width 8 :color "#f0ebe1")))))
  `(mode-line-inactive
    ((t (:underline nil :overline nil
                    :background "#faf5eb"
@@ -23,6 +23,7 @@
  `(font-lock-keyword-face ((t (:weight semibold))))
  `(font-lock-comment-delimiter-face ((t (:foreground "#aebfbf"))))
 
+ ;; (set-face-attribute 'font-lock-comment-face nil :foreground "#1a1a1a" :background "#f0ebe1" :weight 'normal) ;; idea for emphasizing comments
  )
 
 (provide-theme 'bresson-extensions)

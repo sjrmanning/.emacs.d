@@ -19,8 +19,9 @@
   :delight
   :hook (text-mode . olivetti-mode)
   :bind ("C-c o" . olivetti-mode)
-  :config
-  (setq olivetti-body-width 100))
+  :custom
+  (olivetti-minimum-body-width 70)
+  (olivetti-body-width 0.66))
 
 ;; flyspell spell checking.
 (use-package flyspell
