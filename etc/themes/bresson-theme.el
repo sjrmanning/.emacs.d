@@ -10,8 +10,9 @@
     (base00      . "#455459") ;;35
     (base0       . "#839496")
     (base1       . "#93a1a1")
-    (base2       . "#ededdf")
-    (base3       . "#fefef0")
+    ;; (base2       . "#ededdf")
+    (base2       . "#f0ebe1")
+    (base3       . "#fffaef")
     (yellow      . "#b58900")
     (orange      . "#cb4b16")
     ;; (red         . "#dc322f")
