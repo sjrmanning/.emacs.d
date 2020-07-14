@@ -6,7 +6,7 @@
 (defvar sm/fixed-font-name "Offlig D")
 (defvar sm/fixed-font-weight 'normal)
 (defvar sm/var-font-name "iA Writer Quattro V")
-(defvar sm/font-height 140)
+(defvar sm/font-height 130)
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes
@@ -33,11 +33,15 @@
             (set-face-attribute
              'line-number nil
              :family sm/fixed-font-name
-             :height (- sm/font-height 10)
+             :height sm/font-height
+             ;; :height (- sm/font-height 20)
              :weight sm/fixed-font-weight)
             (set-face-attribute
              'variable-pitch nil
              :family sm/var-font-name)))
+
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "etc/themes/" user-emacs-directory))
 
 (cond
  ;; Light style
@@ -45,20 +49,10 @@
   (add-to-list 'default-frame-alist '(ns-appearance . light))
   (use-package solarized-theme
     :defer nil
-    :custom
-    (solarized-distinct-doc-face t)
-    :custom-face
-    (default ((t :foreground "#53676d")))
-    (hl-line ((t :background "#F8F0D8")))
-    (minibuffer-prompt ((t :foreground "#3F4D91")))
-    (region ((t :background "#EAE3CB")))
-    (mode-line
-     ((t (:underline nil
-                     :box (:line-width 8 :color "#eee8d5")))))
-    (mode-line-inactive
-     ((t (:underline nil :overline nil
-                     :box (:line-width 8 :color "#fdf6e3")))))
-    :config (load-theme 'solarized-light t)))
+    :custom (solarized-distinct-doc-face t)
+    :config
+    (load-theme 'bresson t)
+    (load-theme 'bresson-extensions t)))
 
  ;; Dark style
  ((eq sm/appearance-style 'dark)
@@ -70,7 +64,6 @@
     (load-theme 'darkokai t))))
 
 (use-package rainbow-mode)
-  ;; :commands rainbow-mode)
 
 ;; When using Fira Code, this enables ligatures without mac-port.
 (unless (fboundp 'mac-auto-operator-composition-mode)
