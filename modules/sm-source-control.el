@@ -19,8 +19,9 @@
   :commands magit-status
   :hook (git-commit-mode . flyspell-mode)
   :bind ("C-x g" . magit-status)
-  :config
-  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  (magit-diff-refine-hunk 'all))
 
 ;; Git forge w/ magit.
 (use-package forge

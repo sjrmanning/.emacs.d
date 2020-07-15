@@ -9,8 +9,7 @@
 
 ;; Smooth scrolling.
 (use-package smooth-scrolling
-  :config
-  (smooth-scrolling-mode t))
+  :hook (after-init . smooth-scrolling-mode))
 
 ;; ivy everywhere
 (use-package ivy
