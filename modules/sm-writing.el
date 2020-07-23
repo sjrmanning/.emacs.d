@@ -20,7 +20,7 @@
   :hook (text-mode . olivetti-mode)
   :bind ("C-c o" . olivetti-mode)
   :custom
-  (olivetti-minimum-body-width 70)
+  (olivetti-minimum-body-width 80)
   (olivetti-body-width 0.66))
 
 ;; flyspell spell checking.

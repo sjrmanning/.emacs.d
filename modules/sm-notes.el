@@ -45,9 +45,12 @@
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link))
-  :init (add-hook 'org-mode-hook #'org-indent-mode)
+  :hook (org-mode . org-indent-mode)
   :config
+  ;; Enable company, mainly for org-roam.
   (company-mode t)
+  ;; Follow links in the same window.
+  (setcdr (assoc 'file org-link-frame-setup) 'find-file)
   (setq org-catch-invisible-edits 'show-and-error
         org-cycle-separator-lines 0
         org-use-speed-commands t
@@ -144,8 +147,10 @@
   (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
 
 (use-package company-org-roam
-  :after (org-roam)
-  :config (push 'company-org-roam company-backends))
+  :defer nil
+  :after (org-roam company)
+  :config
+  (push 'company-org-roam company-backends))
 
 ;; For temporary notes and journaling.
 (use-package org-journal
