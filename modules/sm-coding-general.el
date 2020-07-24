@@ -119,6 +119,9 @@
 ;; (use-package company-lsp
 ;;   :commands company-lsp)
 
+(use-package dockerfile-mode
+  )
+
 (use-package origami
   :hook (go-mode . origami-mode)
   )
