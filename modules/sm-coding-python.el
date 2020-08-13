@@ -13,21 +13,12 @@
     :init (require 'lsp-python-ms))
   (use-package py-isort)
   (use-package python-black)
-  ;; (use-package py-yapf)
   :hook (
          (python-mode . lsp-deferred)
          (python-mode . py-isort-enable-on-save)
-         ;; (python-mode . py-yapf-enable-on-save)
          (python-mode . python-black-on-save-mode)
          )
   )
-
-;; (use-package python-black
-;;   :demand t
-;;   :after python
-;;   :hook
-;;   (
-;;    (python-mode . python-black-on-save-mode)))
 
 (setenv "PYTHONIOENCODING" "utf8")
 
