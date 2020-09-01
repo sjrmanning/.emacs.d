@@ -6,7 +6,11 @@
 (defvar sm/fixed-font-name "Offlig D")
 (defvar sm/fixed-font-weight 'normal)
 (defvar sm/var-font-name "iA Writer Quattro V")
-(defvar sm/font-height 130)
+
+;; Quick workaround to help switching between retina 13" and 27" 1440p.
+(defvar sm/font-height
+  (if (< (display-pixel-height) 1600)
+      150 130))
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes

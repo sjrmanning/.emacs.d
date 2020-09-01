@@ -27,7 +27,7 @@
 (use-package flyspell
   :delight flyspell-mode
   :commands flyspell-mode
-  :init (add-hook 'text-mode-hook #'flyspell-mode)
+  :hook (text-mode . flyspell-mode)
   :config
   (setq ispell-extra-args '("--sug-mode=fast"))
   (setq flyspell-issue-message-flag nil)

@@ -3,6 +3,9 @@
 ;; Emacs HEAD (27+) introduces early-init.el, which is run before init.el,
 ;; before package and UI initialization happens.
 
+;; Defer garbage collection further back in the startup process
+(setq gc-cons-threshold most-positive-fixnum)
+
 ;; GCC Emacs deferred compilation.
 ;; Straight will native-compile packages unless specified not to.
 ;; I'm disabling deferred-compilation here since it will try to native-compile
@@ -11,8 +14,8 @@
       comp-deferred-compilation nil)
 (setq straight--wait-for-async-jobs nil)
 
-;; Defer garbage collection further back in the startup process
-(setq gc-cons-threshold most-positive-fixnum)
+;; Tell GCC Emacs in GUI mode where to find libgccjit.
+(setenv "LIBRARY_PATH" "/usr/local/opt/gcc/lib/gcc/10")
 
 ;; Using straight means we don't want to initialize package.el at all.
 (setq package-enable-at-startup nil)

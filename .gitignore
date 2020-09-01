@@ -54,3 +54,6 @@ ensime/
 
 # Microsoft PyLS
 mspyls/
+
+# GCCEmacs files
+eln-cache/

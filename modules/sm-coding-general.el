@@ -8,6 +8,10 @@
     (add-to-list 'editorconfig-indentation-alist
                  '(swift-mode swift-indent-offset)))
 
+(use-package yaml-mode
+  :mode ("\\.ya?ml\\'" "Procfile\\'")
+  :bind (:map yaml-mode-map ("C-m" . newline-and-indent)))
+
 ;; highlight-numbers
 ;; Highlights magic numbers in programming modes.
 (use-package highlight-numbers

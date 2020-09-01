@@ -1,8 +1,8 @@
 ;;; sm-notes.el --- Note-taking, org-mode, deft, et al.
 
-;; Fix org version warning.
-(straight-override-recipe
- '(org :type git :host github :repo "emacsmirror/org" :no-build t))
+;; ;; Fix org version warning.
+;; (straight-override-recipe
+;;  '(org :type git :host github :repo "emacsmirror/org"))
 
 (setq org-directory sm/org-dir)
 
@@ -41,6 +41,7 @@
   :init (add-hook 'org-mode-hook #'org-bullets-mode))
 
 (use-package org
+  :straight (:type built-in)
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
@@ -52,7 +53,8 @@
   ;; Follow links in the same window.
   (setcdr (assoc 'file org-link-frame-setup) 'find-file)
   (setq org-catch-invisible-edits 'show-and-error
-        org-cycle-separator-lines 0
+        org-cycle-separator-lines 1
+        org-hide-emphasis-markers t
         org-use-speed-commands t
         org-startup-indented t
         org-return-follows-link t
@@ -145,12 +147,6 @@
   (org-roam-completion-system 'ivy)
   :config
   (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
-
-(use-package company-org-roam
-  :defer nil
-  :after (org-roam company)
-  :config
-  (push 'company-org-roam company-backends))
 
 ;; For temporary notes and journaling.
 (use-package org-journal
