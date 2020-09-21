@@ -70,6 +70,7 @@
         sm-mail
         sm-data
         sm-terraform
+        sm-coding-nextflow
         ))
 
 (defun sm/load-modules ()
