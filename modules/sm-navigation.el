@@ -15,7 +15,8 @@
       (projectile-find-file)
     (ido-find-file)))
 
-(bind-key "C-x f" 'sm/smart-find-file)
+;; TODO
+;;(bind-key "C-x f" 'sm/smart-find-file)
 
 (defun sm/kill-default-buffer ()
   "Kill the currently active buffer."
