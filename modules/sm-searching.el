@@ -36,6 +36,7 @@
 ;; engine
 ;; Search engines integrated into Emacs.
 (use-package engine-mode
+  :straight (:branch "main")
   :commands (engine/search-github engine/search-google)
   :bind (("C-c / g" . engine/search-google)
          ("C-c / h" . engine/search-github))

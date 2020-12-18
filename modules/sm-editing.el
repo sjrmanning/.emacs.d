@@ -222,7 +222,8 @@
 
 (use-package writegood-mode)
 
-(use-package boxquote)
+(use-package boxquote
+  :straight (:branch "main"))
 
 (use-package ctrlf
   :init

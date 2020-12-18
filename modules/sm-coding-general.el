@@ -26,6 +26,8 @@
 
 ;; flycheck
 (use-package flycheck
+  :straight (:host github :repo "flycheck/flycheck"
+                   :commit "cd8e0a280c9980c8c7ce31fd2458df7fd81a0acf")
   :commands flycheck-mode
   :delight " ✓"
   :init (add-hook 'prog-mode-hook #'flycheck-mode)
