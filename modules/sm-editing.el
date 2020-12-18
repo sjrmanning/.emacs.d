@@ -152,7 +152,7 @@
 ;; whitespace
 (use-package whitespace
   :config
-  (setq whitespace-line-column 80)
+  (setq whitespace-line-column 88)
   (setq whitespace-style '(face tabs empty trailing lines-tail))
   :init
   (dolist (hook '(prog-mode-hook text-mode-hook))
