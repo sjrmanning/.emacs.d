@@ -51,8 +51,14 @@
 ;;; Generalized version of `read-only-mode'.
 ;; (define-key endless/toggle-map "r" #'dired-toggle-read-only)
 ;; (autoload 'dired-toggle-read-only "dired" nil t)
-(define-key endless/toggle-map "v" #'visual-line-mode)
 (define-key endless/toggle-map "w" #'whitespace-mode)
+
+;; ctrl-x t v f -or- ctrl-x t v l
+(define-prefix-command 'endless/visual-map)
+(define-key endless/toggle-map "v" 'endless/visual-map)
+(define-key endless/visual-map "f" #'visual-fill-column-mode)
+(define-key endless/visual-map "l" #'visual-line-mode)
+
 
 ;; Cursor movement
 (defun sm/next-line-fast ()
