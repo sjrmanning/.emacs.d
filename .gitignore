@@ -13,8 +13,9 @@ tramp
 *.elc
 
 # Packages
-straight/*
-!straight/versions/
+straight/build
+straight/build-cache.el
+straight/repos
 elpa/
 
 # DS_Store
