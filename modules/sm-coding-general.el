@@ -43,6 +43,10 @@
 ;;  https://utcc.utoronto.ca/~cks/space/blog/programming/GoEmacsWithLspMode
 ;;  https://ladicle.com/post/config/#lsp
 (use-package lsp-mode
+  :straight `(lsp-mode :repo "emacs-lsp/lsp-mode"
+                       :host github
+                       :files (:defaults
+                               "clients/*.el"))
   :commands (lsp lsp-deferred)
   ;; (setq lsp-ui-sideline-show-code-actions nil)
   :custom
