@@ -11,6 +11,8 @@
 ;; Native line numbers and fringe setup.
 (setq-default display-line-numbers-width 4)
 
+(use-package distinguished-theme)
+
 (add-hook 'after-init-hook
           (lambda nil
             (set-fringe-style 0)
@@ -32,12 +34,14 @@
              'variable-pitch nil
              :family sm/var-font-name))
           (if (display-graphic-p)
-              (load-theme 'wombat t)
+              ;; (load-theme 'wombat t)
+              (load-theme 'distinguished t)
             ;; (load-theme 'heroku t)
             ;; dark theme, very contrasty.
             ;; (load-theme 'manoj-dark t)
             ;; (load-theme 'tsdh-dark t)
-            (load-theme 'wombat t)
+            ;; (load-theme 'wombat t)
+            (load-theme 'distinguished t)
             ))
 
 (use-package rainbow-mode
