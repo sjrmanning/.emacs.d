@@ -15,7 +15,7 @@
 
 (add-hook 'after-init-hook
           (lambda nil
-            (set-fringe-style 0)
+            (set-fringe-style nil)
             ;; (setq-default cursor-type 'bar)
             (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
             (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
