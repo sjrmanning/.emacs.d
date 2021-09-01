@@ -10,7 +10,7 @@
 ;; Straight will native-compile packages unless specified not to.
 ;; I'm disabling deferred-compilation here since it will try to native-compile
 ;; packages even if you've explicitly avoided native-compilation via straight.
-(setq comp-speed 3
+(setq comp-speed 2
       comp-deferred-compilation nil)
 (setq straight--wait-for-async-jobs nil)
 

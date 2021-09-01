@@ -48,4 +48,9 @@
         lsp-ui-imenu-enable t
         lsp-ui-sideline-ignore-duplicate t))
 
+;; protobuf
+(use-package protobuf-mode
+  :mode (("\\.proto$" . protobuf-mode)
+         ("\\.proto3$" . protobuf-mode)))
+
 (provide 'sm-coding-general)

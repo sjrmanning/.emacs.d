@@ -126,43 +126,35 @@
 (use-package org-roam
   :hook (org-roam-backlinks-mode . turn-on-visual-line-mode)
   :hook (org-load . org-roam-mode)
+  :init (setq org-roam-v2-ack t)
   :commands (org-roam-buffer-toggle-display
              org-roam-insert
              org-roam-find-file
              org-roam-switch-to-buffer)
   :bind
-  (("C-c n f" . org-roam-find-file)
+  (("C-c n f" . org-roam-node-find)
    ("C-c n g" . org-roam-graph-show)
    ("C-c n i" . org-roam-insert)
    ("C-c n I" . org-roam-insert-immediate)
-   ("C-c n b" . org-roam-switch-to-buffer))
+   ("C-c n b" . org-roam-switch-to-buffer)
+   ("C-c n t" . org-roam-dailies-goto-today))
   :custom
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-directory sm/org-roam-dir)
   (org-roam-capture-templates
-   '(("d" "default" plain (function org-roam--capture-get-point)
-      "%?"
-      :file-name "${slug}"
+   '(("d" "default" plain "%?"
+      :target (file+head "${slug}.org"
+                         "#+title: ${title}\n")
       :unnarrowed t)))
   (org-roam-completion-system 'ivy)
+  (org-roam-dailies-directory "journal/")
+  (org-roam-dailies-capture-templates
+   '(("d" "default" plain "%?"
+      :if-new (file+head "%<%Y-%m-%d>.org"
+                         "#+title: %<%A, %Y-%m-%d>\n\n")
+      :unnarrowed t)))
   :config
   (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
-
-;; For temporary notes and journaling.
-(use-package org-journal
-  :commands (org-journal-new-entry org-journal-today)
-  :bind
-  ("C-c n j" . org-journal-new-entry)
-  ("C-c n t" . org-journal-today)
-  :config
-  (setq org-journal-date-prefix "#+title: "
-        org-journal-file-format "%Y-%m-%d.org"
-        org-journal-date-format "%A, %Y-%m-%d"
-        org-journal-dir sm/org-journal-dir
-        org-journal-carryover-items nil)
-  (defun org-journal-today ()
-    (interactive)
-    (org-journal-new-entry t)))
 
 (use-package deft
   :custom (deft-directory sm/org-roam-dir))
