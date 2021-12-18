@@ -9,8 +9,13 @@
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
   :config
-  (use-package lsp-python-ms
-    :init (require 'lsp-python-ms))
+  (use-package lsp-pyright
+    :straight `(lsp-pyright :repo "emacs-lsp/lsp-pyright"
+                            :host github)
+    :ensure t
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-pyright)
+                           (lsp))))
   (use-package py-isort)
   (use-package python-black)
   :hook (
