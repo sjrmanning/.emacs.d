@@ -4,11 +4,17 @@
 (use-package projectile
   :delight projectile-mode
   :commands (projectile-mode projectile-global-mode)
-  :bind ("C-c p a" . projectile-ag)
+  :bind ;;; ("C-c p r" . projectile-ripgrep)
+  (:map projectile-mode-map
+        ("s-p" . projectile-command-map)
+        ("C-c p" . projectile-command-map))
   :init
   (add-hook 'after-init-hook 'projectile-global-mode)
-  (setq projectile-completion-system 'ivy)
+  ;; (setq projectile-completion-system 'ivy)
+  ;; set to default so that it uses "completing-read" (and selectrum)
+  (setq projectile-completion-system 'default)
   :config
+  (use-package projectile-ripgrep)
   ;; Ensure projectile dir exists.
   (defvar my-projectile-dir (sm/cache-for "projectile"))
   (sm/mkdir-p my-projectile-dir)
