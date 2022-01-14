@@ -122,6 +122,7 @@ This buffer is for text that is not saved.")
 
 ;; Misc.
 (setq inhibit-startup-message t)
+(setq-default indicate-empty-lines t)
 (global-font-lock-mode t)
 
 (setq comment-empty-lines 'eol)

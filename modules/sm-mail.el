@@ -1,8 +1,8 @@
 ;;; sm-mail.el --- VM and BBDB and oh my!
 
 ;; don't bother with this, except on my laptop...
-;; (when (string= (system-name) "alice.local")
-(when (string-match "^alice" (system-name))
+;; (when (string= (system-name) "alec.local")
+(when (string-match "^alec" (system-name))
   (use-package ebdb
     :straight (ebdb :type git :host github :repo "girzel/ebdb"
                     )
@@ -85,6 +85,7 @@
 
     :init
     (require 'cl)
+    (require 'vm-pgg)
     :config
     ;; Make VM your default mail agent in Emacs
     (setq mail-user-agent 'vm-user-agent)
@@ -101,7 +102,8 @@
     (setq vm-highlighted-header-regexp "^\From\\|^Subject")
     (setq vm-move-after-deleting t)
     (setq vm-preview-lines nil)
-    (setq vm-startup-with-summary 0)
+    (setq vm-startup-with-summary 1)
+    (setq vm-summary-format "%n %*%a %-17.17F %-3.3m %2d %5l/%-7c %I\"%s\"\n")
     (setq vm-reply-subject-prefix "Re: ")
     (setq vm-visit-when-saving t)
     (setq vm-window-configuration-file "~/.vm.windows")

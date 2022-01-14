@@ -3,10 +3,10 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "Inconsolata LGC")
-(defvar sm/fixed-font-weight 'normal)
-(defvar sm/var-font-name "SF Pro Text")
-(defvar sm/font-height 120)
+(defvar sm/fixed-font-name "InconsolataGo Nerd Font Mono")
+(defvar sm/fixed-font-weight 'regular)
+(defvar sm/var-font-name "InconsolataGo Nerd Font Mono")
+(defvar sm/font-height 160)
 
 ;; Native line numbers and fringe setup.
 (setq-default display-line-numbers-width 4)

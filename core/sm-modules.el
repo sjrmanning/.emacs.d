@@ -24,6 +24,9 @@
 (setq straight-use-package-by-default t)
 (setq use-package-always-defer t)
 
+(setq byte-compile-warnings '(cl-functions))
+(require 'use-package)
+
 ;; Hook up use-package's support for chords (simultaneous pairs and/or
 ;; rapid pairs of keystrokes).  This obviates explicitly loading the
 ;; keychord package.
