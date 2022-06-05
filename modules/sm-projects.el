@@ -32,6 +32,7 @@
   :init (add-hook 'after-init-hook 'persp-mode)
   :config
   (setq persp-initial-frame-name "notes")
+  (setq persp-suppress-no-prefix-key-warning t)
   (defun persp-next ()
     (interactive)
     (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
