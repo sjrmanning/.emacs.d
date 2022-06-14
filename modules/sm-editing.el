@@ -221,11 +221,11 @@
     (modify-coding-system-alist 'file "\\.Z\\'" 'no-conversion)
     ))
 
-;; allow me to use (markdown-hide-body) in a file-local-variable,
+;; allow me to use (outline-hide-body) in a file-local-variable,
 ;; e.g. in one of my encrypted gpg files...
 (add-to-list
  'safe-local-eval-forms
- '(markdown-hide-body))
+ '(outline-hide-body))
 
 (use-package writegood-mode)
 
