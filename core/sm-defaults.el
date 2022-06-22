@@ -10,11 +10,10 @@
 ;; Set home dir.
 (cd (expand-file-name "~/"))
 
-;; Fix mac-port defaults.
+;; Mac defaults.
+;; Using emacs-plus@29, no longer needing to change binds for meta.
 (when (equal system-type 'darwin)
-  (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'meta)
-  (global-set-key [(super v)] 'yank)
   (global-set-key [(super q)] 'save-buffers-kill-emacs))
 
 ;; Frame title formatting.

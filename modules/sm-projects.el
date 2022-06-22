@@ -4,6 +4,7 @@
 (use-package projectile
   :delight projectile-mode
   :commands (projectile-mode projectile-global-mode projectile-find-file projectile-project-p)
+  :custom (shell-file-name "/bin/bash")
   :config
   (setq projectile-completion-system 'default)
   ;; Ensure projectile dir exists.
@@ -20,6 +21,8 @@
 ;; perspective
 (use-package perspective
   :hook (after-init . persp-mode)
+  :bind ("C-x b" . persp-ivy-switch-buffer)
+  :custom (persp-mode-prefix-key (kbd "C-x x"))
   :config
   (setq persp-initial-frame-name "notes")
   (defun persp-next ()

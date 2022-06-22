@@ -3,7 +3,7 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "Offlig D")
+(defvar sm/fixed-font-name "iA Writer Mono V")
 (defvar sm/fixed-font-weight 'normal)
 (defvar sm/var-font-name "iA Writer Quattro V")
 

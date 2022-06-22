@@ -132,7 +132,7 @@
              org-roam-find-file
              org-roam-switch-to-buffer)
   :bind
-  (("C-c n f" . org-roam-node-find)
+  (("C-c n f" . #'org-roam-node-find)
    ("C-c n g" . org-roam-graph-show)
    ("C-c n i" . org-roam-insert)
    ("C-c n I" . org-roam-insert-immediate)

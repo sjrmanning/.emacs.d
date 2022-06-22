@@ -10,12 +10,12 @@
 ;; Straight will native-compile packages unless specified not to.
 ;; I'm disabling deferred-compilation here since it will try to native-compile
 ;; packages even if you've explicitly avoided native-compilation via straight.
-(setq comp-speed 2
+(setq native-comp-speed 2
       comp-deferred-compilation nil)
-(setq straight--wait-for-async-jobs nil)
+(setq straight--wait-for-async-jobs t)
 
 ;; Tell GCC Emacs in GUI mode where to find libgccjit.
-(setenv "LIBRARY_PATH" "/usr/local/opt/gcc/lib/gcc/10")
+(setenv "LIBRARY_PATH" "/opt/brew/Cellar/libgccjit/11.3.0/lib/gcc/11")
 
 ;; Using straight means we don't want to initialize package.el at all.
 (setq package-enable-at-startup nil)
