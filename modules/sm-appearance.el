@@ -8,9 +8,11 @@
 (defvar sm/var-font-name "iA Writer Quattro V")
 
 ;; Quick workaround to help switching between retina 13" and 27" 1440p.
+(defvar sm/dynamic-font-height nil)
 (defvar sm/font-height
-  (if (< (display-pixel-height) 1600)
-      150 130))
+  (cond ((eq sm/dynamic-font-height t)
+         (if (< (display-pixel-height) 1600) 150 130))
+        (t 150)))
 
 ;; Appearance style can be light or dark.
 ;; Setting this here swaps between themes

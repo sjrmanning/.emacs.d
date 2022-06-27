@@ -6,7 +6,7 @@
   :hook ((prog-mode comint-mode org-mode) . company-mode)
   :config
   ;; Company settings.
-  (setq-default company-backends (remove 'company-eclim company-backends))
+  (setq-default company-backends (remove 'company-dabbrev company-backends))
   (setq company-tooltip-limit 20)
   (setq company-idle-delay 0.25)
   (setq company-echo-delay 0)
@@ -15,7 +15,6 @@
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous)
-  (setq company-backends (remove 'company-clang company-backends))
   (setq company-backends
         (mapcar #'sm/backend-with-yas company-backends)))
 

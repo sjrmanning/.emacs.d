@@ -36,7 +36,7 @@
 (setq sm/modules
       '(sm-appearance
         sm-coding-cc
-        sm-coding-elixir
+        ;; sm-coding-elixir
         sm-coding-general
         sm-coding-go
         sm-coding-java

@@ -11,9 +11,9 @@
 (cd (expand-file-name "~/"))
 
 ;; Mac defaults.
-;; Using emacs-plus@29, no longer needing to change binds for meta.
 (when (equal system-type 'darwin)
   (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'meta)
   (global-set-key [(super q)] 'save-buffers-kill-emacs))
 
 ;; Frame title formatting.
