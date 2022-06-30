@@ -45,18 +45,18 @@
         sm-coding-ruby
         sm-coding-swift
         sm-coding-web
-        sm-company
+        sm-complete
         sm-editing
         sm-navigation
         sm-notes
+        sm-path
         sm-projects
         sm-searching
         sm-snippets
         sm-source-control
         sm-ui
         sm-utils
-        sm-writing
-        sm-path))
+        sm-writing))
 
 (defun sm/load-modules ()
   (interactive)

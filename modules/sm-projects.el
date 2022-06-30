@@ -21,7 +21,7 @@
 ;; perspective
 (use-package perspective
   :hook (after-init . persp-mode)
-  :bind ("C-x b" . persp-ivy-switch-buffer)
+  :bind ("C-x b" . persp-switch-to-buffer*)
   :custom (persp-mode-prefix-key (kbd "C-x x"))
   :config
   (setq persp-initial-frame-name "notes")

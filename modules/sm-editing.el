@@ -44,8 +44,7 @@
 ;; Crux (Collection of Ridiculously Useful eXtensions)
 ;; Replaces a lot of my old defuns and bindings.
 (use-package crux
-  :bind (("C-x C-r" . crux-recentf-find-file)
-         ("C-a" . crux-move-beginning-of-line)
+  :bind (("C-a" . crux-move-beginning-of-line)
          ("<S-return>" . crux-smart-open-line)
          ("C-c R" . crux-rename-buffer-and-file)
          ("C-c D" . crux-delete-buffer-and-file)

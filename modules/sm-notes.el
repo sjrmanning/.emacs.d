@@ -48,8 +48,6 @@
          ("C-c l" . org-store-link))
   :hook (org-mode . org-indent-mode)
   :config
-  ;; Enable company, mainly for org-roam.
-  (company-mode t)
   ;; Follow links in the same window.
   (setcdr (assoc 'file org-link-frame-setup) 'find-file)
   (setq org-catch-invisible-edits 'show-and-error
@@ -122,22 +120,37 @@
            (file ,(org-file-path "reading.org"))
            ,sm/org-basic-task-template :empty-lines 1))))
 
+(use-package md-roam
+  :delight
+  :straight (md-roam :type git :host github :repo "nobiot/md-roam")
+  :custom
+  (org-roam-file-extensions '("md" "org"))
+  :config
+  ;; corfu support.
+  (add-hook 'markdown-mode-hook #'corfu-mode)
+  (with-eval-after-load 'markdown-mode
+    (advice-add #'markdown-indent-line :before-until #'completion-at-point))
+  ;; Add Markdown option to templates.
+  (add-to-list 'org-roam-capture-templates
+               '("m" "Markdown" plain "" :target
+                 (file+head "${slug}.md"
+                            "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
+                 :unnarrowed t)))
+
 ;; org-roam for capturing and organizing notes.
 (use-package org-roam
   :hook (org-roam-backlinks-mode . turn-on-visual-line-mode)
-  :hook (org-load . org-roam-mode)
-  :init (setq org-roam-v2-ack t)
   :commands (org-roam-buffer-toggle-display
              org-roam-insert
              org-roam-find-file
              org-roam-switch-to-buffer)
   :bind
   (("C-c n f" . #'org-roam-node-find)
-   ("C-c n g" . org-roam-graph-show)
-   ("C-c n i" . org-roam-insert)
-   ("C-c n I" . org-roam-insert-immediate)
-   ("C-c n b" . org-roam-switch-to-buffer)
-   ("C-c n t" . org-roam-dailies-goto-today))
+   ("C-c n g" . #'org-roam-graph-show)
+   ("C-c n i" . #'org-roam-insert)
+   ("C-c n I" . #'org-roam-insert-immediate)
+   ("C-c n b" . #'org-roam-switch-to-buffer)
+   ("C-c n t" . #'org-roam-dailies-goto-today))
   :custom
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-directory sm/org-roam-dir)
@@ -154,7 +167,16 @@
                          "#+title: %<%A, %Y-%m-%d>\n\n")
       :unnarrowed t)))
   :config
+  (md-roam-mode t)
+  (consult-org-roam-mode t)
+  (org-roam-db-autosync-mode t)
+  (corfu-mode t)
   (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
+
+(use-package consult-org-roam
+  :delight
+  :custom
+  (consult-org-roam-grep-func #'consult-ripgrep))
 
 (use-package deft
   :custom (deft-directory sm/org-roam-dir))

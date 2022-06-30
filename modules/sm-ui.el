@@ -11,62 +11,92 @@
 (use-package smooth-scrolling
   :hook (after-init . smooth-scrolling-mode))
 
-;; ivy everywhere
-(use-package ivy
-  :commands ivy-mode
-  :hook (after-init . ivy-mode)
-  :delight ivy-mode
-  :bind (:map ivy-minibuffer-map
-              ("C-j" . ivy-immediate-done)
-              ("RET" . ivy-alt-done))
+;; Vertico / orderless / marginalia et al.
+(use-package marginalia
+  :custom
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'left)
+  :init
+  (marginalia-mode))
+
+(use-package all-the-icons)
+
+(use-package all-the-icons-completion
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
+
+(use-package vertico
+  :straight (vertico :files (:defaults "extensions/*")
+                     :includes (;; vertico-indexed
+                                ;; vertico-flat
+                                ;; vertico-grid
+                                ;; vertico-mouse
+                                ;; vertico-quick
+                                ;; vertico-buffer
+                                ;; vertico-repeat
+                                ;; vertico-reverse
+                                vertico-directory
+                                ;; vertico-multiform
+                                ;; vertico-unobtrusive
+                                ))
+  :init (vertico-mode)
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word)))
+
+(use-package savehist
+  :custom (savehist-file (no-littering-expand-var-file-name "savehist.el"))
   :config
-  (ivy-prescient-mode t)
-  (setq ivy-use-virtual-buffers t
-        ivy-virtual-abbreviate 'full
-        ivy-on-del-error-function nil
-        ivy-use-selectable-prompt t
-        enable-recursive-minibuffers t
-        ivy-re-builders-alist
-        '((swiper . ivy--regex-plus)
-          (swiper-isearch . ivy--regex-plus)
-          (counsel-ag . ivy--regex-plus)
-          (counsel-rg . ivy--regex-plus)
-          (t . ivy-prescient-re-builder))))
+  (setq savehist-autosave-interval nil
+        savehist-additional-variables
+        '(register-alist
+          mark-ring global-mark-ring
+          search-ring regexp-search-ring
+          ;; extended-command-history))
+          ))
+  :init
+  (savehist-mode))
+
+(use-package vertico-directory
+  :after vertico
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (orderless-component-separator 'orderless-escapable-split-on-space)
+  (orderless-matching-styles
+   '(orderless-literal
+     orderless-prefixes
+     orderless-initialism
+     orderless-regexp
+     orderless-flex)))
+
+(use-package consult
+  :bind (("C-c s" . consult-ripgrep)
+         ("C-x C-r" . consult-recent-file)))
 
 (use-package swiper
   :commands swiper
   :bind (("C-s" . swiper-isearch)
-         ("C-r" . swiper-isearch-backward)
-         (:map swiper-map
-               ("C-r" . ivy-previous-line))))
-
-(use-package counsel
-  :after ivy
-  :commands (counsel-M-x counsel-find-file counsel-rg)
-  :delight counsel-mode
-  :bind
-  (("M-x" . counsel-M-x)
-   ("C-x C-f" . counsel-find-file)
-   ("C-c s" . counsel-rg))
-  :config
-  (setq ivy-initial-inputs-alist nil))
-
-(use-package ivy-prescient
-  :commands ivy-prescient-mode
-  :custom
-  (prescient-filter-method '(literal regexp initialism fuzzy))
-  (ivy-prescient-retain-classic-highlighting t)
-  :config
-  (prescient-persist-mode t))
+         ("C-r" . swiper-isearch-backward)))
 
 (use-package which-key
-  :delight which-key-mode
+  :delight
   :hook (after-init . which-key-mode)
   :config
   (which-key-setup-side-window-bottom)
   (setq which-key-sort-order 'which-key-key-order-alpha
         which-key-side-window-max-width 0.33
-        which-key-idle-delay 0.5))
+        which-key-idle-delay 1.0))
 
 ;; diminish some modes.
 (use-package simple
