@@ -5,7 +5,7 @@
   "Find files using projectile if within a project, or fall-back to `find-file'."
   (interactive)
   (if (projectile-project-p)
-      (projectile-find-file)
+      (consult-projectile-find-file)
     (call-interactively 'find-file)))
 
 (bind-key "C-x f" #'sm/smart-find-file)

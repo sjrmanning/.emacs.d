@@ -84,6 +84,8 @@
   :bind (("C-c s" . consult-ripgrep)
          ("C-x C-r" . consult-recent-file)))
 
+(use-package consult-projectile)
+
 (use-package swiper
   :commands swiper
   :bind (("C-s" . swiper-isearch)
