@@ -81,6 +81,7 @@
      orderless-flex)))
 
 (use-package consult
+  :custom (consult-project-function #'projectile-project-root)
   :bind (("C-c s" . consult-ripgrep)
          ("C-x C-r" . consult-recent-file)))
 

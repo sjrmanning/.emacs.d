@@ -3,7 +3,7 @@
 ;; projectile
 (use-package projectile
   :delight projectile-mode
-  :commands (projectile-mode projectile-global-mode projectile-find-file projectile-project-p)
+  :commands (projectile-mode projectile-global-mode projectile-find-file projectile-project-p projectile-project-root)
   :custom (shell-file-name "/bin/bash")
   :config
   (setq projectile-completion-system 'default)
