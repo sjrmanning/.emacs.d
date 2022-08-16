@@ -12,6 +12,8 @@
 (setq-default display-line-numbers-width 4)
 
 (use-package distinguished-theme)
+(use-package moe-theme)
+(use-package clues-theme)
 
 (add-hook 'after-init-hook
           (lambda nil
@@ -35,13 +37,19 @@
              :family sm/var-font-name))
           (if (display-graphic-p)
               ;; (load-theme 'wombat t)
-              (load-theme 'distinguished t)
+              ;;; (load-theme 'distinguished t)
+              ;;;
+              ;;; (load-theme 'moe-dark t)
+              (load-theme 'clues t)
             ;; (load-theme 'heroku t)
             ;; dark theme, very contrasty.
             ;; (load-theme 'manoj-dark t)
             ;; (load-theme 'tsdh-dark t)
             ;; (load-theme 'wombat t)
-            (load-theme 'distinguished t)
+            ;;; (load-theme 'distinguished t)
+            ;;;
+            ;;; (load-theme 'moe-dark t)
+            (load-theme 'clues t)
             ))
 
 (use-package rainbow-mode
