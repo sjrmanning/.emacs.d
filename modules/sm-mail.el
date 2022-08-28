@@ -64,10 +64,10 @@
   (defun my-vm-build (package &rest _)
     (when (string= package "vm")
       (let ((default-directory (straight--repos-dir "vm")))
-        (straight--get-call "autoconf")
-        (straight--get-call (concat default-directory "/configure")
-                            (concat "--with-other-dirs=" (straight--build-dir "bbdb")))
-        (straight--get-call "make")))
+        (straight--process-call "autoconf")
+        (straight--process-call (concat default-directory "/configure")
+                                (concat "--with-other-dirs=" (straight--build-dir "bbdb")))
+        (straight--process-call "make")))
     )
   (add-hook 'straight-use-package-pre-build-functions #'my-vm-build)
 
@@ -85,7 +85,8 @@
 
     :init
     (require 'cl)
-    (require 'vm-pgg)
+    ;; (require 'vm-pgg)
+    (require 'vm-vars)
     :config
     ;; Make VM your default mail agent in Emacs
     (setq mail-user-agent 'vm-user-agent)
