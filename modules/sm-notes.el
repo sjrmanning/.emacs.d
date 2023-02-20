@@ -41,7 +41,6 @@
   :init (add-hook 'org-mode-hook #'org-bullets-mode))
 
 (use-package org
-  :straight (:type built-in)
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
@@ -54,6 +53,9 @@
         org-cycle-separator-lines 1
         org-hide-emphasis-markers t
         org-use-speed-commands t
+        org-edit-src-content-indentation 0
+        org-src-tab-acts-natively t
+        org-src-preserve-indentation t
         org-startup-indented t
         org-return-follows-link t
         org-hide-leading-stars t

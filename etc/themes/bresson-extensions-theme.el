@@ -23,6 +23,10 @@
  `(font-lock-keyword-face ((t (:weight semibold))))
  `(font-lock-comment-delimiter-face ((t (:foreground "#aebfbf"))))
 
+ `(corfu-default ((t (:background "#f0ebe1" :foreground "#002b36"))))
+ `(corfu-current ((t (:foreground "#247374" :background "#bedfcf"))))
+ `(corfu-bar ((t (:background "#073642"))))
+
  ;; (set-face-attribute 'font-lock-comment-face nil :foreground "#1a1a1a" :background "#f0ebe1" :weight 'normal) ;; idea for emphasizing comments
  )
 

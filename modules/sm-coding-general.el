@@ -53,15 +53,13 @@
   :mode (("\\.proto$" . protobuf-mode)
          ("\\.proto3$" . protobuf-mode)))
 
-;; tree-sitter
-(use-package tree-sitter
-  :ensure t
-  :config
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+;; Lua
+(use-package lua-mode
+  :mode (("\\.lua$" . lua-mode)))
 
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+;; topsy
+;; Sticky header showing parent definitions of top line.
+(use-package topsy
+  :hook (prog-mode . topsy-mode))
 
 (provide 'sm-coding-general)

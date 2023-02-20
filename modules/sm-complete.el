@@ -7,7 +7,8 @@
 ;;; Code:
 
 (use-package corfu
-  :hook ((lsp-completion-mode . #'sm/corfu-setup-lsp)
+  :straight (:files (:defaults "extensions/*"))
+  :hook ((lsp-completion-mode . sm/corfu-setup-lsp)
          (prog-mode . corfu-mode)
          (shell-mode . corfu-mode)
          (org-mode . corfu-mode))
@@ -32,6 +33,7 @@
   (corfu-quit-at-boundary nil)
   (corfu-echo-documentation nil)
   (lsp-completion-provider :none)
+  (corfu-popupinfo-mode t)
 
   :config
   (defun sm/corfu-setup-lsp ()
@@ -51,31 +53,10 @@ default lsp-passthrough."
   :init
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(use-package corfu-doc
-  :after corfu
-  :hook (corfu-mode . corfu-doc-mode)
-  :bind (:map corfu-map
-	            ([remap corfu-show-documentation] . #'corfu-doc-toggle)
-	            ("M-n" . #'corfu-doc-scroll-up)
-              ("M-p" . #'corfu-doc-scroll-down))
-  :custom
-  (corfu-doc-delay 0.5)
-  (corfu-doc-max-width 70)
-  (corfu-doc-max-height 20)
-  (corfu-echo-documentation nil))
-
 (use-package corfu-terminal
   :unless window-system
   :after corfu
   :hook (corfu-mode . corfu-terminal-mode))
-
-(use-package corfu-doc-terminal
-  :unless window-system
-  :straight
-  (:type git
-	       :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal.git")
-  :after corfu
-  :hook (corfu-mode . corfu-doc-terminal-mode))
 
 ;;; _
 (provide 'sm-complete)

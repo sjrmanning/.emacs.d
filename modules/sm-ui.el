@@ -7,6 +7,17 @@
 ;; Overrides Emacs' default mechanism for making buffer names unique.
 (setq uniquify-buffer-name-style 'forward)
 
+(use-package gcmh
+  :delight (gcmh-mode)
+  :commands (gcmh-mode)
+  :functions (gcmh-idle-garbage-collect)
+  :custom
+  (gcmh-idle-delay 'auto)
+  (gcmh-high-cons-threshold (* 16 1024 1024))
+  (gcmh-verbose nil)
+  :hook
+  (emacs-startup . gcmh-mode))
+
 ;; Smooth scrolling.
 (use-package smooth-scrolling
   :hook (after-init . smooth-scrolling-mode))
@@ -48,17 +59,14 @@
               ("M-DEL" . vertico-directory-delete-word)))
 
 (use-package savehist
+  :hook (after-init . savehist-mode)
   :custom (savehist-file (no-littering-expand-var-file-name "savehist.el"))
   :config
   (setq savehist-autosave-interval nil
         savehist-additional-variables
         '(register-alist
           mark-ring global-mark-ring
-          search-ring regexp-search-ring
-          ;; extended-command-history))
-          ))
-  :init
-  (savehist-mode))
+          search-ring regexp-search-ring)))
 
 (use-package vertico-directory
   :after vertico
