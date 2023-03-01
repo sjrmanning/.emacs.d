@@ -2,8 +2,6 @@
 
 (use-package elixir-mode
   :interpreter "elixir"
-  :hook (elixir-mode . lsp)
-  :custom (lsp-clients-elixir-server-executable
-           "/usr/local/bin/elixir-ls/language_server.sh"))
+  :mode "\\.ex$")
 
 (provide 'sm-coding-elixir)

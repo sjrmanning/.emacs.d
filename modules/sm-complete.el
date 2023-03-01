@@ -7,18 +7,20 @@
 ;;; Code:
 
 (use-package corfu
-  :straight (:files (:defaults "extensions/*"))
-  :hook ((lsp-completion-mode . sm/corfu-setup-lsp)
-         (prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (org-mode . corfu-mode))
+  :straight (:files (:defaults "extensions/*")
+                    :includes (corfu-info corfu-history))
+  :hook (prog-mode shell-mode org-mode)
   :bind (:map corfu-map
 	            ("C-n" . #'corfu-next)
               ("C-p" . #'corfu-previous)
               ("<escape>" . #'corfu-quit)
 	            ("<return>" . #'corfu-insert)
-	            ("M-d" . #'corfu-show-documentation)
-              ("M-l" . #'corfu-show-location))
+	            ("M-d" . #'corfu-info-documentation)
+              ("M-l" . #'corfu-info-location)
+              ("M-n" . #'corfu-popupinfo-scroll-up)
+              ("M-p" . #'corfu-popupinfo-scroll-down))
+  :config
+  (corfu-popupinfo-mode t)
   :custom
   (tab-always-indent 'complete)
   (completion-cycle-threshold nil)
@@ -30,17 +32,12 @@
   (corfu-count 14)
   (corfu-scroll-margin 4)
   (corfu-cycle nil)
-  (corfu-quit-at-boundary nil)
-  (corfu-echo-documentation nil)
-  (lsp-completion-provider :none)
-  (corfu-popupinfo-mode t)
+  (corfu-popupinfo-delay t))
 
-  :config
-  (defun sm/corfu-setup-lsp ()
-    "Use orderless completion style with lsp-capf instead of the
-default lsp-passthrough."
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))))
+(use-package cape
+  :after corfu
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-file))
 
 (use-package kind-icon
   :after corfu

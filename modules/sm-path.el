@@ -6,6 +6,7 @@
 
 ;; `exec-path-from-shell' is kind of slow, so set up a reasonable PATH env
 ;; here. This may need some extension in the future to include rbenv support.
-(setenv "PATH" "/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")
+;; This is only needed when PATH isn't injected (e.g. with emacs-plus)
+;; (setenv "PATH" "/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Python.framework/Versions/3.9/bin")
 
 (provide 'sm-path)

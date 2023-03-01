@@ -3,8 +3,6 @@
 ;; Prepare paths.
 (add-to-list 'load-path (expand-file-name "core/" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "modules/" user-emacs-directory))
-(add-to-list 'exec-path "/usr/local/bin")
-(add-to-list 'exec-path "/opt/homebrew/bin")
 
 ;; Set up some sane defaults.
 (require 'sm-defaults)

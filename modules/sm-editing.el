@@ -1,8 +1,9 @@
-;; Delete marked text on typing
-(delete-selection-mode t)
-
-;; Soft-wrap lines
-(global-visual-line-mode t)
+(add-hook 'after-init-hook
+          (lambda nil
+            ;; Delete marked text on typing
+            (delete-selection-mode t)
+            ;; Soft-wrap lines
+            (global-visual-line-mode t)))
 
 ;; Require newline at end of file.
 (setq require-final-newline t)
@@ -73,22 +74,6 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-;; smartparens
-(use-package smartparens
-  :hook
-  (after-init . (lambda ()
-                  (smartparens-global-mode t)
-                  (show-smartparens-global-mode t)))
-  :delight " ()"
-  :bind
-  ((:map sp-keymap)
-   ("C-M-f" . sp-forward-sexp)
-   ("C-M-b" . sp-backward-sexp)
-   ("C-M-n" . sp-next-sexp)
-   ("C-M-p" . sp-previous-sexp)
-   ("C-M-k" . sp-kill-sexp)
-   ("C-M-w" . sp-copy-sexp)))
-
 ;; browse-kill-ring
 (use-package browse-kill-ring
   :bind ("M-y" . browse-kill-ring))
@@ -98,6 +83,10 @@
 (use-package whitespace-cleanup-mode
   :delight whitespace-cleanup-mode
   :hook ((text-mode prog-mode) . whitespace-cleanup-mode))
+
+(use-package electric
+  :straight (:type built-in)
+  :hook (after-init . electric-pair-mode))
 
 ;; subword
 (use-package subword

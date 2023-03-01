@@ -124,6 +124,7 @@
 
 (use-package md-roam
   :delight
+  :after org-roam
   :straight (md-roam :type git :host github :repo "nobiot/md-roam")
   :custom
   (org-roam-file-extensions '("md" "org"))
@@ -141,7 +142,7 @@
 
 ;; org-roam for capturing and organizing notes.
 (use-package org-roam
-  :hook (org-roam-backlinks-mode . turn-on-visual-line-mode)
+  :hook (org-roam-backlinks . turn-on-visual-line-mode)
   :commands (org-roam-buffer-toggle-display
              org-roam-insert
              org-roam-find-file
@@ -176,6 +177,7 @@
   (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
 
 (use-package consult-org-roam
+  :after org-roam
   :delight
   :custom
   (consult-org-roam-grep-func #'consult-ripgrep))

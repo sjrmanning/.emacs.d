@@ -8,15 +8,14 @@
 (setq uniquify-buffer-name-style 'forward)
 
 (use-package gcmh
-  :delight (gcmh-mode)
-  :commands (gcmh-mode)
+  :delight
+  :hook emacs-startup
+  :commands gcmh-mode
   :functions (gcmh-idle-garbage-collect)
   :custom
   (gcmh-idle-delay 'auto)
   (gcmh-high-cons-threshold (* 16 1024 1024))
-  (gcmh-verbose nil)
-  :hook
-  (emacs-startup . gcmh-mode))
+  (gcmh-verbose nil))
 
 ;; Smooth scrolling.
 (use-package smooth-scrolling
@@ -24,13 +23,13 @@
 
 ;; Vertico / orderless / marginalia et al.
 (use-package marginalia
+  :hook after-init
   :custom
   (marginalia-max-relative-age 0)
-  (marginalia-align 'left)
-  :init
-  (marginalia-mode))
+  (marginalia-align 'left))
 
-(use-package all-the-icons)
+(use-package all-the-icons
+  :after marginalia)
 
 (use-package all-the-icons-completion
   :after (marginalia all-the-icons)
@@ -52,14 +51,14 @@
                                 ;; vertico-multiform
                                 ;; vertico-unobtrusive
                                 ))
-  :init (vertico-mode)
+  :hook (after-init)
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word)))
 
 (use-package savehist
-  :hook (after-init . savehist-mode)
+  :hook (after-init)
   :custom (savehist-file (no-littering-expand-var-file-name "savehist.el"))
   :config
   (setq savehist-autosave-interval nil
@@ -93,7 +92,8 @@
   :bind (("C-c s" . consult-ripgrep)
          ("C-x C-r" . consult-recent-file)))
 
-(use-package consult-projectile)
+(use-package consult-projectile
+  :commands consult-projectile-find-file)
 
 (use-package swiper
   :commands swiper
@@ -102,12 +102,17 @@
 
 (use-package which-key
   :delight
-  :hook (after-init . which-key-mode)
+  :hook after-init
   :config
   (which-key-setup-side-window-bottom)
   (setq which-key-sort-order 'which-key-key-order-alpha
         which-key-side-window-max-width 0.33
         which-key-idle-delay 1.0))
+
+;; For C-x C-r (`consult-recent-file'), need recentf-mode.
+(use-package recentf
+  :after consult
+  :init (recentf-mode t))
 
 ;; diminish some modes.
 (use-package simple

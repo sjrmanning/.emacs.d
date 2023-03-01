@@ -3,12 +3,12 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "iA Writer Mono V")
+(defvar sm/fixed-font-name "iA Writer Mono S")
 (defvar sm/fixed-font-weight 'normal)
 (defvar sm/var-font-name "iA Writer Quattro V")
 
-;; Quick workaround to help switching between retina 13" and 27" 1440p.
-(defvar sm/dynamic-font-height nil)
+;; Quick workaround to help switching between retina / 1440p.
+(defvar sm/dynamic-font-height t)
 (defvar sm/font-height
   (cond ((eq sm/dynamic-font-height t)
          (if (< (display-pixel-height) 1600) 150 130))

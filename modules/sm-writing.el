@@ -26,7 +26,7 @@
 (use-package flyspell
   :delight flyspell-mode
   :commands flyspell-mode
-  :hook (text-mode . flyspell-mode)
+  :hook (text-mode git-commit-mode)
   :config
   (setq ispell-extra-args '("--sug-mode=ultra" "--run-together"))
   (setq flyspell-issue-message-flag nil)

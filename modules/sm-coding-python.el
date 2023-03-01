@@ -3,9 +3,6 @@
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
-  :config
-  (use-package lsp-python-ms
-    :init (require 'lsp-python-ms)
-    :hook (python-mode . lsp)))
+  :config (eglot-ensure))
 
 (provide 'sm-coding-python)

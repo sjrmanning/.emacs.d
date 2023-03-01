@@ -6,6 +6,9 @@
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
 
+;; For native-comp to work ensure LIBRARY_PATH has macOS SDK from Xcode.
+(setenv "LIBRARY_PATH" (concat (substring (shell-command-to-string "/usr/bin/xcrun --show-sdk-path") 0 -1) "/usr/lib"))
+
 ;; GCC Emacs optimization setting.
 (setq native-comp-speed 2)
 
