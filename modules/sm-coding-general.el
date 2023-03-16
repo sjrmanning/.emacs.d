@@ -1,12 +1,39 @@
 ;;; sm-coding-general.el --- General coding-related config.
 
+;; Native line numbers, enabled for any programming mode.
+(use-package display-line-numbers
+  :straight (:type built-in)
+  :hook prog-mode)
+
+;; treesit (using built-in)
+(use-package treesit
+  :straight (:type built-in)
+  :mode ("Dockerfile\\'" . dockerfile-ts-mode)
+  :custom
+  (treesit-extra-load-path (list (sm/emacs.d "etc/treesit-modules")))
+  :init
+  ;; Replace built-in modes with ts equivalent.
+  (dolist (mode
+           '((bash-mode       . bash-ts-mode)
+             (c-mode          . c-ts-mode)
+             (c++-mode        . c++-ts-mode)
+             (c-or-c++-mode   . c-or-c++-ts-mode)
+             (css-mode        . css-ts-mode)
+             (dockerfile-mode . dockerfile-ts-mode)
+             (go-mode         . go-ts-mode)
+             (js-mode         . js-ts-mode)
+             (javascript-mode . js-ts-mode)
+             (js-json-mode    . json-ts-mode)
+             (python-mode     . python-ts-mode)
+             (ruby-mode       . ruby-ts-mode)
+             (typescript-mode . typescript-ts-mode)
+             (yaml-mode       . yaml-ts-mode)))
+    (add-to-list 'major-mode-remap-alist mode)))
+
 ;; EditorConfig.org -- project-local coding style definitions.
 (use-package editorconfig
   :delight
-  :hook prog-mode
-  :config
-  (add-to-list 'editorconfig-indentation-alist
-               '(swift-mode swift-indent-offset)))
+  :hook prog-mode)
 
 (use-package yaml-mode
   :mode ("\\.ya?ml\\'" "Procfile\\'")
@@ -36,7 +63,12 @@
 ;; eglot
 (use-package eglot
   :commands (eglot-ensure eglot)
-  :straight (:type built-in))
+  :straight (:type built-in)
+  :hook
+  ((swift-mode python-mode python-ts-mode) . eglot-ensure)
+  :config
+  (add-to-list 'eglot-server-programs
+               '(swift-mode . ("xcrun" "sourcekit-lsp"))))
 
 ;; protobuf
 (use-package protobuf-mode

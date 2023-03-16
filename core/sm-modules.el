@@ -2,7 +2,7 @@
 
 ;; straight.el tuning
 (setq straight-cache-autoloads t)
-(setq straight-check-for-modifications '(check-on-save))
+(setq straight-check-for-modifications nil)
 
 ;; Temporarily using the develop branch which supports native-compilation.
 (setq straight-repository-branch "develop")
@@ -22,26 +22,21 @@
   (load bootstrap-file nil 'nomessage))
 
 ;; Use `use-package' via straight.el
-(straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
 ;; Defer by default. Most packages should be configured with `:mode' or similar
 ;; but this is a bit safer and sped up init-time.
 ;; For cases where `:mode' etc. don't make sense, `:defer nil' explicitly.
-(setq use-package-always-defer t)
+(setq use-package-always-defer t
+      use-package-expand-minimally t)
 
 ;; Install delight as required by `:delight' with use-package.
 (use-package delight)
 
 (setq sm/modules
       '(sm-appearance
-        sm-coding-cc
-       ;sm-coding-elixir
         sm-coding-general
         sm-coding-go
-        sm-coding-java
-        sm-coding-js
-        sm-coding-python
         sm-coding-ruby
         sm-coding-swift
         sm-coding-web

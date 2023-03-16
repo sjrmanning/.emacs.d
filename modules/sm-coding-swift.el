@@ -2,11 +2,7 @@
 
 ;; swift
 (use-package swift-mode
-  :commands swift-mode
-  :config
-  (eglot-ensure)
-  (add-to-list 'eglot-server-programs
-    '(swift-mode . ("xcrun" "sourcekit-lsp"))))
+  :commands swift-mode)
 
 (use-package flycheck-swift
   :hook (swift-mode . flycheck-swift-setup))

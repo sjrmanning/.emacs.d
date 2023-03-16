@@ -13,21 +13,11 @@
   :hook (after-init . global-auto-revert-mode)
   :delight auto-revert-mode)
 
-;; Native line numbers.
-(add-hook 'prog-mode-hook (lambda () (setq display-line-numbers t)))
-
 ;; Don't use tabs for indent; replace tabs with two spaces.
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
 ;; General editing-related bindings.
-(bind-key "C-w" 'backward-kill-word)
-(bind-key "C-x C-k" 'kill-region)
-(bind-key "C-c C-k" 'kill-region)
-
-(bind-key "<f5>" 'sort-lines)
-(bind-key "C-c b" 'switch-to-previous-buffer)
-
 ;; Cursor movement
 (defun sm/next-line-fast ()
   "Faster `C-n'"
@@ -39,8 +29,11 @@
   (interactive)
   (ignore-errors (previous-line 5)))
 
-(bind-key "C-S-n" 'sm/next-line-fast)
-(bind-key "C-S-p" 'sm/previous-line-fast)
+(bind-key "C-w" #'backward-kill-word)
+(bind-key "C-x C-k" #'kill-region)
+(bind-key "C-S-n" #'sm/next-line-fast)
+(bind-key "C-S-p" #'sm/previous-line-fast)
+(bind-key "<f5>" #'sort-lines)
 
 ;; Crux (Collection of Ridiculously Useful eXtensions)
 ;; Replaces a lot of my old defuns and bindings.
@@ -82,7 +75,7 @@
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
   :delight whitespace-cleanup-mode
-  :hook ((text-mode prog-mode) . whitespace-cleanup-mode))
+  :hook (text-mode prog-mode))
 
 (use-package electric
   :straight (:type built-in)

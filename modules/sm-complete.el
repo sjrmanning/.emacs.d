@@ -7,8 +7,10 @@
 ;;; Code:
 
 (use-package corfu
-  :straight (:files (:defaults "extensions/*")
-                    :includes (corfu-info corfu-history))
+  :straight
+  (:files (:defaults "extensions/*")
+          :includes (corfu-info corfu-history)
+          :not autoloads)
   :hook (prog-mode shell-mode org-mode)
   :bind (:map corfu-map
 	            ("C-n" . #'corfu-next)

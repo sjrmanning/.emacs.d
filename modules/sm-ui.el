@@ -1,11 +1,13 @@
 ;;; sm-ui.el --- UI niceties.
 
 ;; Bind for toggling fullscreen.
-(bind-key "C-c M-f" 'toggle-frame-fullscreen)
+(use-package frame
+  :straight (:type built-in)
+  :bind ("C-c M-f" . toggle-frame-fullscreen))
 
 ;; uniquify
 ;; Overrides Emacs' default mechanism for making buffer names unique.
-(setq uniquify-buffer-name-style 'forward)
+(setq-default uniquify-buffer-name-style 'forward)
 
 (use-package gcmh
   :delight
@@ -19,7 +21,7 @@
 
 ;; Smooth scrolling.
 (use-package smooth-scrolling
-  :hook (after-init . smooth-scrolling-mode))
+  :hook after-init)
 
 ;; Vertico / orderless / marginalia et al.
 (use-package marginalia
@@ -29,13 +31,13 @@
   (marginalia-align 'left))
 
 (use-package all-the-icons
-  :after marginalia)
+  :if (display-graphic-p))
 
 (use-package all-the-icons-completion
-  :after (marginalia all-the-icons)
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  :init
-  (all-the-icons-completion-mode))
+  :if (display-graphic-p)
+  :after marginalia
+  :hook ((after-init)
+         (marginalia-mode . all-the-icons-completion-marginalia-setup)))
 
 (use-package vertico
   :straight (vertico :files (:defaults "extensions/*")
@@ -51,18 +53,18 @@
                                 ;; vertico-multiform
                                 ;; vertico-unobtrusive
                                 ))
-  :hook (after-init)
+  :hook after-init
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word)))
 
 (use-package savehist
-  :hook (after-init)
-  :custom (savehist-file (no-littering-expand-var-file-name "savehist.el"))
-  :config
-  (setq savehist-autosave-interval nil
-        savehist-additional-variables
+  :hook after-init
+  :custom
+  (savehist-file (no-littering-expand-var-file-name "savehist.el"))
+  (savehist-autosave-interval nil)
+  (savehist-additional-variables
         '(register-alist
           mark-ring global-mark-ring
           search-ring regexp-search-ring)))
@@ -96,7 +98,6 @@
   :commands consult-projectile-find-file)
 
 (use-package swiper
-  :commands swiper
   :bind (("C-s" . swiper-isearch)
          ("C-r" . swiper-isearch-backward)))
 
@@ -109,11 +110,6 @@
         which-key-side-window-max-width 0.33
         which-key-idle-delay 1.0))
 
-;; For C-x C-r (`consult-recent-file'), need recentf-mode.
-(use-package recentf
-  :after consult
-  :init (recentf-mode t))
-
 ;; diminish some modes.
 (use-package simple
   :straight nil
@@ -121,5 +117,68 @@
 (use-package abbrev
   :straight nil
   :delight abbrev-mode)
+
+;; ligature support
+(use-package ligature
+  :hook prog-mode
+  :config
+  (ligature-set-ligatures 'prog-mode
+                        '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
+                          ;; =:= =!=
+                          ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
+                          ;; ;; ;;;
+                          (";" (rx (+ ";")))
+                          ;; && &&&
+                          ("&" (rx (+ "&")))
+                          ;; !! !!! !. !: !!. != !== !~
+                          ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
+                          ;; ?? ??? ?:  ?=  ?.
+                          ("?" (rx (or ":" "=" "\." (+ "?"))))
+                          ;; %% %%%
+                          ("%" (rx (+ "%")))
+                          ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
+                          ;; |->>-||-<<-| |- |== ||=||
+                          ;; |==>>==<<==<=>==//==/=!==:===>
+                          ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
+                                          "-" "=" ))))
+                          ;; \\ \\\ \/
+                          ("\\" (rx (or "/" (+ "\\"))))
+                          ;; ++ +++ ++++ +>
+                          ("+" (rx (or ">" (+ "+"))))
+                          ;; :: ::: :::: :> :< := :// ::=
+                          (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
+                          ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
+                          ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
+                                          "="))))
+                          ;; .. ... .... .= .- .? ..= ..<
+                          ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
+                          ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
+                          ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
+                          ;; *> */ *)  ** *** ****
+                          ("*" (rx (or ">" "/" ")" (+ "*"))))
+                          ;; www wwww
+                          ("w" (rx (+ "w")))
+                          ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
+                          ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
+                          ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
+                          ;; << <<< <<<<
+                          ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
+                                          "-"  "/" "|" "="))))
+                          ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
+                          ;; >> >>> >>>>
+                          (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
+                          ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
+                          ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
+                                       (+ "#"))))
+                          ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
+                          ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
+                          ;; __ ___ ____ _|_ __|____|_
+                          ("_" (rx (+ (or "_" "|"))))
+                          ;; Fira code: 0xFF 0x12
+                          ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
+                          ;; Fira code:
+                          "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
+                          ;; The few not covered by the regexps.
+                          "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^=")))
 
 (provide 'sm-ui)

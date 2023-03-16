@@ -22,12 +22,8 @@
 (use-package perspective
   :hook (after-init . persp-mode)
   :bind ("C-x b" . persp-switch-to-buffer*)
-  :custom (persp-mode-prefix-key (kbd "C-x x"))
-  :config
-  (setq persp-initial-frame-name "notes")
-  (defun persp-next ()
-    (interactive)
-    (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
-      (persp-switch (nth (1+ (persp-curr-position)) (persp-all-names))))))
+  :custom
+  (persp-mode-prefix-key (kbd "C-x x"))
+  (persp-initial-frame-name "notes"))
 
 (provide 'sm-projects)

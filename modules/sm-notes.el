@@ -35,10 +35,9 @@
 %i
 " "Estimated task data")
 
-;; Pretty bullets.
-(use-package org-bullets
-  :commands org-bullets-mode
-  :init (add-hook 'org-mode-hook #'org-bullets-mode))
+;; Prettify org-mode.
+(use-package org-modern
+  :hook org-mode)
 
 (use-package org
   :bind (("C-c C-x C-s" . mark-done-and-archive)
@@ -125,12 +124,12 @@
 (use-package md-roam
   :delight
   :after org-roam
+  :hook (markdown-mode . corfu-mode)
   :straight (md-roam :type git :host github :repo "nobiot/md-roam")
   :custom
   (org-roam-file-extensions '("md" "org"))
   :config
   ;; corfu support.
-  (add-hook 'markdown-mode-hook #'corfu-mode)
   (with-eval-after-load 'markdown-mode
     (advice-add #'markdown-indent-line :before-until #'completion-at-point))
   ;; Add Markdown option to templates.
@@ -142,7 +141,8 @@
 
 ;; org-roam for capturing and organizing notes.
 (use-package org-roam
-  :hook (org-roam-backlinks . turn-on-visual-line-mode)
+  :hook
+  (org-roam-backlinks . turn-on-visual-line-mode)
   :commands (org-roam-buffer-toggle-display
              org-roam-insert
              org-roam-find-file
@@ -162,7 +162,6 @@
       :target (file+head "${slug}.org"
                          "#+title: ${title}\n")
       :unnarrowed t)))
-  (org-roam-completion-system 'ivy)
   (org-roam-dailies-directory "journal/")
   (org-roam-dailies-capture-templates
    '(("d" "default" plain "%?"
@@ -170,11 +169,9 @@
                          "#+title: %<%A, %Y-%m-%d>\n\n")
       :unnarrowed t)))
   :config
-  (md-roam-mode t)
-  (consult-org-roam-mode t)
   (org-roam-db-autosync-mode t)
-  (corfu-mode t)
-  (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
+  (consult-org-roam-mode t)
+  (md-roam-mode t))
 
 (use-package consult-org-roam
   :after org-roam

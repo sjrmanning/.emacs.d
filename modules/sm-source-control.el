@@ -14,7 +14,7 @@
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (magit-diff-refine-hunk 'all))
 
-;; smerge hydra for quicker confluct merging!
+;; smerge hydra for quicker conflict merging
 (use-package smerge-mode
   :commands smerge-mode
   :config
