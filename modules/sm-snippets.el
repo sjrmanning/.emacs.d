@@ -1,6 +1,5 @@
 ;; yasnippet configuration.
 (use-package yasnippet
-  :commands (yas-global-mode)
   :hook (after-init . yas-global-mode)
   :delight yas-minor-mode
   :config

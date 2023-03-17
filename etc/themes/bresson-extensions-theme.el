@@ -9,7 +9,7 @@
  `(hl-line ((t :background "#f5f0e6")))
  `(minibuffer-prompt ((t :foreground "#3F4D91")))
  `(region ((t :background "#eee9d6")))
- `(mode-line-buffer-id ((t (:foreground nil))))
+ `(mode-line-buffer-id ((t (:foreground unspecified))))
  `(mode-line
    ((t (:underline nil :overline nil
                    :foreground "#435459" ; 35% from 46% brightness
@@ -22,6 +22,12 @@
  `(font-lock-comment-face ((t (:foreground "#839496"))))
  `(font-lock-keyword-face ((t (:weight semibold))))
  `(font-lock-comment-delimiter-face ((t (:foreground "#aebfbf"))))
+
+ `(corfu-default ((t (:background "#f0ebe1" :foreground "#002b36"))))
+ `(corfu-current ((t (:foreground "#247374" :background "#bedfcf"))))
+ `(corfu-bar ((t (:background "#073642"))))
+
+ `(orderless-match-face-0 ((t (:weight semibold))))
 
  ;; (set-face-attribute 'font-lock-comment-face nil :foreground "#1a1a1a" :background "#f0ebe1" :weight 'normal) ;; idea for emphasizing comments
  )

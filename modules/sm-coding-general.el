@@ -1,12 +1,39 @@
 ;;; sm-coding-general.el --- General coding-related config.
 
+;; Native line numbers, enabled for any programming mode.
+(use-package display-line-numbers
+  :straight (:type built-in)
+  :hook prog-mode)
+
+;; treesit (using built-in)
+(use-package treesit
+  :straight (:type built-in)
+  :mode ("Dockerfile\\'" . dockerfile-ts-mode)
+  :custom
+  (treesit-extra-load-path (list (sm/emacs.d "etc/treesit-modules")))
+  :init
+  ;; Replace built-in modes with ts equivalent.
+  (dolist (mode
+           '((bash-mode       . bash-ts-mode)
+             (c-mode          . c-ts-mode)
+             (c++-mode        . c++-ts-mode)
+             (c-or-c++-mode   . c-or-c++-ts-mode)
+             (css-mode        . css-ts-mode)
+             (dockerfile-mode . dockerfile-ts-mode)
+             (go-mode         . go-ts-mode)
+             (js-mode         . js-ts-mode)
+             (javascript-mode . js-ts-mode)
+             (js-json-mode    . json-ts-mode)
+             (python-mode     . python-ts-mode)
+             (ruby-mode       . ruby-ts-mode)
+             (typescript-mode . typescript-ts-mode)
+             (yaml-mode       . yaml-ts-mode)))
+    (add-to-list 'major-mode-remap-alist mode)))
+
 ;; EditorConfig.org -- project-local coding style definitions.
 (use-package editorconfig
-  :delight editorconfig-mode
-  :hook (prog-mode . editorconfig-mode)
-  :config
-    (add-to-list 'editorconfig-indentation-alist
-                 '(swift-mode swift-indent-offset)))
+  :delight
+  :hook prog-mode)
 
 (use-package yaml-mode
   :mode ("\\.ya?ml\\'" "Procfile\\'")
@@ -15,17 +42,17 @@
 ;; highlight-numbers
 ;; Highlights magic numbers in programming modes.
 (use-package highlight-numbers
-  :hook (prog-mode . highlight-numbers-mode))
+  :hook prog-mode)
 
 ;; rainbow-delimiters
 ;; Highlights parens, brackets, and braces according to their depth.
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook prog-mode)
 
 ;; flycheck
 (use-package flycheck
   :delight " ✓"
-  :hook (prog-mode . flycheck-mode)
+  :hook prog-mode
   :custom (flycheck-emacs-lisp-load-path 'inherit))
 
 ;; restclient
@@ -33,35 +60,30 @@
 (use-package restclient
   :mode ("\\.http$" . restclient-mode))
 
-;; lsp
-(use-package lsp-mode
-  :custom (lsp-enable-snippet t))
-
-(use-package lsp-ui
-  :after lsp-mode
+;; eglot
+(use-package eglot
+  :commands (eglot-ensure eglot)
+  :straight (:type built-in)
+  :hook
+  ((swift-mode python-mode python-ts-mode) . eglot-ensure)
   :config
-  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  (setq lsp-ui-sideline-enable nil
-        lsp-ui-doc-enable nil
-        lsp-ui-flycheck-enable t
-        lsp-ui-imenu-enable t
-        lsp-ui-sideline-ignore-duplicate t))
+  (add-to-list 'eglot-server-programs
+               '(swift-mode . ("xcrun" "sourcekit-lsp"))))
 
 ;; protobuf
 (use-package protobuf-mode
   :mode (("\\.proto$" . protobuf-mode)
          ("\\.proto3$" . protobuf-mode)))
 
-;; tree-sitter
-(use-package tree-sitter
-  :ensure t
-  :config
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+;; Lua
+(use-package lua-mode
+  :straight (:build (:not autoloads))
+  :commands lua-mode
+  :mode (("\\.lua$" . lua-mode)))
 
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+;; topsy
+;; Sticky header showing parent definitions of top line.
+(use-package topsy
+  :hook prog-mode)
 
 (provide 'sm-coding-general)

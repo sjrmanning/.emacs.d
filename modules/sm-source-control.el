@@ -1,39 +1,24 @@
 ;;; sm-source-control.el --- Source control and related configuration.
 
 ;; Disable since I use magit for everything.
-(setq vc-handled-backends '())
+(setq vc-handled-backends nil)
 (remove-hook 'find-file-hook 'vc-find-file-hook)
+(remove-hook 'find-file-hook 'vc-refresh-state)
 
-;; gist.el
-;; Provides ability to create github gists from region, file, etc., as well as
-;; browse, edit, and update metadata of your gists.
-;; (use-package gist
-;;   :commands gist-region-or-buffer-private
-;;   :bind ("C-c g p" . gist-region-or-buffer-private)
-;;   :config
-;;   (setq gist-view-gist t))
-
-;; magit and monky
-;; Modes for git and mercurial.
+;; magit
 (use-package magit
+  :straight (:build (:not autoloads))
   :commands magit-status
-  :hook (git-commit-mode . flyspell-mode)
   :bind ("C-x g" . magit-status)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (magit-diff-refine-hunk 'all))
 
-;; Git forge w/ magit.
-(use-package forge
-  :after magit)
-
-;; smerge hydra for quicker confluct merging!
-(use-package hydra)
+;; smerge hydra for quicker conflict merging
 (use-package smerge-mode
   :commands smerge-mode
-  :requires hydra
-  :after hydra
   :config
+  (use-package hydra)
   (defhydra sm/smerge-hydra
     (:color pink :hint nil :post (smerge-auto-leave))
     "

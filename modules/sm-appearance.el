@@ -3,15 +3,15 @@
 ;; Disable cursor display in inactive windows.
 (setq-default cursor-in-non-selected-windows nil)
 
-(defvar sm/fixed-font-name "iA Writer Mono V")
 (defvar sm/fixed-font-weight 'normal)
+(defvar sm/fixed-font-name "Fira Code")
 (defvar sm/var-font-name "iA Writer Quattro V")
 
-;; Quick workaround to help switching between retina 13" and 27" 1440p.
-(defvar sm/dynamic-font-height nil)
+;; Quick workaround to help switching between retina / 1440p.
+(defvar sm/dynamic-font-height t)
 (defvar sm/font-height
   (cond ((eq sm/dynamic-font-height t)
-         (if (< (display-pixel-height) 1600) 150 130))
+         (if (< (display-pixel-height) 1600) 160 130))
         (t 150)))
 
 ;; Appearance style can be light or dark.
@@ -40,7 +40,6 @@
              'line-number nil
              :family sm/fixed-font-name
              :height sm/font-height
-             ;; :height (- sm/font-height 20)
              :weight sm/fixed-font-weight)
             (set-face-attribute
              'variable-pitch nil
@@ -68,39 +67,5 @@
     :config
     (setq-default darkokai-blue-tint t)
     (load-theme 'darkokai t))))
-
-(use-package rainbow-mode)
-
-;; When using Fira Code, this enables ligatures without mac-port.
-(unless (fboundp 'mac-auto-operator-composition-mode)
-  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-                 (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-                 (36 . ".\\(?:>\\)")
-                 (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-                 (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-                 (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-                 (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-                 (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-                 (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-                 (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-                 (48 . ".\\(?:x[a-zA-Z]\\)")
-                 (58 . ".\\(?:::\\|[:=]\\)")
-                 (59 . ".\\(?:;;\\|;\\)")
-                 (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-                 (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-                 (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-                 (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-                 (91 . ".\\(?:]\\)")
-                 (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-                 (94 . ".\\(?:=\\)")
-                 (119 . ".\\(?:ww\\)")
-                 (123 . ".\\(?:-\\)")
-                 (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-                 (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-                 )
-               ))
-    (dolist (char-regexp alist)
-      (set-char-table-range composition-function-table (car char-regexp)
-                            `([,(cdr char-regexp) 0 font-shape-gstring])))))
 
 (provide 'sm-appearance)

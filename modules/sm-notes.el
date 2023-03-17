@@ -35,27 +35,26 @@
 %i
 " "Estimated task data")
 
-;; Pretty bullets.
-(use-package org-bullets
-  :commands org-bullets-mode
-  :init (add-hook 'org-mode-hook #'org-bullets-mode))
+;; Prettify org-mode.
+(use-package org-modern
+  :hook org-mode)
 
 (use-package org
-  :straight (:type built-in)
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link))
   :hook (org-mode . org-indent-mode)
   :config
-  ;; Enable company, mainly for org-roam.
-  (company-mode t)
   ;; Follow links in the same window.
   (setcdr (assoc 'file org-link-frame-setup) 'find-file)
   (setq org-catch-invisible-edits 'show-and-error
         org-cycle-separator-lines 1
         org-hide-emphasis-markers t
         org-use-speed-commands t
+        org-edit-src-content-indentation 0
+        org-src-tab-acts-natively t
+        org-src-preserve-indentation t
         org-startup-indented t
         org-return-follows-link t
         org-hide-leading-stars t
@@ -122,22 +121,39 @@
            (file ,(org-file-path "reading.org"))
            ,sm/org-basic-task-template :empty-lines 1))))
 
+(use-package md-roam
+  :delight
+  :after org-roam
+  :hook (markdown-mode . corfu-mode)
+  :straight (md-roam :type git :host github :repo "nobiot/md-roam")
+  :custom
+  (org-roam-file-extensions '("md" "org"))
+  :config
+  ;; corfu support.
+  (with-eval-after-load 'markdown-mode
+    (advice-add #'markdown-indent-line :before-until #'completion-at-point))
+  ;; Add Markdown option to templates.
+  (add-to-list 'org-roam-capture-templates
+               '("m" "Markdown" plain "" :target
+                 (file+head "${slug}.md"
+                            "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
+                 :unnarrowed t)))
+
 ;; org-roam for capturing and organizing notes.
 (use-package org-roam
-  :hook (org-roam-backlinks-mode . turn-on-visual-line-mode)
-  :hook (org-load . org-roam-mode)
-  :init (setq org-roam-v2-ack t)
+  :hook
+  (org-roam-backlinks . turn-on-visual-line-mode)
   :commands (org-roam-buffer-toggle-display
              org-roam-insert
              org-roam-find-file
              org-roam-switch-to-buffer)
   :bind
   (("C-c n f" . #'org-roam-node-find)
-   ("C-c n g" . org-roam-graph-show)
-   ("C-c n i" . org-roam-insert)
-   ("C-c n I" . org-roam-insert-immediate)
-   ("C-c n b" . org-roam-switch-to-buffer)
-   ("C-c n t" . org-roam-dailies-goto-today))
+   ("C-c n g" . #'org-roam-graph-show)
+   ("C-c n i" . #'org-roam-insert)
+   ("C-c n I" . #'org-roam-insert-immediate)
+   ("C-c n b" . #'org-roam-switch-to-buffer)
+   ("C-c n t" . #'org-roam-dailies-goto-today))
   :custom
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-directory sm/org-roam-dir)
@@ -146,7 +162,6 @@
       :target (file+head "${slug}.org"
                          "#+title: ${title}\n")
       :unnarrowed t)))
-  (org-roam-completion-system 'ivy)
   (org-roam-dailies-directory "journal/")
   (org-roam-dailies-capture-templates
    '(("d" "default" plain "%?"
@@ -154,7 +169,15 @@
                          "#+title: %<%A, %Y-%m-%d>\n\n")
       :unnarrowed t)))
   :config
-  (add-hook 'org-roam-buffer-prepare-hook (lambda () (setq mode-line-format nil))))
+  (org-roam-db-autosync-mode t)
+  (consult-org-roam-mode t)
+  (md-roam-mode t))
+
+(use-package consult-org-roam
+  :after org-roam
+  :delight
+  :custom
+  (consult-org-roam-grep-func #'consult-ripgrep))
 
 (use-package deft
   :custom (deft-directory sm/org-roam-dir))

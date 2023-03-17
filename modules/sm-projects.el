@@ -3,7 +3,7 @@
 ;; projectile
 (use-package projectile
   :delight projectile-mode
-  :commands (projectile-mode projectile-global-mode projectile-find-file projectile-project-p)
+  :commands (projectile-mode projectile-global-mode projectile-find-file projectile-project-p projectile-project-root)
   :custom (shell-file-name "/bin/bash")
   :config
   (setq projectile-completion-system 'default)
@@ -21,13 +21,9 @@
 ;; perspective
 (use-package perspective
   :hook (after-init . persp-mode)
-  :bind ("C-x b" . persp-ivy-switch-buffer)
-  :custom (persp-mode-prefix-key (kbd "C-x x"))
-  :config
-  (setq persp-initial-frame-name "notes")
-  (defun persp-next ()
-    (interactive)
-    (when (< (+ 1 (persp-curr-position)) (length (persp-all-names)))
-      (persp-switch (nth (1+ (persp-curr-position)) (persp-all-names))))))
+  :bind ("C-x b" . persp-switch-to-buffer*)
+  :custom
+  (persp-mode-prefix-key (kbd "C-x x"))
+  (persp-initial-frame-name "notes"))
 
 (provide 'sm-projects)

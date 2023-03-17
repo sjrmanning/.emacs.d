@@ -1,8 +1,9 @@
-;; Delete marked text on typing
-(delete-selection-mode t)
-
-;; Soft-wrap lines
-(global-visual-line-mode t)
+(add-hook 'after-init-hook
+          (lambda nil
+            ;; Delete marked text on typing
+            (delete-selection-mode t)
+            ;; Soft-wrap lines
+            (global-visual-line-mode t)))
 
 ;; Require newline at end of file.
 (setq require-final-newline t)
@@ -12,21 +13,11 @@
   :hook (after-init . global-auto-revert-mode)
   :delight auto-revert-mode)
 
-;; Native line numbers.
-(add-hook 'prog-mode-hook (lambda () (setq display-line-numbers t)))
-
 ;; Don't use tabs for indent; replace tabs with two spaces.
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
 ;; General editing-related bindings.
-(bind-key "C-w" 'backward-kill-word)
-(bind-key "C-x C-k" 'kill-region)
-(bind-key "C-c C-k" 'kill-region)
-
-(bind-key "<f5>" 'sort-lines)
-(bind-key "C-c b" 'switch-to-previous-buffer)
-
 ;; Cursor movement
 (defun sm/next-line-fast ()
   "Faster `C-n'"
@@ -38,14 +29,16 @@
   (interactive)
   (ignore-errors (previous-line 5)))
 
-(bind-key "C-S-n" 'sm/next-line-fast)
-(bind-key "C-S-p" 'sm/previous-line-fast)
+(bind-key "C-w" #'backward-kill-word)
+(bind-key "C-x C-k" #'kill-region)
+(bind-key "C-S-n" #'sm/next-line-fast)
+(bind-key "C-S-p" #'sm/previous-line-fast)
+(bind-key "<f5>" #'sort-lines)
 
 ;; Crux (Collection of Ridiculously Useful eXtensions)
 ;; Replaces a lot of my old defuns and bindings.
 (use-package crux
-  :bind (("C-x C-r" . crux-recentf-find-file)
-         ("C-a" . crux-move-beginning-of-line)
+  :bind (("C-a" . crux-move-beginning-of-line)
          ("<S-return>" . crux-smart-open-line)
          ("C-c R" . crux-rename-buffer-and-file)
          ("C-c D" . crux-delete-buffer-and-file)
@@ -74,22 +67,6 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-;; smartparens
-(use-package smartparens
-  :hook
-  (after-init . (lambda ()
-                  (smartparens-global-mode t)
-                  (show-smartparens-global-mode t)))
-  :delight " ()"
-  :bind
-  ((:map sp-keymap)
-   ("C-M-f" . sp-forward-sexp)
-   ("C-M-b" . sp-backward-sexp)
-   ("C-M-n" . sp-next-sexp)
-   ("C-M-p" . sp-previous-sexp)
-   ("C-M-k" . sp-kill-sexp)
-   ("C-M-w" . sp-copy-sexp)))
-
 ;; browse-kill-ring
 (use-package browse-kill-ring
   :bind ("M-y" . browse-kill-ring))
@@ -98,7 +75,11 @@
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
   :delight whitespace-cleanup-mode
-  :hook ((text-mode prog-mode) . whitespace-cleanup-mode))
+  :hook (text-mode prog-mode))
+
+(use-package electric
+  :straight (:type built-in)
+  :hook (after-init . electric-pair-mode))
 
 ;; subword
 (use-package subword
