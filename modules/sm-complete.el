@@ -34,7 +34,7 @@
   (corfu-count 14)
   (corfu-scroll-margin 4)
   (corfu-cycle nil)
-  (corfu-popupinfo-delay t))
+  (corfu-popupinfo-delay 0.05))
 
 (use-package cape
   :after corfu
