@@ -25,10 +25,7 @@
 
 ;; Vertico / orderless / marginalia et al.
 (use-package marginalia
-  :hook after-init
-  :custom
-  (marginalia-max-relative-age 0)
-  (marginalia-align 'left))
+  :hook after-init)
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -77,25 +74,33 @@
               ("M-DEL" . vertico-directory-delete-word))
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
-(use-package orderless
+(use-package hotfuzz
+  :hook (vertico-mode . hotfuzz-vertico-mode)
   :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (orderless-component-separator 'orderless-escapable-split-on-space)
-  (orderless-matching-styles
-   '(orderless-literal
-     orderless-prefixes
-     orderless-initialism
-     orderless-regexp
-     orderless-flex)))
+  (completion-styles '(hotfuzz basic)))
 
 (use-package consult
-  :custom (consult-project-function #'projectile-project-root)
+  :after perspective
   :bind (("C-c s" . consult-ripgrep)
-         ("C-x C-r" . consult-recent-file)))
+         ("C-x b" . consult-buffer)
+         ("C-x C-r" . consult-recent-file)
+         ("C-c b" . consult-project-buffer)
+         ("M-g" . consult-goto-line))
+  :config
+  ;; Delay previews slightly to improve performance.
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   :preview-key '(:debounce 0.4 any))
+  ;; Perspective integration.
+  (consult-customize consult--source-buffer :hidden t :default nil)
+  (add-to-list 'consult-buffer-sources persp-consult-source))
 
 (use-package consult-projectile
-  :commands consult-projectile-find-file)
+  :bind ("C-x F" . consult-projectile))
 
 (use-package swiper
   :bind (("C-s" . swiper-isearch)
@@ -112,11 +117,12 @@
 
 ;; diminish some modes.
 (use-package simple
-  :straight nil
+  :straight (:type built-in)
   :delight visual-line-mode)
+
 (use-package abbrev
-  :straight nil
-  :delight abbrev-mode)
+  :straight (:type built-in)
+  :delight)
 
 ;; ligature support
 (use-package ligature

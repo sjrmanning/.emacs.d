@@ -3,10 +3,9 @@
 ;; projectile
 (use-package projectile
   :delight projectile-mode
-  :commands (projectile-mode projectile-global-mode projectile-find-file projectile-project-p projectile-project-root)
-  :custom (shell-file-name "/bin/bash")
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :hook (after-init . projectile-global-mode)
   :config
-  (setq projectile-completion-system 'default)
   ;; Ensure projectile dir exists.
   (defvar my-projectile-dir (sm/cache-for "projectile"))
   (sm/mkdir-p my-projectile-dir)
@@ -21,7 +20,6 @@
 ;; perspective
 (use-package perspective
   :hook (after-init . persp-mode)
-  :bind ("C-x b" . persp-switch-to-buffer*)
   :custom
   (persp-mode-prefix-key (kbd "C-x x"))
   (persp-initial-frame-name "notes"))

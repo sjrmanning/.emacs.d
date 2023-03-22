@@ -37,7 +37,9 @@
   :mode (("\\.md\\'" . markdown-mode)
          ("README\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :custom (markdown-command "pandoc"))
+  :custom
+  (markdown-command "pandoc")
+  (markdown-fontify-code-blocks-natively t))
 
 ;; Double spaces at the end of sentences is a bit outdated.
 (setq sentence-end-double-space nil)

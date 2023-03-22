@@ -48,10 +48,10 @@
 (setq echo-keystrokes 0.001)
 
 ;; Enable y/n answers.
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 
 ;; Automatically scroll compilation window.
-(setq compilation-scroll-output 1)
+(setq-default compilation-scroll-output t)
 
 (sm/mkdir-p (sm/emacs.d "var/cache"))
 (sm/mkdir-p (sm/emacs.d "etc"))
@@ -70,19 +70,16 @@
 (setq auto-save-list-file-prefix (sm/cache-for "auto-save-list/.saves-"))
 
 ;; Change eshell directory.
-(setq eshell-directory-name (sm/cache-for "eshell"))
+(setq-default eshell-directory-name (sm/cache-for "eshell"))
 
 ;; Disable annoying lock files.
 (setq create-lockfiles nil)
 
 ;; Change bookmarks file location.
-(setq bookmark-default-file (sm/emacs.d "etc/bookmarks"))
-
-;; Change save-places file location.
-(setq save-place-file (sm/cache-for "places"))
+(setq-default bookmark-default-file (sm/emacs.d "etc/bookmarks"))
 
 ;; Allow pasting selection outside of Emacs.
-(setq x-select-enable-clipboard t)
+(setq-default x-select-enable-clipboard t)
 
 ;; Move files to trash when deleting
 (setq delete-by-moving-to-trash t)

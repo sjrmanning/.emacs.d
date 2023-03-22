@@ -29,6 +29,9 @@
 
  `(orderless-match-face-0 ((t (:weight semibold))))
 
+ `(completions-first-difference ((t (:weight normal))))
+ `(completions-common-part ((t (:weight semibold :foreground "#243e9b"))))
+
  ;; (set-face-attribute 'font-lock-comment-face nil :foreground "#1a1a1a" :background "#f0ebe1" :weight 'normal) ;; idea for emphasizing comments
  )
 

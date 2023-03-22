@@ -44,8 +44,7 @@
 ;; avy
 ;; A better jump to char and line.
 (use-package avy
-  :bind (("C-o" . avy-goto-char)
-         ("M-g" . avy-goto-line))
+  :bind ("C-o" . avy-goto-char)
   :custom (avy-style 'at))
 
 ;; recentf

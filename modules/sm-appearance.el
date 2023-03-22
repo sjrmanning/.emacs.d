@@ -28,7 +28,6 @@
             ;; Enable macOS ligatures in fonts if running emacs-mac port.
             (when (fboundp 'mac-auto-operator-composition-mode)
               (mac-auto-operator-composition-mode))
-            (set-fringe-style 0)
             (setq-default cursor-type 'bar)
             (toggle-frame-maximized)
             (set-face-attribute
