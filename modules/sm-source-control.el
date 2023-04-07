@@ -7,7 +7,6 @@
 
 ;; magit
 (use-package magit
-  :straight (:build (:not autoloads))
   :commands magit-status
   :bind ("C-x g" . magit-status)
   :custom

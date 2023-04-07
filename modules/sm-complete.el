@@ -9,8 +9,7 @@
 (use-package corfu
   :straight
   (:files (:defaults "extensions/*")
-          :includes (corfu-info corfu-history)
-          :not autoloads)
+          :includes (corfu-info corfu-history))
   :hook (prog-mode shell-mode org-mode)
   :bind (:map corfu-map
 	            ("C-n" . #'corfu-next)
@@ -29,8 +28,8 @@
   (corfu-auto t)
   (corfu-auto-prefix 2)
   (corfu-auto-delay 0.25)
-  (corfu-min-width 80)
-  (corfu-max-width corfu-min-width)
+  (corfu-min-width 32)
+  (corfu-max-width 80)
   (corfu-count 14)
   (corfu-scroll-margin 4)
   (corfu-cycle nil)

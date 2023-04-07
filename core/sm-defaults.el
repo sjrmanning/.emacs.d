@@ -53,10 +53,6 @@
 ;; Automatically scroll compilation window.
 (setq-default compilation-scroll-output t)
 
-(sm/mkdir-p (sm/emacs.d "var/cache"))
-(sm/mkdir-p (sm/emacs.d "etc"))
-(sm/mkdir-p (sm/cache-for "backups"))
-
 ;; Emoji font.
 (set-fontset-font t 'symbol
                   (font-spec :family "Apple Color Emoji")

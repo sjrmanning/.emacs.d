@@ -8,7 +8,8 @@
 ;; treesit (using built-in)
 (use-package treesit
   :straight (:type built-in)
-  :mode ("Dockerfile\\'" . dockerfile-ts-mode)
+  :mode (("Dockerfile\\'" . dockerfile-ts-mode)
+         ("\\.rs\\'" . rust-ts-mode))
   :custom
   (treesit-extra-load-path (list (sm/emacs.d "etc/treesit-modules")))
   :init
@@ -21,8 +22,9 @@
              (css-mode        . css-ts-mode)
              (dockerfile-mode . dockerfile-ts-mode)
              (go-mode         . go-ts-mode)
-             (js-mode         . js-ts-mode)
+             (java-mode       . java-ts-mode)
              (javascript-mode . js-ts-mode)
+             (js-mode         . js-ts-mode)
              (js-json-mode    . json-ts-mode)
              (python-mode     . python-ts-mode)
              (ruby-mode       . ruby-ts-mode)
@@ -32,7 +34,7 @@
 
 ;; EditorConfig.org -- project-local coding style definitions.
 (use-package editorconfig
-  :delight
+  :diminish
   :hook prog-mode)
 
 (use-package yaml-mode
@@ -51,9 +53,12 @@
 
 ;; flycheck
 (use-package flycheck
-  :delight " ✓"
+  :diminish " ✓"
   :hook prog-mode
   :custom (flycheck-emacs-lisp-load-path 'inherit))
+
+(use-package flycheck-rust
+  :hook (flycheck-mode . flycheck-rust-setup))
 
 ;; restclient
 ;; Runs REST queries from a query sheet and pretty-prints responses.
@@ -64,11 +69,20 @@
 (use-package eglot
   :commands (eglot-ensure eglot)
   :straight (:type built-in)
-  :hook
-  ((swift-mode python-mode python-ts-mode) . eglot-ensure)
+  :hook ((swift-mode
+          python-mode
+          python-ts-mode
+          rust-ts-mode
+          c-mode
+          c-ts-mode
+          c++-mode
+          c++-ts-mode
+          objc-mode) . eglot-ensure)
+  :custom
+  (eglot-sync-connect 0)
   :config
-  (add-to-list 'eglot-server-programs
-               '(swift-mode . ("xcrun" "sourcekit-lsp"))))
+  (add-to-list 'eglot-server-programs '((swift-mode) "sourcekit-lsp"))
+  (add-to-list 'eglot-server-programs '((objc-mode) "clangd")))
 
 ;; protobuf
 (use-package protobuf-mode
@@ -77,7 +91,6 @@
 
 ;; Lua
 (use-package lua-mode
-  :straight (:build (:not autoloads))
   :commands lua-mode
   :mode (("\\.lua$" . lua-mode)))
 

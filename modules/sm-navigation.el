@@ -31,7 +31,6 @@
 ;; switch-window
 ;; Provides visual cues to instantly switch on C-x o.
 (use-package switch-window
-  :straight (:build (:not autoloads))
   :commands switch-window
   :bind ("C-x o" . switch-window))
 

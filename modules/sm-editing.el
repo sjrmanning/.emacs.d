@@ -1,17 +1,18 @@
+;;; sm-editing.el --- General editing improvements and defaults.  -*- lexical-binding: t; -*-
 (add-hook 'after-init-hook
           (lambda nil
             ;; Delete marked text on typing
             (delete-selection-mode t)
             ;; Soft-wrap lines
-            (global-visual-line-mode t)))
+            (global-visual-line-mode t)
+            (diminish 'visual-line-mode)
+            ;; Auto revert buffers when files change.
+            (global-auto-revert-mode t)
+            ;; Native pair mode.
+            (electric-pair-mode t)))
 
 ;; Require newline at end of file.
 (setq require-final-newline t)
-
-;; Revert buffers automatically when underlying files are changed externally.
-(use-package autorevert
-  :hook (after-init . global-auto-revert-mode)
-  :delight auto-revert-mode)
 
 ;; Don't use tabs for indent; replace tabs with two spaces.
 (setq-default tab-width 2)
@@ -42,8 +43,7 @@
          ("<S-return>" . crux-smart-open-line)
          ("C-c R" . crux-rename-buffer-and-file)
          ("C-c D" . crux-delete-buffer-and-file)
-         ("s-j" . crux-top-join-line))
-  :config (recentf-mode t))
+         ("s-j" . crux-top-join-line)))
 
 ;; Use conf-mode where appropriate.
 (use-package conf-mode
@@ -67,24 +67,16 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
-;; browse-kill-ring
-(use-package browse-kill-ring
-  :bind ("M-y" . browse-kill-ring))
-
 ;; whitespace cleanup
 ;; Automatically cleans whitespace on save.
 (use-package whitespace-cleanup-mode
-  :delight whitespace-cleanup-mode
+  :diminish
   :hook (text-mode prog-mode))
-
-(use-package electric
-  :straight (:type built-in)
-  :hook (after-init . electric-pair-mode))
 
 ;; subword
 (use-package subword
-  :hook (after-init . global-subword-mode)
-  :delight subword-mode)
+  :diminish
+  :hook (after-init . global-subword-mode))
 
 ;; smart-comment
 ;; Better `comment-dwim' supporting uncommenting.

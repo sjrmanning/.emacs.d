@@ -5,6 +5,7 @@
 
 (defvar sm/fixed-font-weight 'normal)
 (defvar sm/fixed-font-name "Fira Code")
+(defvar sm/fixed-font-light-name "Fira Code Light")
 (defvar sm/var-font-name "iA Writer Quattro V")
 
 ;; Quick workaround to help switching between retina / 1440p.
@@ -36,10 +37,15 @@
              :height sm/font-height
              :weight sm/fixed-font-weight)
             (set-face-attribute
-             'line-number nil
+             'fixed-pitch nil
              :family sm/fixed-font-name
              :height sm/font-height
              :weight sm/fixed-font-weight)
+            (set-face-attribute
+             'line-number nil
+             :family sm/fixed-font-light-name
+             :height sm/font-height
+             :weight 'light)
             (set-face-attribute
              'variable-pitch nil
              :family sm/var-font-name)))
@@ -47,24 +53,9 @@
 (add-to-list 'custom-theme-load-path
              (expand-file-name "etc/themes/" user-emacs-directory))
 
-(cond
- ;; Light style
- ((eq sm/appearance-style 'light)
-  (add-to-list 'default-frame-alist '(ns-appearance . light))
-  (use-package solarized-theme
-    :defer nil
-    :custom (solarized-distinct-doc-face t)
-    :config
-    (load-theme 'bresson t)
-    (load-theme 'bresson-extensions t)))
-
- ;; Dark style
- ((eq sm/appearance-style 'dark)
-  (add-to-list 'default-frame-alist '(ns-appearance . dark))
-  (use-package darkokai-theme
-    :defer nil
-    :config
-    (setq-default darkokai-blue-tint t)
-    (load-theme 'darkokai t))))
+(use-package os1-theme
+  :defer nil
+  :straight (:type git :host github :repo "sashimacs/os1-theme")
+  :config (load-theme 'os1 t))
 
 (provide 'sm-appearance)

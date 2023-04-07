@@ -15,6 +15,6 @@
     (sm/load-directory private-dir))
 
 ;; Use zsh as default term shell.
-(setq explicit-shell-file-name "zsh")
+(setq explicit-shell-file-name "fish")
 
 (provide 'sm-personal)

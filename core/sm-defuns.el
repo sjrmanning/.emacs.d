@@ -9,11 +9,6 @@
   "Return cache directory for given identifier."
   (expand-file-name identifier (sm/emacs.d "var/cache")))
 
-(defun sm/mkdir-p (dir-path)
-  "Make directory if it doesn't exist."
-  (unless (file-exists-p dir-path)
-    (make-directory dir-path t)))
-
 (defun sm/load-directory (directory)
   "Load recursively all `.el' files in DIRECTORY."
   (dolist (element (directory-files-and-attributes directory nil nil nil))

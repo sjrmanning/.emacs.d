@@ -1,36 +1,22 @@
 ;; typo
 ;; Mode for typographical editing.
 (use-package typo
-  :hook text-mode
-  :custom (typo-language "English"))
+  :hook text-mode)
 
 ;; olivetti -- similar to writeroom but a simple minor mode
 (use-package olivetti
-  :if window-system
-  :delight
+  :if (display-graphic-p)
+  :diminish
   :hook text-mode
   :bind ("C-c o" . olivetti-mode)
   :custom
   (olivetti-minimum-body-width 80)
   (olivetti-body-width 0.66))
 
-(use-package flyspell
-  :delight
-  :hook (text-mode git-commit-mode (prog-mode . flyspell-prog-mode))
-  :custom
-  (ispell-extra-args '("--sug-mode=ultra" "--run-together"))
-  (flyspell-issue-message-flag nil)
-  (flyspell-issue-welcome-flag nil)
-  (flyspell-prog-text-faces '(tree-sitter-hl-face:comment
-                              tree-sitter-hl-face:doc
-                              tree-sitter-hl-face:string
-                              font-lock-comment-face
-                              font-lock-doc-face
-                              font-lock-string-face)))
-
-(use-package flyspell-correct
-  :after flyspell
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+(use-package jinx
+  :hook (text-mode git-commit-mode prog-mode)
+  :bind (([remap ispell-word] . jinx-correct)
+         ("C-;" . jinx-correct)))
 
 ;; markdown
 (use-package markdown-mode
@@ -40,6 +26,22 @@
   :custom
   (markdown-command "pandoc")
   (markdown-fontify-code-blocks-natively t))
+
+;; markdown live-preview with xwidgets when available.
+(use-package markdown-xwidget
+  :if (and (display-graphic-p) (featurep 'xwidget-internal))
+  :after markdown-mode
+  :commands (markdown-xwidget-preview-mode markdown-xwidget-preview)
+  :straight (markdown-xwidget
+             :type git
+             :host github
+             :repo "cfclrk/markdown-xwidget"
+             :files (:defaults "resources"))
+  :custom
+  (markdown-xwidget-github-theme "light")
+  :init
+  (bind-keys :map markdown-mode-map
+             ("C-c C-c l" . markdown-xwidget-preview-mode)))
 
 ;; Double spaces at the end of sentences is a bit outdated.
 (setq sentence-end-double-space nil)

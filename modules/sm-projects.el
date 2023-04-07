@@ -2,13 +2,12 @@
 
 ;; projectile
 (use-package projectile
-  :delight projectile-mode
+  :diminish
   :bind-keymap ("C-c p" . projectile-command-map)
   :hook (after-init . projectile-global-mode)
   :config
   ;; Ensure projectile dir exists.
   (defvar my-projectile-dir (sm/cache-for "projectile"))
-  (sm/mkdir-p my-projectile-dir)
   ;; Use projectile dir for cache and bookmarks.
   (let* ((prj-dir (file-name-as-directory my-projectile-dir))
          (prj-cache-file (concat prj-dir "projectile.cache"))

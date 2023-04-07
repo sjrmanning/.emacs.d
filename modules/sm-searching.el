@@ -7,7 +7,7 @@
 ;; anzu
 ;; Shows isearch results in mode-line and better query-replace.
 (use-package anzu
-  :delight anzu-mode
+  :diminish
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp)))
 

@@ -40,6 +40,7 @@
   :hook org-mode)
 
 (use-package org
+  :straight (:type built-in)
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
@@ -122,7 +123,7 @@
            ,sm/org-basic-task-template :empty-lines 1))))
 
 (use-package md-roam
-  :delight
+  :diminish
   :after org-roam
   :hook (markdown-mode . corfu-mode)
   :straight (md-roam :type git :host github :repo "nobiot/md-roam")
@@ -170,14 +171,20 @@
       :unnarrowed t)))
   :config
   (org-roam-db-autosync-mode t)
-  (consult-org-roam-mode t)
   (md-roam-mode t))
 
 (use-package consult-org-roam
   :after org-roam
-  :delight
+  :diminish
   :custom
-  (consult-org-roam-grep-func #'consult-ripgrep))
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  :init
+  (consult-org-roam-mode t)
+  :bind
+  ("C-c n e" . consult-org-roam-file-find)
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n l" . consult-org-roam-forward-links)
+  ("C-c n r" . consult-org-roam-search))
 
 (use-package deft
   :custom (deft-directory sm/org-roam-dir))

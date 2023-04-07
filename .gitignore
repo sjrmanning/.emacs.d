@@ -57,3 +57,6 @@ mspyls/
 
 # GCCEmacs files
 eln-cache/
+
+# Compiled treesit-modules
+etc/treesit-modules
