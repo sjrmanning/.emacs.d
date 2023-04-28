@@ -56,6 +56,9 @@
 (use-package os1-theme
   :defer nil
   :straight (:type git :host github :repo "sashimacs/os1-theme")
-  :config (load-theme 'os1 t))
+  :custom
+  (os1-prefer-semibold t)
+  :config
+  (load-theme 'os1 t))
 
 (provide 'sm-appearance)

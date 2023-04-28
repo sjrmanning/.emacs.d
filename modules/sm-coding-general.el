@@ -9,7 +9,9 @@
 (use-package treesit
   :straight (:type built-in)
   :mode (("Dockerfile\\'" . dockerfile-ts-mode)
-         ("\\.rs\\'" . rust-ts-mode))
+         ("\\.rs\\'" . rust-ts-mode)
+         ("\\.ya?ml\\'" . yaml-ts-mode)
+         ("\\.go\\'" . go-ts-mode))
   :custom
   (treesit-extra-load-path (list (sm/emacs.d "etc/treesit-modules")))
   :init
@@ -21,7 +23,6 @@
              (c-or-c++-mode   . c-or-c++-ts-mode)
              (css-mode        . css-ts-mode)
              (dockerfile-mode . dockerfile-ts-mode)
-             (go-mode         . go-ts-mode)
              (java-mode       . java-ts-mode)
              (javascript-mode . js-ts-mode)
              (js-mode         . js-ts-mode)
@@ -37,10 +38,6 @@
   :diminish
   :hook prog-mode)
 
-(use-package yaml-mode
-  :mode ("\\.ya?ml\\'" "Procfile\\'")
-  :bind (:map yaml-mode-map ("C-m" . newline-and-indent)))
-
 ;; highlight-numbers
 ;; Highlights magic numbers in programming modes.
 (use-package highlight-numbers
@@ -55,7 +52,9 @@
 (use-package flycheck
   :diminish " ✓"
   :hook prog-mode
-  :custom (flycheck-emacs-lisp-load-path 'inherit))
+  :custom
+  (flycheck-indication-mode 'right-fringe)
+  (flycheck-emacs-lisp-load-path 'inherit))
 
 (use-package flycheck-rust
   :hook (flycheck-mode . flycheck-rust-setup))
@@ -68,7 +67,7 @@
 ;; eglot
 (use-package eglot
   :commands (eglot-ensure eglot)
-  :straight (:type built-in)
+  ;; :straight (:type built-in)
   :hook ((swift-mode
           python-mode
           python-ts-mode
@@ -81,8 +80,15 @@
   :custom
   (eglot-sync-connect 0)
   :config
-  (add-to-list 'eglot-server-programs '((swift-mode) "sourcekit-lsp"))
+  (add-to-list 'eglot-server-programs '((swift-mode) "xcrun" "sourcekit-lsp"))
   (add-to-list 'eglot-server-programs '((objc-mode) "clangd")))
+
+(use-package eldoc-box
+  :hook ((eglot-managed-mode emacs-lisp-mode) . eldoc-box-hover-mode))
+
+(use-package consult-eglot
+  :after eglot
+  :commands (consult-eglot-symbols))
 
 ;; protobuf
 (use-package protobuf-mode

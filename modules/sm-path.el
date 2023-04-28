@@ -1,7 +1,15 @@
 ;; Keep .emacs.d paths clean!
 (use-package no-littering
-  :custom (auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+  :custom
+  (auto-save-file-name-transforms
+   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (backup-directory-alist
+   `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+  :config
+  (add-to-list 'backup-directory-alist
+               (cons "^/tmp/" nil))
+  (add-to-list 'backup-directory-alist
+               (cons "^/dev/shm/" nil)))
 
 ;; `exec-path-from-shell' is kind of slow, so set up a reasonable PATH env
 ;; here. This may need some extension in the future to include rbenv support.

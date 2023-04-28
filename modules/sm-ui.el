@@ -1,5 +1,36 @@
 ;;; sm-ui.el --- UI niceties.
 
+;; Show color values like #f9de9f with the actual color as bg.
+(use-package rainbow-mode)
+
+;; I don't really use the mouse but it's nice for the scroll wheel
+;; and trackpad to work correctly in terminal emacs.
+(use-package xt-mouse
+  :unless (display-graphic-p)
+  :hook (after-init . xterm-mouse-mode))
+
+(use-package nerd-icons
+  :unless (display-graphic-p))
+
+(use-package nerd-icons-completion
+  :unless (display-graphic-p)
+  :straight (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
+  :hook after-init)
+
+(use-package nerd-icons-dired
+  :unless (display-graphic-p)
+  :straight (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
+  :hook dired-mode)
+
+(use-package treemacs-nerd-icons
+  :unless (display-graphic-p)
+  :after treemacs
+  :straight (treemacs-nerd-icons
+             :type git :host github :repo "rainstormstudio/treemacs-nerd-icons")
+  :init
+  (require 'treemacs-nerd-icons)
+  (treemacs-load-theme "nerd-icons"))
+
 ;; Bind for toggling fullscreen.
 (use-package frame
   :if (display-graphic-p)
@@ -23,7 +54,17 @@
 
 ;; Better mode-line.
 (use-package doom-modeline
-  :hook after-init)
+  :hook after-init
+  :custom
+  (doom-modeline-height 48))
+
+;; Small improvements to dired.
+(use-package dired-x
+  :if (display-graphic-p) ;; nerd-fonts in terminal is breaking dired-x
+  :straight (:type built-in)
+  :hook (dired-mode . dired-omit-mode)
+  :custom
+  (dired-omit-files "^.DS_Store$\\|^.git$\\|^.projectile$"))
 
 ;; Smooth scrolling.
 (use-package smooth-scrolling
@@ -92,13 +133,13 @@
 
 (use-package fussy
   :config
-  (with-eval-after-load 'corfu
-    (advice-add 'corfu--capf-wrapper :before 'fussy-wipe-cache))
+  ;; (with-eval-after-load 'corfu
+  ;;   (advice-add 'corfu--capf-wrapper :before 'fussy-wipe-cache))
   (with-eval-after-load 'eglot
     (add-to-list 'completion-category-overrides
                  '(eglot (styles fussy basic))))
   :custom
-  (fussy-use-cache t)
+  ;; (fussy-use-cache t)
   ;; (fussy-filter-fn 'fussy-filter-orderless)
   (fussy-filter-fn 'fussy-filter-default)
   (completion-styles '(fussy basic))
@@ -124,6 +165,7 @@
          ("C-c b" . consult-project-buffer)
          ("M-g" . consult-goto-line))
   :config
+  (recentf-mode t)
   ;; Delay previews slightly to improve performance.
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
@@ -183,6 +225,34 @@
   :hook (prog-mode text-mode)
   :config
   (setq-default goggles-pulse t))
+
+;; Better help system.
+(use-package helpful
+  ;; :straight (:host github :repo "Wilfred/helpful")
+  :bind (("C-h f" . helpful-callable)
+     ("C-h v" . helpful-variable)
+     ("C-h k" . helpful-key)
+     ("C-h F" . helpful-function)
+     ("C-h C" . helpful-command)
+     ("C-c C-d" . helpful-at-point)))
+
+;; miniframe
+;; minibuffer in a childframe like a HUD.
+(use-package mini-frame
+  :hook after-init
+  :custom
+  (mini-frame-ignore-commands '(y-or-n-p
+                                eval-expression
+                                debugger-eval-expression
+                                swiper-isearch
+                                swiper-isearch-backward
+                                consult-ripgrep
+                                consult-goto-line))
+  (mini-frame-show-parameters '((top . 256)
+                                (width . 0.66)
+                                (left . 0.5)
+                                (child-frame-border-width . 1)
+                                (background-color . "#faf5eb"))))
 
 ;; ligature support
 (use-package ligature

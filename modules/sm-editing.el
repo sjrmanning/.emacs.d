@@ -34,6 +34,8 @@
 (bind-key "C-x C-k" #'kill-region)
 (bind-key "C-S-n" #'sm/next-line-fast)
 (bind-key "C-S-p" #'sm/previous-line-fast)
+(bind-key "M-N" #'sm/next-line-fast)
+(bind-key "M-P" #'sm/previous-line-fast)
 (bind-key "<f5>" #'sort-lines)
 
 ;; Crux (Collection of Ridiculously Useful eXtensions)
@@ -56,7 +58,13 @@
 (use-package multiple-cursors
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
-         ("C-c C->" . mc/mark-all-like-this))
+         ("C-c C->" . mc/mark-all-like-this)
+         ;; terminal-compatible bindings
+         ;; these match the above but sent by wezterm or equiv.
+         ("C-<f9>" . mc/mark-next-like-this)
+         ("C-<f8>" . mc/mark-previous-like-this)
+         ("C-c <f33>" . mc/mark-all-like-this) ;; No idea why it ends up as f33 but it works?
+         )
   :custom (mc/list-file (sm/emacs.d "etc/.mc-lists.el"))
   :custom-face
   (mc/cursor-bar-face

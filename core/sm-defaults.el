@@ -12,15 +12,17 @@
 
 ;; Mac defaults.
 (when (equal system-type 'darwin)
+  (add-to-list 'completion-ignored-extensions ".DS_Store")
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'meta)
   (global-set-key [(super q)] 'save-buffers-kill-emacs))
 
-;; Frame title formatting.
-(setq-default frame-title-format
-              '((:eval (if (buffer-file-name)
-                           (abbreviate-file-name (buffer-file-name))
-                         "%b"))))
+;; Stop the ESC-ESC-ESC madness.
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; Clean frame titles.
+(setq frame-title-format nil)
+(setq ns-use-proxy-icon nil)
 
 ;; Character encodings default to utf-8.
 (prefer-coding-system 'utf-8)
@@ -89,10 +91,13 @@
 
 ;; Dired defaults.
 (setq-default insert-directory-program "gls")
-(setq-default dired-listing-switches "-lhva")
+(setq-default dired-listing-switches "-lhva --group-directories-first")
 (setq-default dired-clean-up-buffers-too t)
 (setq-default dired-recursive-copies 'always)
 (setq-default dired-recursive-deletes 'top)
+
+;; Focus help-window when it pops up so you can quickly close it with q.
+(setq-default help-window-select t)
 
 ;; Scratch buffer configuration.
 (setq initial-major-mode 'markdown-mode)

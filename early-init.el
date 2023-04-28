@@ -18,7 +18,8 @@
 (scroll-bar-mode 0)
 
 ;; Allow Emacs to resize per-pixel, not per character width.
-(setq frame-resize-pixelwise t)
+(setq-default frame-resize-pixelwise t
+              window-resize-pixelwise t)
 
 ;; Ignore X resources; its settings would be redundant with the other settings
 ;; in this file and can conflict with later config (particularly where the
@@ -27,7 +28,8 @@
 
 ;; Replace startup message with init-time.
 (fset 'display-startup-echo-area-message
-      (lambda () (message (concat "Loaded config in " (emacs-init-time)))))
+      (lambda () (message "Loaded in %s with %d GCs."
+                          (emacs-init-time) gcs-done)))
 
 ;; Don't show buffer menu when opening multiple files.
 (setq inhibit-startup-buffer-menu t)

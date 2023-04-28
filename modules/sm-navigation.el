@@ -49,7 +49,6 @@
 ;; recentf
 ;; Open/view recent files.
 (use-package recentf
-  :hook after-init
   :custom
   (recentf-auto-cleanup 600)
   (recentf-max-saved-items 200)

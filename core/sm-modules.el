@@ -36,8 +36,6 @@
 (defvar sm/modules
   '(sm-appearance
     sm-coding-general
-    sm-coding-go
-    sm-coding-ruby
     sm-coding-swift
     sm-coding-web
     sm-complete
