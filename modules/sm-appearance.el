@@ -55,10 +55,11 @@
 
 (use-package os1-theme
   :defer nil
-  :straight (:type git :host github :repo "sashimacs/os1-theme")
+  :elpaca (:type git :host github :repo "sashimacs/os1-theme")
   :custom
   (os1-prefer-semibold t)
   :config
   (load-theme 'os1 t))
+(elpaca-wait)
 
 (provide 'sm-appearance)

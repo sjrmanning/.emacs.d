@@ -2,12 +2,12 @@
 
 ;; Native line numbers, enabled for any programming mode.
 (use-package display-line-numbers
-  :straight (:type built-in)
+  :elpaca nil
   :hook prog-mode)
 
 ;; treesit (using built-in)
 (use-package treesit
-  :straight (:type built-in)
+  :elpaca nil
   :mode (("Dockerfile\\'" . dockerfile-ts-mode)
          ("\\.rs\\'" . rust-ts-mode)
          ("\\.ya?ml\\'" . yaml-ts-mode)

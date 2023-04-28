@@ -48,11 +48,11 @@
          ("s-j" . crux-top-join-line)))
 
 ;; Use conf-mode where appropriate.
-(use-package conf-mode
-  :mode (("\\.editorconfig$" . conf-mode)
-         ("\\.conf" . conf-mode)
-         ("\\.cfg" . conf-mode)
-         ("\\.ini" . conf-mode)))
+;; (use-package conf-mode
+;;   :mode (("\\.editorconfig$" . conf-mode)
+;;          ("\\.conf" . conf-mode)
+;;          ("\\.cfg" . conf-mode)
+;;          ("\\.ini" . conf-mode)))
 
 ;; multiple-cursors
 (use-package multiple-cursors
@@ -83,8 +83,9 @@
 
 ;; subword
 (use-package subword
+  :elpaca nil
   :diminish
-  :hook (after-init . global-subword-mode))
+  :hook (elpaca-after-init . global-subword-mode))
 
 ;; smart-comment
 ;; Better `comment-dwim' supporting uncommenting.

@@ -1,31 +1,33 @@
 ;;; sm-ui.el --- UI niceties.
 
 ;; Show color values like #f9de9f with the actual color as bg.
-(use-package rainbow-mode)
+(use-package rainbow-mode
+  :commands rainbow-mode)
 
 ;; I don't really use the mouse but it's nice for the scroll wheel
 ;; and trackpad to work correctly in terminal emacs.
 (use-package xt-mouse
+  :elpaca nil
   :unless (display-graphic-p)
-  :hook (after-init . xterm-mouse-mode))
+  :hook (elpaca-after-init . xterm-mouse-mode))
 
 (use-package nerd-icons
   :unless (display-graphic-p))
 
 (use-package nerd-icons-completion
   :unless (display-graphic-p)
-  :straight (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
-  :hook after-init)
+  :elpaca (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
+  :hook elpaca-after-init)
 
 (use-package nerd-icons-dired
   :unless (display-graphic-p)
-  :straight (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
+  :elpaca (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
   :hook dired-mode)
 
 (use-package treemacs-nerd-icons
   :unless (display-graphic-p)
   :after treemacs
-  :straight (treemacs-nerd-icons
+  :elpaca (treemacs-nerd-icons
              :type git :host github :repo "rainstormstudio/treemacs-nerd-icons")
   :init
   (require 'treemacs-nerd-icons)
@@ -34,7 +36,7 @@
 ;; Bind for toggling fullscreen.
 (use-package frame
   :if (display-graphic-p)
-  :straight (:type built-in)
+  :elpaca nil
   :bind ("C-c M-f" . toggle-frame-fullscreen))
 
 ;; uniquify
@@ -54,25 +56,25 @@
 
 ;; Better mode-line.
 (use-package doom-modeline
-  :hook after-init
+  :hook elpaca-after-init
   :custom
   (doom-modeline-height 48))
 
 ;; Small improvements to dired.
 (use-package dired-x
   :if (display-graphic-p) ;; nerd-fonts in terminal is breaking dired-x
-  :straight (:type built-in)
+  :elpaca nil
   :hook (dired-mode . dired-omit-mode)
   :custom
   (dired-omit-files "^.DS_Store$\\|^.git$\\|^.projectile$"))
 
 ;; Smooth scrolling.
 (use-package smooth-scrolling
-  :hook after-init)
+  :hook elpaca-after-init)
 
 ;; Vertico / orderless / marginalia et al.
 (use-package marginalia
-  :hook after-init)
+  :hook elpaca-after-init)
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -85,24 +87,12 @@
 
 (use-package all-the-icons-completion
   :if (display-graphic-p)
-  :hook ((after-init)
+  :hook ((elpaca-after-init)
          (marginalia-mode . all-the-icons-completion-marginalia-setup)))
 
 (use-package vertico
-  :straight (vertico :files (:defaults "extensions/*")
-                     :includes (;; vertico-indexed
-                                ;; vertico-flat
-                                ;; vertico-grid
-                                ;; vertico-mouse
-                                ;; vertico-quick
-                                ;; vertico-buffer
-                                ;; vertico-repeat
-                                ;; vertico-reverse
-                                vertico-directory
-                                ;; vertico-multiform
-                                ;; vertico-unobtrusive
-                                ))
-  :hook after-init
+  :elpaca (vertico :files (:defaults "extensions/*"))
+  :hook elpaca-after-init
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
@@ -110,7 +100,9 @@
               ("C-w" . vertico-directory-delete-word)))
 
 (use-package savehist
-  :hook after-init
+  :elpaca nil
+  :after no-littering
+  :hook elpaca-after-init
   :custom
   (savehist-file (no-littering-expand-var-file-name "savehist.el"))
   (savehist-autosave-interval nil)
@@ -120,6 +112,7 @@
           search-ring regexp-search-ring)))
 
 (use-package vertico-directory
+  :elpaca nil
   :after vertico
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
@@ -133,29 +126,40 @@
 
 (use-package fussy
   :config
-  ;; (with-eval-after-load 'corfu
-  ;;   (advice-add 'corfu--capf-wrapper :before 'fussy-wipe-cache))
+  (with-eval-after-load 'corfu
+    (advice-add 'corfu--capf-wrapper :before 'fussy-wipe-cache))
   (with-eval-after-load 'eglot
     (add-to-list 'completion-category-overrides
                  '(eglot (styles fussy basic))))
   :custom
-  ;; (fussy-use-cache t)
+  (fussy-use-cache t)
   ;; (fussy-filter-fn 'fussy-filter-orderless)
   (fussy-filter-fn 'fussy-filter-default)
   (completion-styles '(fussy basic))
   (completion-category-defaults nil)
   (completion-category-overrides nil))
 
-(use-package fuz-bin
+(use-package fzf-native
   :defer nil
-  :straight
-  (fuz-bin
-   :repo "jcs-elpa/fuz-bin"
-   :fetcher github
+  :elpaca
+  (fzf-native
+   :repo "dangduc/fzf-native"
+   :host github
    :files (:defaults "bin"))
   :config
-  (setq fussy-score-fn 'fussy-fuz-bin-score)
-  (fuz-bin-load-dyn t))
+  (setq fussy-score-fn 'fussy-fzf-native-score)
+  (fzf-native-load-dyn))
+
+;; (use-package fuz-bin
+;;   :defer nil
+;;   :elpaca
+;;   (fuz-bin
+;;    :repo "jcs-elpa/fuz-bin"
+;;    :fetcher github
+;;    :files (:defaults "bin"))
+;;   :config
+;;   (setq fussy-score-fn 'fussy-fuz-bin-score)
+;;   (fuz-bin-load-dyn))
 
 (use-package consult
   :after perspective
@@ -189,7 +193,7 @@
 
 (use-package which-key
   :diminish
-  :hook after-init
+  :hook elpaca-after-init
   :custom
   (which-key-sort-order 'which-key-key-order-alpha)
   (which-key-side-window-max-width 0.33)
@@ -228,7 +232,7 @@
 
 ;; Better help system.
 (use-package helpful
-  ;; :straight (:host github :repo "Wilfred/helpful")
+  ;; :elpaca (:host github :repo "Wilfred/helpful")
   :bind (("C-h f" . helpful-callable)
      ("C-h v" . helpful-variable)
      ("C-h k" . helpful-key)
@@ -239,7 +243,7 @@
 ;; miniframe
 ;; minibuffer in a childframe like a HUD.
 (use-package mini-frame
-  :hook after-init
+  :hook elpaca-after-init
   :custom
   (mini-frame-ignore-commands '(y-or-n-p
                                 eval-expression

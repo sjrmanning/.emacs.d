@@ -40,7 +40,7 @@
   :hook org-mode)
 
 (use-package org
-  :straight (:type built-in)
+  :elpaca nil
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
@@ -126,7 +126,7 @@
   :diminish
   :after org-roam
   :hook (markdown-mode . corfu-mode)
-  :straight (md-roam :type git :host github :repo "nobiot/md-roam")
+  :elpaca (md-roam :type git :host github :repo "nobiot/md-roam")
   :custom
   (org-roam-file-extensions '("md" "org"))
   :config
@@ -187,6 +187,7 @@
   ("C-c n r" . consult-org-roam-search))
 
 (use-package deft
+  :commands deft
   :custom (deft-directory sm/org-roam-dir))
 
 (provide 'sm-notes)

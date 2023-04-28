@@ -14,7 +14,7 @@
   (olivetti-body-width 0.66))
 
 (use-package jinx
-  :hook (text-mode git-commit-mode prog-mode)
+  :hook (text-mode git-commit-mode) ;; swift-mode is lagging with jinx.
   :bind (([remap ispell-word] . jinx-correct)
          ("C-;" . jinx-correct)))
 
@@ -32,7 +32,7 @@
   :if (and (display-graphic-p) (featurep 'xwidget-internal))
   :after markdown-mode
   :commands (markdown-xwidget-preview-mode markdown-xwidget-preview)
-  :straight (markdown-xwidget
+  :elpaca (markdown-xwidget
              :type git
              :host github
              :repo "cfclrk/markdown-xwidget"

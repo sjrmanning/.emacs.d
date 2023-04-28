@@ -4,7 +4,7 @@
 (use-package projectile
   :diminish
   :bind-keymap ("C-c p" . projectile-command-map)
-  :hook (after-init . projectile-global-mode)
+  :hook (elpaca-after-init . projectile-global-mode)
   :config
   ;; Ensure projectile dir exists.
   (defvar my-projectile-dir (sm/cache-for "projectile"))
@@ -18,7 +18,7 @@
 
 ;; perspective
 (use-package perspective
-  :hook (after-init . persp-mode)
+  :hook (elpaca-after-init . persp-mode)
   :custom
   (persp-mode-prefix-key (kbd "C-x x"))
   (persp-initial-frame-name "notes"))

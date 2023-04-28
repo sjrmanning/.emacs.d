@@ -1,10 +1,10 @@
 ;; Navigation related settings and binds.
 (use-package ibuffer
-  :straight (:type built-in)
+  :elpaca nil
   :bind ("C-x C-b" . ibuffer))
 
 (use-package files
-  :straight (:type built-in)
+  :elpaca nil
   :bind (("C-x f" . sm/smart-find-file)
          ("C-x k" . sm/kill-default-buffer))
   :init
@@ -37,7 +37,8 @@
 ;; saveplace
 ;; Remebers your location in a file when saving files.
 (use-package saveplace
-  :hook (after-init . save-place-mode)
+  :elpaca nil
+  :hook (elpaca-after-init . save-place-mode)
   :custom (save-place-file (sm/cache-for "saveplace")))
 
 ;; avy
@@ -49,6 +50,7 @@
 ;; recentf
 ;; Open/view recent files.
 (use-package recentf
+  :elpaca nil
   :custom
   (recentf-auto-cleanup 600)
   (recentf-max-saved-items 200)

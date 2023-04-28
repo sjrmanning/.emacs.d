@@ -12,6 +12,8 @@
 ;; Using straight means we don't want to initialize package.el at all.
 (setq package-enable-at-startup nil)
 
+(setq use-package-compute-statistics t)
+
 ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
 (menu-bar-mode 0)
 (tool-bar-mode 0)

@@ -15,6 +15,7 @@ tramp
 # Packages
 straight/
 elpa/
+elpaca/
 
 # DS_Store
 .DS_Store

@@ -7,7 +7,7 @@
 ;;; Code:
 
 (use-package corfu
-  :straight
+  :elpaca
   (:files (:defaults "extensions/*")
           :includes (corfu-info corfu-history))
   :hook (prog-mode shell-mode org-mode)
