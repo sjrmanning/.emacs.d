@@ -51,7 +51,6 @@
 ;;; Generalized version of `read-only-mode'.
 ;; (define-key endless/toggle-map "r" #'dired-toggle-read-only)
 ;; (autoload 'dired-toggle-read-only "dired" nil t)
-(define-key endless/toggle-map "w" #'whitespace-mode)
 
 ;; ctrl-x t v f -or- ctrl-x t v l
 (define-prefix-command 'endless/visual-map)
@@ -59,6 +58,12 @@
 (define-key endless/visual-map "f" #'visual-fill-column-mode)
 (define-key endless/visual-map "l" #'visual-line-mode)
 
+;; ctrl-x t w g -or- ctrl-x t w o
+(define-prefix-command 'endless/whitespace-map)
+(define-key endless/toggle-map "w" 'endless/whitespace-map)
+;; (define-key endless/whitespace-map "g" #'global-whitespace-toggle-options)
+(define-key endless/whitespace-map "o" #'whitespace-toggle-options)
+(define-key endless/whitespace-map "w" #'whitespace-mode)
 
 ;; Cursor movement
 (defun sm/next-line-fast ()
@@ -150,6 +155,9 @@
   :chords (("yy" . browse-kill-ring)))
 
 ;; whitespace
+;; handle markdown:
+;;   (add-hook 'markdown-mode-hook
+;;      (lambda () (setq-local whitespace-style (delq 'trailing whitespace-style))))
 (use-package whitespace
   :config
   (setq whitespace-line-column 88)

@@ -7,23 +7,28 @@
 
 (use-package python
   :mode ("\\.py\\'" . python-mode)
-  :interpreter ("python" . python-mode)
-  :config
-  (use-package lsp-pyright
-    :straight `(lsp-pyright :repo "emacs-lsp/lsp-pyright"
-                            :host github)
-    :ensure t
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-pyright)
-                           (lsp))))
-  (use-package py-isort)
-  (use-package python-black)
-  :hook (
-         (python-mode . lsp-deferred)
-         (python-mode . py-isort-enable-on-save)
-         (python-mode . python-black-on-save-mode)
-         )
-  )
+  :interpreter ("python" . python-mode))
+
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode))
+
+(use-package py-isort
+  :demand t
+  :after python
+  :hook (python-mode . py-isort-enable-on-save))
+
+(use-package lsp-pyright
+  :straight `(lsp-pyright :repo "emacs-lsp/lsp-pyright"
+                          :host github)
+  :ensure t
+  :init
+  (setq lsp-pyright-multi-root nil)
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp))))
+
 
 (setenv "PYTHONIOENCODING" "utf8")
 
