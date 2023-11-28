@@ -44,6 +44,9 @@ git or hg repository is found in the buffer-local working dir."
                                       (git-commit-turn-on-auto-fill)
                                       (setq git-commit-summary-max-length 50)))))
 
+(use-package magit-section
+  :after magit)
+
 ;; Git forge w/ magit.
 (use-package forge
   :after magit)

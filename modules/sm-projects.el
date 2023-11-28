@@ -14,7 +14,6 @@
   ;; set to default so that it uses "completing-read" (and selectrum)
   (setq projectile-completion-system 'default)
   :config
-  (use-package projectile-ripgrep)
   ;; Ensure projectile dir exists.
   (defvar my-projectile-dir (sm/cache-for "projectile"))
   (sm/mkdir-p my-projectile-dir)
