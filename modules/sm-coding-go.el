@@ -14,7 +14,8 @@
          (go-mode . (lambda ()
                       ;; (whitespace-toggle-options '(tabs))
                       (setq whitespace-style '(face empty trailing lines-tail))
-                      )))
+                      ))
+         (go-mode . lsp-deferred))
   :bind (:map go-mode-map
               ("M-." . godef-jump)
               ("M-*" . pop-tag-mark))
