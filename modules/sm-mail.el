@@ -1,8 +1,7 @@
 ;;; sm-mail.el --- VM and BBDB and oh my!
 
 ;; don't bother with this, except on my laptop...
-;; (when (string= (system-name) "alec.local")
-(when (string-match "^alec" (system-name))
+(when (string-match "^raven" (system-name))
   (use-package ebdb
     :straight (ebdb :type git :host github :repo "girzel/ebdb"
                     )
