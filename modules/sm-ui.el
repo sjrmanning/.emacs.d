@@ -16,8 +16,7 @@
 
 (use-package selectrum
   :hook
-  (after-init . selectrum-mode)
-  )
+  (after-init . selectrum-mode))
 
 ;; smex support in counsel
 (use-package smex

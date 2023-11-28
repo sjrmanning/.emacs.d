@@ -12,6 +12,8 @@
 (setq-default display-line-numbers-width 4)
 
 (use-package distinguished-theme)
+(use-package moe-theme)
+(use-package clues-theme)
 
 (add-hook 'after-init-hook
           (lambda nil
@@ -33,15 +35,22 @@
             (set-face-attribute
              'variable-pitch nil
              :family sm/var-font-name))
+
+          ;; Other themes I've played with...
+          ;; (load-theme 'wombat t)
+          ;; (load-theme 'distinguished t)
+          ;; (load-theme 'moe-dark t)
+          ;; (load-theme 'heroku t)
+          ;; (load-theme 'manoj-dark t)
+          ;; (load-theme 'tsdh-dark t)
+          ;; (load-theme 'wombat t)
+          ;; (load-theme 'distinguished t)
+          ;; (load-theme 'moe-dark t)
           (if (display-graphic-p)
-              ;; (load-theme 'wombat t)
-              (load-theme 'distinguished t)
-            ;; (load-theme 'heroku t)
-            ;; dark theme, very contrasty.
-            ;; (load-theme 'manoj-dark t)
-            ;; (load-theme 'tsdh-dark t)
-            ;; (load-theme 'wombat t)
-            (load-theme 'distinguished t)
+              (load-theme 'clues t)
+            (load-theme 'clues t)
+            ;; use this one for demo'ing git-commit mode in terminal window
+            ;; (load-theme 'moe-dark t)
             ))
 
 (use-package rainbow-mode

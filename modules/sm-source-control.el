@@ -91,7 +91,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :hook (magit-diff-visit-file . (lambda ()
                                    (when smerge-mode
                                      (sm/smerge-hydra/body)))))
-(use-package git-commit)
+
+;; Need to load this on demand so that it can emplace hooks that will
+;; load the heavy bits of git-commit if/when needed.
+(use-package git-commit
+  :demand t
+  :config
+  (global-git-commit-mode t))
 
 ;; visit previous versions of files
 (use-package git-timemachine)

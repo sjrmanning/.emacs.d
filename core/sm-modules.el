@@ -3,6 +3,7 @@
 ;; straight.el tuning
 (setq straight-cache-autoloads t)
 (setq straight-check-for-modifications '(check-on-save))
+(setq straight-disable-native-compile t)
 
 ;; Bootstrap straight.
 (defvar bootstrap-version)

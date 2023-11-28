@@ -12,7 +12,10 @@
 (use-package go-mode
   :hook ((before-save . gofmt-before-save)
          (go-mode . (lambda ()
-                      (whitespace-toggle-options '(tabs)))))
+                      ;; (whitespace-toggle-options '(tabs))
+                      (setq whitespace-style '(face empty trailing lines-tail))
+                      ))
+         (go-mode . lsp-deferred))
   :bind (:map go-mode-map
               ("M-." . godef-jump)
               ("M-*" . pop-tag-mark))
@@ -30,5 +33,14 @@
 ;; complete-at-point works out of the box):
 ;; (use-package company-lsp
 ;;   :commands company-lsp)
+
+(use-package go-template-mode
+  :straight nil
+  :load-path "etc/extra"
+  :demand t
+  :config
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.tmpl$" . go-template-mode))
+    ))
 
 (provide 'sm-coding-go)
