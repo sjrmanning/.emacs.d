@@ -1,4 +1,4 @@
-;;; sm-ui.el --- UI niceties.
+;;; sm-ui.el --- UI niceties.  -*- lexical-binding: t; -*-
 
 ;; Show color values like #f9de9f with the actual color as bg.
 (use-package rainbow-mode
@@ -7,7 +7,7 @@
 ;; I don't really use the mouse but it's nice for the scroll wheel
 ;; and trackpad to work correctly in terminal emacs.
 (use-package xt-mouse
-  :elpaca nil
+  :ensure nil
   :unless (display-graphic-p)
   :hook (elpaca-after-init . xterm-mouse-mode))
 
@@ -15,19 +15,22 @@
   :unless (display-graphic-p))
 
 (use-package nerd-icons-completion
+  :after marginalia
   :unless (display-graphic-p)
-  :elpaca (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
-  :hook elpaca-after-init)
+  :ensure (nerd-icons-completion :type git :host github :repo "rainstormstudio/nerd-icons-completion")
+  :hook elpaca-after-init
+  :config
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 (use-package nerd-icons-dired
   :unless (display-graphic-p)
-  :elpaca (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
+  :ensure (nerd-icons-dired :type git :host github :repo "rainstormstudio/nerd-icons-dired")
   :hook dired-mode)
 
 (use-package treemacs-nerd-icons
   :unless (display-graphic-p)
   :after treemacs
-  :elpaca (treemacs-nerd-icons
+  :ensure (treemacs-nerd-icons
              :type git :host github :repo "rainstormstudio/treemacs-nerd-icons")
   :init
   (require 'treemacs-nerd-icons)
@@ -36,7 +39,7 @@
 ;; Bind for toggling fullscreen.
 (use-package frame
   :if (display-graphic-p)
-  :elpaca nil
+  :ensure nil
   :bind ("C-c M-f" . toggle-frame-fullscreen))
 
 ;; uniquify
@@ -50,8 +53,9 @@
   :commands gcmh-mode
   :functions (gcmh-idle-garbage-collect)
   :custom
-  (gcmh-idle-delay 'auto)
-  (gcmh-high-cons-threshold (* 16 1024 1024))
+  (gcmh-idle-delay 15)
+  (gcmh-high-cons-threshold (* 32 1024 1024))
+  (gcmh-low-cons-threshold (* 2 1024 1024))
   (gcmh-verbose nil))
 
 ;; Better mode-line.
@@ -63,10 +67,15 @@
 ;; Small improvements to dired.
 (use-package dired-x
   :if (display-graphic-p) ;; nerd-fonts in terminal is breaking dired-x
-  :elpaca nil
+  :ensure nil
   :hook (dired-mode . dired-omit-mode)
   :custom
   (dired-omit-files "^.DS_Store$\\|^.git$\\|^.projectile$"))
+
+;; https://github.com/kickingvegas/casual-suite
+(use-package casual
+  :after dired
+  :bind (:map dired-mode-map ("C-o" . #'casual-dired-tmenu)))
 
 ;; Smooth scrolling.
 (use-package smooth-scrolling
@@ -91,7 +100,7 @@
          (marginalia-mode . all-the-icons-completion-marginalia-setup)))
 
 (use-package vertico
-  :elpaca (vertico :files (:defaults "extensions/*"))
+  :ensure (vertico :files (:defaults "extensions/*"))
   :hook elpaca-after-init
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
@@ -100,7 +109,7 @@
               ("C-w" . vertico-directory-delete-word)))
 
 (use-package savehist
-  :elpaca nil
+  :ensure nil
   :after no-littering
   :hook elpaca-after-init
   :custom
@@ -112,7 +121,7 @@
           search-ring regexp-search-ring)))
 
 (use-package vertico-directory
-  :elpaca nil
+  :ensure nil
   :after vertico
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
@@ -121,71 +130,72 @@
               ("C-w" . vertico-directory-delete-word))
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
-(use-package orderless
-  :commands (orderless-filter))
+;; (use-package hotfuzz
+;;   :defer nil
+;;   :custom
+;;   (completion-styles '(hotfuzz))
+;;   ;; (read-buffer-completion-ignore-case t)
+;;   )
+
+;; (use-package nucleo-completion
+;;   :defer nil
+;;   :vc (:url "https://github.com/kn66/nucleo-completion.el" :rev :newest)
+;;   :custom
+;;   (completion-styles '(nucleo))
+;;   (nucleo-completion-sort-ties-by-length t)
+;;   )
+
+;; `fzf`
+(use-package fzf-native
+  :vc (:url "https://github.com/dangduc/fzf-native" :rev :newest)
+  :config
+  (fzf-native-load-dyn))
 
 (use-package fussy
   :config
-  (with-eval-after-load 'corfu
-    (advice-add 'corfu--capf-wrapper :before 'fussy-wipe-cache))
-  (with-eval-after-load 'eglot
-    (add-to-list 'completion-category-overrides
-                 '(eglot (styles fussy basic))))
-  :custom
-  (fussy-use-cache t)
-  ;; (fussy-filter-fn 'fussy-filter-orderless)
-  (fussy-filter-fn 'fussy-filter-default)
-  (completion-styles '(fussy basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides nil))
+  (fussy-setup-fzf)
+  (fussy-eglot-setup)
+  ;; consult-grep uses load-bearing face text properties to locate
+  ;; filename/line boundaries in candidates; fzf-native strips them,
+  ;; causing consult--grep-position to crash with wrong-type-argument.
+  (add-to-list 'completion-category-overrides '(consult-grep (styles basic))))
 
-(use-package fzf-native
-  :defer nil
-  :elpaca
-  (fzf-native
-   :repo "dangduc/fzf-native"
-   :host github
-   :files (:defaults "bin"))
-  :config
-  (setq fussy-score-fn 'fussy-fzf-native-score)
-  (fzf-native-load-dyn))
-
-;; (use-package fuz-bin
-;;   :defer nil
-;;   :elpaca
-;;   (fuz-bin
-;;    :repo "jcs-elpa/fuz-bin"
-;;    :fetcher github
-;;    :files (:defaults "bin"))
+;; (use-package fzf-async
+;;   :vc (:url "https://github.com/jojojames/fzf-async" :rev :newest)
+;;   :bind (("C-c s" . fzf-async-rg)
+;;          ("C-x b" . fzf-async-buffer)
+;;          ("C-x C-r" . fzf-async-recent-file))
+;;          ;; ("C-c b" . consult-project-buffer)
+;;          ;; ("M-g" . consult-goto-line))
 ;;   :config
-;;   (setq fussy-score-fn 'fussy-fuz-bin-score)
-;;   (fuz-bin-load-dyn))
+;;   (fzf-async-setup))
 
 (use-package consult
   :after perspective
-  :bind (("C-c s" . consult-ripgrep)
+  :bind (
+         ("C-c s" . consult-ripgrep)
          ("C-x b" . consult-buffer)
          ("C-x C-r" . consult-recent-file)
          ("C-c b" . consult-project-buffer)
          ("M-g" . consult-goto-line))
   :config
+  (setq
+   consult--tofu-char #x100000
+   consult--tofu-range #x00fffe)
   (recentf-mode t)
   ;; Delay previews slightly to improve performance.
   (consult-customize
-   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-theme :preview-key '(:debounce 0.1 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
+   consult-source-file-register
+   consult-source-recent-file consult-source-project-recent-file
    :preview-key '(:debounce 0.4 any))
   ;; Perspective integration.
-  (consult-customize consult--source-buffer :hidden t :default nil)
+  (consult-customize consult-source-buffer :hidden t :default nil)
   (add-to-list 'consult-buffer-sources persp-consult-source)
   ;; Bookmarks in consult-buffer trigger prog-mode and all its hooks.
-  (delete 'consult--source-bookmark consult-buffer-sources))
-
-(use-package consult-projectile
-  :bind ("C-x F" . consult-projectile))
+  (delete 'consult-source-bookmark consult-buffer-sources))
 
 (use-package swiper
   :bind (("C-s" . swiper-isearch)
@@ -199,127 +209,93 @@
   (which-key-side-window-max-width 0.33)
   (which-key-idle-delay 1.0))
 
-(use-package treemacs
-  :custom
-  (treemacs-resize-icons 44)
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x C-n"   . treemacs)
-        ("C-x t d"   . treemacs-select-directory)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile)
-  :defer nil)
-
-(use-package treemacs-magit
-  :after (treemacs magit)
-  :defer nil)
-
 ;; Highlights modified region (e.g. on yank)
-;; Weird behavior on terminal so only in GUI for now.
 (use-package goggles
-  :if (display-graphic-p)
   :diminish
   :hook (prog-mode text-mode)
   :config
   (setq-default goggles-pulse t))
 
-;; Better help system.
-(use-package helpful
-  ;; :elpaca (:host github :repo "Wilfred/helpful")
-  :bind (("C-h f" . helpful-callable)
-     ("C-h v" . helpful-variable)
-     ("C-h k" . helpful-key)
-     ("C-h F" . helpful-function)
-     ("C-h C" . helpful-command)
-     ("C-c C-d" . helpful-at-point)))
-
 ;; miniframe
 ;; minibuffer in a childframe like a HUD.
-(use-package mini-frame
-  :hook elpaca-after-init
-  :custom
-  (mini-frame-ignore-commands '(y-or-n-p
-                                eval-expression
-                                debugger-eval-expression
-                                swiper-isearch
-                                swiper-isearch-backward
-                                consult-ripgrep
-                                consult-goto-line))
-  (mini-frame-show-parameters '((top . 256)
-                                (width . 0.66)
-                                (left . 0.5)
-                                (child-frame-border-width . 1)
-                                (background-color . "#faf5eb"))))
+;; (use-package mini-frame
+;;   :hook elpaca-after-init
+;;   :custom
+;;   (mini-frame-ignore-commands '(y-or-n-p
+;;                                 eval-expression
+;;                                 debugger-eval-expression
+;;                                 swiper-isearch
+;;                                 swiper-isearch-backward
+;;                                 consult-ripgrep
+;;                                 consult-goto-line))
+;;   (mini-frame-show-parameters '((top . 256)
+;;                                 (width . 0.66)
+;;                                 (left . 0.5)
+;;                                 (child-frame-border-width . 1)
+;;                                 (background-color . "#faf5eb"))))
 
 ;; ligature support
-(use-package ligature
-  :if (display-graphic-p)
-  :hook prog-mode
-  :config
-  (ligature-set-ligatures 'prog-mode
-                        '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
-                          ;; =:= =!=
-                          ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
-                          ;; ;; ;;;
-                          (";" (rx (+ ";")))
-                          ;; && &&&
-                          ("&" (rx (+ "&")))
-                          ;; !! !!! !. !: !!. != !== !~
-                          ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
-                          ;; ?? ??? ?:  ?=  ?.
-                          ("?" (rx (or ":" "=" "\." (+ "?"))))
-                          ;; %% %%%
-                          ("%" (rx (+ "%")))
-                          ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
-                          ;; |->>-||-<<-| |- |== ||=||
-                          ;; |==>>==<<==<=>==//==/=!==:===>
-                          ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
-                                          "-" "=" ))))
-                          ;; \\ \\\ \/
-                          ("\\" (rx (or "/" (+ "\\"))))
-                          ;; ++ +++ ++++ +>
-                          ("+" (rx (or ">" (+ "+"))))
-                          ;; :: ::: :::: :> :< := :// ::=
-                          (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
-                          ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
-                          ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
-                                          "="))))
-                          ;; .. ... .... .= .- .? ..= ..<
-                          ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
-                          ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
-                          ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
-                          ;; *> */ *)  ** *** ****
-                          ("*" (rx (or ">" "/" ")" (+ "*"))))
-                          ;; www wwww
-                          ("w" (rx (+ "w")))
-                          ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
-                          ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
-                          ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
-                          ;; << <<< <<<<
-                          ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
-                                          "-"  "/" "|" "="))))
-                          ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
-                          ;; >> >>> >>>>
-                          (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
-                          ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
-                          ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
-                                       (+ "#"))))
-                          ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
-                          ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
-                          ;; __ ___ ____ _|_ __|____|_
-                          ("_" (rx (+ (or "_" "|"))))
-                          ;; Fira code: 0xFF 0x12
-                          ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
-                          ;; Fira code:
-                          "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
-                          ;; The few not covered by the regexps.
-                          "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^=")))
+;; (use-package ligature
+;;   :if (display-graphic-p)
+;;   :hook prog-mode
+;;   :config
+;;   (ligature-set-ligatures 'prog-mode
+;;                         '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
+;;                           ;; =:= =!=
+;;                           ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
+;;                           ;; ;; ;;;
+;;                           (";" (rx (+ ";")))
+;;                           ;; && &&&
+;;                           ("&" (rx (+ "&")))
+;;                           ;; !! !!! !. !: !!. != !== !~
+;;                           ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
+;;                           ;; ?? ??? ?:  ?=  ?.
+;;                           ("?" (rx (or ":" "=" "\." (+ "?"))))
+;;                           ;; %% %%%
+;;                           ("%" (rx (+ "%")))
+;;                           ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
+;;                           ;; |->>-||-<<-| |- |== ||=||
+;;                           ;; |==>>==<<==<=>==//==/=!==:===>
+;;                           ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
+;;                                           "-" "=" ))))
+;;                           ;; \\ \\\ \/
+;;                           ("\\" (rx (or "/" (+ "\\"))))
+;;                           ;; ++ +++ ++++ +>
+;;                           ("+" (rx (or ">" (+ "+"))))
+;;                           ;; :: ::: :::: :> :< := :// ::=
+;;                           (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
+;;                           ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
+;;                           ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
+;;                                           "="))))
+;;                           ;; .. ... .... .= .- .? ..= ..<
+;;                           ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
+;;                           ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
+;;                           ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
+;;                           ;; *> */ *)  ** *** ****
+;;                           ("*" (rx (or ">" "/" ")" (+ "*"))))
+;;                           ;; www wwww
+;;                           ("w" (rx (+ "w")))
+;;                           ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
+;;                           ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
+;;                           ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
+;;                           ;; << <<< <<<<
+;;                           ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
+;;                                           "-"  "/" "|" "="))))
+;;                           ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
+;;                           ;; >> >>> >>>>
+;;                           (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
+;;                           ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
+;;                           ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
+;;                                        (+ "#"))))
+;;                           ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
+;;                           ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
+;;                           ;; __ ___ ____ _|_ __|____|_
+;;                          ("_" (rx (+ (or "_" "|"))))
+;;                           ;; Fira code: 0xFF 0x12
+;;                           ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
+;;                           ;; Fira code:
+;;                           "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
+;;                           ;; The few not covered by the regexps.
+;;                           "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^=")))
 
 (provide 'sm-ui)

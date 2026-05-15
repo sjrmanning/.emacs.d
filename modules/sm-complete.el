@@ -1,4 +1,4 @@
-;;; sm-complete.el --- Auto-completion.
+;;; sm-complete.el --- Auto-completion.  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
@@ -7,7 +7,7 @@
 ;;; Code:
 
 (use-package corfu
-  :elpaca
+  :ensure
   (:files (:defaults "extensions/*")
           :includes (corfu-info corfu-history))
   :hook (prog-mode shell-mode org-mode)
@@ -50,11 +50,6 @@
   (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/"))
   :init
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
-(use-package corfu-terminal
-  :unless window-system
-  :after corfu
-  :hook (corfu-mode . corfu-terminal-mode))
 
 ;;; _
 (provide 'sm-complete)

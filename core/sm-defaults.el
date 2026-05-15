@@ -1,4 +1,4 @@
-;; Sane defaults.
+;; Sane defaults.  -*- lexical-binding: t; -*-
 (require 'sm-defuns)
 
 ;; Ignore customisation by putting it in the cache dir.
@@ -98,10 +98,6 @@
 
 ;; Focus help-window when it pops up so you can quickly close it with q.
 (setq-default help-window-select t)
-
-;; Scratch buffer configuration.
-(setq initial-major-mode 'markdown-mode)
-(setq initial-scratch-message "# ")
 
 ;; Highlight lines.
 (global-hl-line-mode t)

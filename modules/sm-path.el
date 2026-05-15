@@ -1,4 +1,4 @@
-;; Keep .emacs.d paths clean!
+;; Keep .emacs.d paths clean!  -*- lexical-binding: t; -*-
 (use-package no-littering
   :custom
   (auto-save-file-name-transforms

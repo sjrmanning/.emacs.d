@@ -1,4 +1,4 @@
-;;; sm-projects.el --- Configuration for working with projects.
+;;; sm-projects.el --- Configuration for working with projects.  -*- lexical-binding: t; -*-
 
 ;; projectile
 (use-package projectile

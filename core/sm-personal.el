@@ -1,4 +1,4 @@
-;; Various personal settings probably only applicable to my setup.
+;; Various personal settings probably only applicable to my setup.  -*- lexical-binding: t; -*-
 (require 'sm-defuns)
 
 ;; Main org and org-roam dirs.

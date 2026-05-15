@@ -1,4 +1,4 @@
-;;; init-defuns.el --- Custom functions required by other init files.
+;;; init-defuns.el --- Custom functions required by other init files.  -*- lexical-binding: t; -*-
 
 ;; Function for determining emacs dir paths.
 (defun sm/emacs.d (path)

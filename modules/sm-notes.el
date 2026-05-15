@@ -1,4 +1,4 @@
-;;; sm-notes.el --- Note-taking, org-mode, deft, et al.
+;;; sm-notes.el --- Note-taking, org-mode, deft, et al.  -*- lexical-binding: t; -*-
 
 ;; ;; Fix org version warning.
 ;; (straight-override-recipe
@@ -36,16 +36,19 @@
 " "Estimated task data")
 
 ;; Prettify org-mode.
+;; org-indent-mode after org-modern-mode breaks headline indicators, so ensure
+;; org-modern-mode runs last.
 (use-package org-modern
   :hook org-mode)
+;;   :hook (org-mode . org-indent-mode))
 
 (use-package org
-  :elpaca nil
+  :ensure nil
+  :hook (org-mode . org-indent-mode)
   :bind (("C-c C-x C-s" . mark-done-and-archive)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link))
-  :hook (org-mode . org-indent-mode)
   :config
   ;; Follow links in the same window.
   (setcdr (assoc 'file org-link-frame-setup) 'find-file)
@@ -122,23 +125,23 @@
            (file ,(org-file-path "reading.org"))
            ,sm/org-basic-task-template :empty-lines 1))))
 
-(use-package md-roam
-  :diminish
-  :after org-roam
-  :hook (markdown-mode . corfu-mode)
-  :elpaca (md-roam :type git :host github :repo "nobiot/md-roam")
-  :custom
-  (org-roam-file-extensions '("md" "org"))
-  :config
-  ;; corfu support.
-  (with-eval-after-load 'markdown-mode
-    (advice-add #'markdown-indent-line :before-until #'completion-at-point))
-  ;; Add Markdown option to templates.
-  (add-to-list 'org-roam-capture-templates
-               '("m" "Markdown" plain "" :target
-                 (file+head "${slug}.md"
-                            "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
-                 :unnarrowed t)))
+;; (use-package md-roam
+;;   :diminish
+;;   :after org-roam
+;;   :hook (markdown-ts-mode . corfu-mode)
+;;   :ensure (md-roam :type git :host github :repo "nobiot/md-roam")
+;;   :custom
+;;   (org-roam-file-extensions '("md" "org"))
+;;   :config
+;;   ;; corfu support.
+;;   (with-eval-after-load 'markdown-ts-mode
+;;     (advice-add #'markdown-indent-line :before-until #'completion-at-point))
+;;   ;; Add Markdown option to templates.
+;;   (add-to-list 'org-roam-capture-templates
+;;                '("m" "Markdown" plain "" :target
+;;                  (file+head "${slug}.md"
+;;                             "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
+;;                  :unnarrowed t)))
 
 ;; org-roam for capturing and organizing notes.
 (use-package org-roam
@@ -154,6 +157,7 @@
    ("C-c n i" . #'org-roam-insert)
    ("C-c n I" . #'org-roam-insert-immediate)
    ("C-c n b" . #'org-roam-switch-to-buffer)
+   ("C-c n d" . #'org-roam-dailies-goto-date)
    ("C-c n t" . #'org-roam-dailies-goto-today))
   :custom
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
@@ -166,12 +170,14 @@
   (org-roam-dailies-directory "journal/")
   (org-roam-dailies-capture-templates
    '(("d" "default" plain "%?"
-      :if-new (file+head "%<%Y-%m-%d>.org"
+      ;; :if-new (file+head "%<%Y-%m-%d>.org"
+      :target (file+head "%<%Y-%m-%d>.org"
                          "#+title: %<%A, %Y-%m-%d>\n\n")
       :unnarrowed t)))
   :config
   (org-roam-db-autosync-mode t)
-  (md-roam-mode t))
+  ;; (md-roam-mode t)
+  )
 
 (use-package consult-org-roam
   :after org-roam

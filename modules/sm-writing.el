@@ -1,6 +1,17 @@
+;; text-mode  -*- lexical-binding: t; -*-
+;; Disable ispell showing word completions in corfu.
+(use-package text-mode
+  :ensure nil
+  :config
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (remove-hook 'completion-at-point-functions
+                           'ispell-completion-at-point t))))
+
 ;; typo
 ;; Mode for typographical editing.
 (use-package typo
+  :ensure (:type git :host github :repo "jorgenschaefer/typoel")
   :hook text-mode)
 
 ;; olivetti -- similar to writeroom but a simple minor mode
@@ -19,29 +30,31 @@
          ("C-;" . jinx-correct)))
 
 ;; markdown
-(use-package markdown-mode
-  :mode (("\\.md\\'" . markdown-mode)
-         ("README\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :custom
-  (markdown-command "pandoc")
-  (markdown-fontify-code-blocks-natively t))
+;; (use-package markdown-ts-mode
+;;   :ensure nil
+;;   :mode (("\\.md\\'" . markdown-ts-mode)
+;;          ;; ("README\\.md\\'" . gfm-mode)
+;;          ("\\.markdown\\'" . markdown-ts-mode)))
+  ;; :custom
+  ;; (markdown-command "pandoc")
+  ;; (markdown-fontify-code-blocks-natively t)
+  ;; )
 
 ;; markdown live-preview with xwidgets when available.
-(use-package markdown-xwidget
-  :if (and (display-graphic-p) (featurep 'xwidget-internal))
-  :after markdown-mode
-  :commands (markdown-xwidget-preview-mode markdown-xwidget-preview)
-  :elpaca (markdown-xwidget
-             :type git
-             :host github
-             :repo "cfclrk/markdown-xwidget"
-             :files (:defaults "resources"))
-  :custom
-  (markdown-xwidget-github-theme "light")
-  :init
-  (bind-keys :map markdown-mode-map
-             ("C-c C-c l" . markdown-xwidget-preview-mode)))
+;; (when (and (display-graphic-p) (featurep 'xwidget-internal))
+;; (use-package markdown-xwidget
+;;   :after markdown-mode
+;;   :commands (markdown-xwidget-preview-mode markdown-xwidget-preview)
+;;   :ensure (markdown-xwidget
+;;              :type git
+;;              :host github
+;;              :repo "cfclrk/markdown-xwidget"
+;;              :files (:defaults "resources"))
+;;   :custom
+;;   (markdown-xwidget-github-theme "light")
+;;   :init
+;;   (bind-keys :map markdown-mode-map
+;;              ("C-c C-c l" . markdown-xwidget-preview-mode))))
 
 ;; Double spaces at the end of sentences is a bit outdated.
 (setq sentence-end-double-space nil)

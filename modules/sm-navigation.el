@@ -1,10 +1,10 @@
-;; Navigation related settings and binds.
+;; Navigation related settings and binds.  -*- lexical-binding: t; -*-
 (use-package ibuffer
-  :elpaca nil
+  :ensure nil
   :bind ("C-x C-b" . ibuffer))
 
 (use-package files
-  :elpaca nil
+  :ensure nil
   :bind (("C-x f" . sm/smart-find-file)
          ("C-x k" . sm/kill-default-buffer))
   :init
@@ -12,7 +12,7 @@
     "Find files using projectile if within a project, or fall-back to `find-file'."
     (interactive)
     (if (projectile-project-p)
-        (consult-projectile-find-file)
+        (project-find-file)
       (call-interactively 'find-file)))
 
   (defun sm/kill-default-buffer ()
@@ -37,7 +37,7 @@
 ;; saveplace
 ;; Remebers your location in a file when saving files.
 (use-package saveplace
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init . save-place-mode)
   :custom (save-place-file (sm/cache-for "saveplace")))
 
@@ -50,7 +50,7 @@
 ;; recentf
 ;; Open/view recent files.
 (use-package recentf
-  :elpaca nil
+  :ensure nil
   :custom
   (recentf-auto-cleanup 600)
   (recentf-max-saved-items 200)

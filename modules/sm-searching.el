@@ -1,4 +1,4 @@
-;; deadgrep
+;; deadgrep  -*- lexical-binding: t; -*-
 ;; Uses ripgrep + nice results. This is replacing ag because ripgrep is faster
 ;; and the deadgrep interface is great.
 (use-package deadgrep

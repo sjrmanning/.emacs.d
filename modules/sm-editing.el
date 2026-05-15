@@ -83,7 +83,7 @@
 
 ;; subword
 (use-package subword
-  :elpaca nil
+  :ensure nil
   :diminish
   :hook (elpaca-after-init . global-subword-mode))
 

@@ -7,15 +7,19 @@
 
 ;;; Code:
 
-(use-package vterm
-  :commands vterm)
+;; (use-package vterm
+;;   :commands vterm)
 
-(use-package vterm-toggle
-  :commands (vterm-toggle vterm-toggle-cd)
-  :bind
-  (("C-c z" . vterm-toggle)
-   (:map vterm-mode-map
-         ("C-<return>" . vterm-toggle-insert-cd))))
+;; (use-package vterm-toggle
+;;   :commands (vterm-toggle vterm-toggle-cd)
+;;   :bind
+;;   (("C-c z" . vterm-toggle)
+;;    (:map vterm-mode-map
+;;          ("C-<return>" . vterm-toggle-insert-cd))))
+
+;; (use-package eat
+;;   :custom
+;;   (eat-term-name "xterm"))
 
 ;;; _
 (provide 'sm-utils)

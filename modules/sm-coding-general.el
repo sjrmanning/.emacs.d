@@ -1,42 +1,30 @@
-;;; sm-coding-general.el --- General coding-related config.
+;;; sm-coding-general.el --- General coding-related config.  -*- lexical-binding: t; -*-
 
 ;; Native line numbers, enabled for any programming mode.
 (use-package display-line-numbers
-  :elpaca nil
+  :ensure nil
   :hook prog-mode)
 
 ;; treesit (using built-in)
 (use-package treesit
-  :elpaca nil
-  :mode (("Dockerfile\\'" . dockerfile-ts-mode)
-         ("\\.rs\\'" . rust-ts-mode)
-         ("\\.ya?ml\\'" . yaml-ts-mode)
-         ("\\.go\\'" . go-ts-mode))
+  :ensure nil
   :custom
-  (treesit-extra-load-path (list (sm/emacs.d "etc/treesit-modules")))
-  :init
-  ;; Replace built-in modes with ts equivalent.
-  (dolist (mode
-           '((bash-mode       . bash-ts-mode)
-             (c-mode          . c-ts-mode)
-             (c++-mode        . c++-ts-mode)
-             (c-or-c++-mode   . c-or-c++-ts-mode)
-             (css-mode        . css-ts-mode)
-             (dockerfile-mode . dockerfile-ts-mode)
-             (java-mode       . java-ts-mode)
-             (javascript-mode . js-ts-mode)
-             (js-mode         . js-ts-mode)
-             (js-json-mode    . json-ts-mode)
-             (python-mode     . python-ts-mode)
-             (ruby-mode       . ruby-ts-mode)
-             (typescript-mode . typescript-ts-mode)
-             (yaml-mode       . yaml-ts-mode)))
-    (add-to-list 'major-mode-remap-alist mode)))
+  (treesit--install-language-grammar-out-dir-history (list (sm/emacs.d "etc/treesit-modules")))
+  (treesit-extra-load-path (list (sm/emacs.d "etc/treesit-modules"))))
+
+(use-package emacs
+  :ensure nil
+  :config
+  (setq major-mode-remap-alist
+        '((c-mode . c-ts-mode)
+          (c++-mode . c++-ts-mode)
+          (js-json-mode . json-ts-mode)
+          (python-mode . python-ts-mode))))
 
 ;; EditorConfig.org -- project-local coding style definitions.
-(use-package editorconfig
-  :diminish
-  :hook prog-mode)
+;; (use-package editorconfig
+;;   :diminish
+;;   :hook prog-mode)
 
 ;; highlight-numbers
 ;; Highlights magic numbers in programming modes.
@@ -65,7 +53,13 @@
   :mode ("\\.http$" . restclient-mode))
 
 ;; eglot
+(use-package eglot-booster
+  :ensure (:type git :host github :repo "jdtsmith/eglot-booster")
+  :after eglot
+  :config	(eglot-booster-mode))
+
 (use-package eglot
+  :ensure nil
   :commands (eglot-ensure eglot)
   ;; :straight (:type built-in)
   :hook ((swift-mode

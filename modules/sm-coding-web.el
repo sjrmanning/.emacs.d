@@ -1,4 +1,4 @@
-;;; sm-coding-web.el --- web related coding configuration.
+;;; sm-coding-web.el --- web related coding configuration.  -*- lexical-binding: t; -*-
 
 (use-package slim-mode
   :mode ("\\.slim\\'" . slim-mode))

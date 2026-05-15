@@ -1,4 +1,4 @@
-;;; sm-coding-swift.el --- Swift configuration.
+;;; sm-coding-swift.el --- Swift configuration.  -*- lexical-binding: t; -*-
 
 ;; swift
 (use-package swift-mode
