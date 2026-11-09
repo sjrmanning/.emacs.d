@@ -51,6 +51,8 @@
 ;; Open/view recent files.
 (use-package recentf
   :ensure nil
+  ;; :hook (elpaca-after-init . recentf-mode)
+  :hook elpaca-after-init
   :custom
   (recentf-auto-cleanup 600)
   (recentf-max-saved-items 200)

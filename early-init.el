@@ -37,19 +37,11 @@
 
 ;; Remove searching for .gz files.
 (setq jka-compr-load-suffixes nil)
-(jka-compr-update)
 
 ;; Set file-name-handler-alist to nil, to avoid a lot of regexp searches.
-;; Restored in init.el
+;; Restored in emacs-startup-hook (init.el).
 (setq sm/file-name-handler-alist-orig file-name-handler-alist)
 (setq file-name-handler-alist nil)
-
-;; also set file-name-handler-alist to nil during 'require'
-;; this is needed because of deferred package loading
-(advice-add 'require :around (lambda (orig-fun &rest args)
-  (let ((file-name-handler-alist))
-    (apply orig-fun args))
-))
 
 ;; GCC Emacs optimization setting.
 (setq-default native-comp-speed 3)

@@ -42,7 +42,7 @@
   :custom
   (magit-format-file-function #'magit-format-file-all-the-icons)
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-  (magit-git-executable "/Applications/XcodeWonder.app/Contents/Developer/usr/bin/git")
+  (magit-git-executable "/Applications/Xcode.app/Contents/Developer/usr/bin/git")
   (magit-diff-refine-hunk 'all))
 
 ;; smerge hydra for quicker conflict merging

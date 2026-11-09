@@ -5,10 +5,7 @@
 (setq custom-file (sm/cache-for "custom.el"))
 
 ;; Set default directory.
-(setq default-directory "~")
-
-;; Set home dir.
-(cd (expand-file-name "~/"))
+(setq default-directory "~/")
 
 ;; Mac defaults.
 (when (equal system-type 'darwin)
@@ -27,9 +24,6 @@
 ;; Character encodings default to utf-8.
 (prefer-coding-system 'utf-8)
 (set-language-environment 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
 
 ;; Show column numbers in mode line.
 (setq column-number-mode t)
@@ -104,6 +98,5 @@
 
 ;; Misc.
 (setq inhibit-startup-message t)
-(global-font-lock-mode t)
 
 (provide 'sm-defaults)

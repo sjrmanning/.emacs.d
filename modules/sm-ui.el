@@ -86,7 +86,8 @@
   :hook elpaca-after-init)
 
 (use-package all-the-icons
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  :defer t)
 
 (use-package all-the-icons-dired
   :if (display-graphic-p)
@@ -101,12 +102,7 @@
 
 (use-package vertico
   :ensure (vertico :files (:defaults "extensions/*"))
-  :hook elpaca-after-init
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word)
-              ("C-w" . vertico-directory-delete-word)))
+  :hook elpaca-after-init)
 
 (use-package savehist
   :ensure nil
@@ -149,7 +145,7 @@
 (use-package fzf-native
   :vc (:url "https://github.com/dangduc/fzf-native" :rev :newest)
   :config
-  (fzf-native-load-dyn))
+  (module-load (expand-file-name "etc/built-modules/fzf-native-module.so" user-emacs-directory)))
 
 (use-package fussy
   :config
@@ -182,7 +178,6 @@
   (setq
    consult--tofu-char #x100000
    consult--tofu-range #x00fffe)
-  (recentf-mode t)
   ;; Delay previews slightly to improve performance.
   (consult-customize
    consult-theme :preview-key '(:debounce 0.1 any)
